@@ -7,6 +7,8 @@ import ThemeProvider from "@/components/ThemeProvider.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import { siteConfig } from "@/site-config";
+import { ViewTransitions } from "astro:transitions";
+import { fade } from "astro:transitions";
 
 interface Props {
 	meta: SiteMeta;
@@ -20,12 +22,13 @@ const {
 <html lang={siteConfig.lang}>
 	<head>
 		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+		<ViewTransitions />
 	</head>
 	<body>
 		<ThemeProvider />
 		<SkipLink />
 		<Header />
-		<main id="main">
+		<main id="main" transition:animate={fade({ duration: "0.4s" })}>
 			<slot />
 		</main>
 		<Footer />
