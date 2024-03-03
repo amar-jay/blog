@@ -1,0 +1,47 @@
+---
+const {
+	// the main content of the section
+	title,
+  tags = {
+    random1:"None",
+    random2:"None",
+    random3:"None",
+    random4:"None",
+    random5:"None",
+  },
+  sources
+} = Astro.props;
+const links = sources && Object.entries(sources)
+
+if (title.length < 10) {
+	throw Error("The description must be at least 10 characters long");
+}
+---
+
+<div class="my-8 w-full p-4 sm:px-8 md:p-8 md:px-16 bg-accent/5 shadow-sm rounded-sm">
+	<!-- Section Title -->
+	<h2 class="font-serif text-2xl font-medium text-black dark:text-gray-300">
+    <a href={links?.[0][1]}>
+		{title}
+    </a>
+	</h2>
+  <div class="inline-flex gap-3 justify-center">
+{
+     links?.map(([key, value]) => <span><a href={value}>{key}</span>)
+    }
+  </div>
+	<!-- Section Title -->
+
+	<!-- Separator -->
+	<span class="mb-8 mt-2 block h-0.5 w-24 bg-black dark:bg-gray-300"></span>
+	<!-- Separator -->
+
+	<!-- Main Content -->
+  <slot/>
+	<!-- Main Content -->
+  <div class="flex gap-3 justify-center text-textColor/50 mt-5 ">
+{
+     tags && Object.entries(tags).map(([key, value]) => <span><a href={value}>{key}</span>)
+    }
+  </div>
+</div>
