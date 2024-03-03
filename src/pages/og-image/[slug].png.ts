@@ -1,8 +1,9 @@
 import type { APIContext, InferGetStaticPropsType } from "astro";
+import type { ReactNode } from "react";
 import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
 import { Resvg } from "@resvg/resvg-js";
-import { siteConfig } from "@/site-config";
+import { siteConfig } from "@/site-config.ts";
 import { getAllPosts, getFormattedDate } from "@/utils";
 
 import RobotoMono from "@/assets/roboto-mono-regular.ttf";
@@ -66,7 +67,7 @@ export async function GET(context: APIContext) {
 		weekday: "long",
 		month: "long",
 	});
-	const svg = await satori(markup(title, postDate), ogOptions);
+	const svg = await satori(markup(title, postDate) as unknown as ReactNode, ogOptions);
 	const png = new Resvg(svg).render().asPng();
 	return new Response(png, {
 		headers: {

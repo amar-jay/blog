@@ -22,16 +22,15 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 	webmentions: {
-		link: "",
+		link: "https://github.com/amar-jay",
 	},
 };
 
-interface MenuLink {
+// Used to generate links in both the Header & Footer.
+export const menuLinks: {
 	title: string;
 	path: string;
-}
-// Used to generate links in both the Header & Footer.
-export const menuLinks: MenuLink[] = [
+}[] = [
 	{
 		title: "Home",
 		path: "/",

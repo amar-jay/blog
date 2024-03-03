@@ -1,14 +1,14 @@
 ---
 import SocialList from "@/components/SocialList.astro";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import PageLayout from "@/layouts/Base.astro";
 import Title from "@/components/Title.astro";
-import { getAllPosts, sortMDByDate } from "@/utils";
-import {Image} from "astro:assets"
+//import PostPreview from "@/components/blog/PostPreview.astro";
+import PageLayout from "@/layouts/Base.astro";
+//import { getAllPosts, sortMDByDate } from "@/utils";
+import { Image } from "astro:assets";
 
-const MAX_POSTS = 10;
-const allPosts = await getAllPosts();
-const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
+//const MAX_POSTS = 10;
+//const allPosts = await getAllPosts();
+//const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
 const cactusTech: { desc: string; href: string; title: string }[] = [
 	{
@@ -46,32 +46,29 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 
 <PageLayout meta={{ title: "Home" }}>
 	<section>
-    <div class="inline-flex gap-x-2 items-end mb-6">
-      <div class="mb-auto">
-
-      <Image
-        width={100}
-        class="rounded-full"
-        height={100}
-        alt="profile"
-        loading="eager"
-        src="/profile.webp"
-      />
-      </div>
-      <div>
-		    <h1 class="title">Hi,</h1>
-        <p class="mb-4">
-          I'm Abdel-manan A.R. Junior (amar-jay).
-        </p>
-		    <SocialList />
-      </div>
-    </div>
+		<div class="mb-6 inline-flex items-end gap-x-2">
+			<div class="mb-auto">
+				<Image
+					alt="profile"
+					class="rounded-full"
+					height={100}
+					loading="eager"
+					src="/profile.webp"
+					width={100}
+				/>
+			</div>
+			<div>
+				<h1 class="title">Hi,</h1>
+				<p class="mb-4">I'm Abdel-manan A.R. Junior (amar-jay).</p>
+				<SocialList />
+			</div>
+		</div>
 	</section>
 	<section aria-label="Blog post list" class="mt-16">
-    <Title>Posts</Title>
+		<Title>Posts</Title>
 		<ul class="space-y-4">
-      <span>None so far. In the coming days, I will start writing.....</span>
-      <!--
+			<span>None so far. In the coming days, I will start writing.....</span>
+			<!--
 			{
 				allPostsByDate.map((p) => (
 					<li class="flex flex-col gap-x-2 sm:flex-row">
@@ -83,7 +80,7 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 		</ul>
 	</section>
 	<section class="mt-16">
-    <Title>Technologies</Title>
+		<Title>Technologies</Title>
 		<dl class="space-y-4">
 			{
 				cactusTech.map(({ desc, href, title }) => (
