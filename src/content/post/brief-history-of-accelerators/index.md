@@ -6,7 +6,7 @@ updatedDate: 22 Jan 2024
 tags: ["I.C.", "ML-AI"]
 ---
 
-# History
+## History
 
 Since 2003, there are two main microprocessor design
 
