@@ -1,5 +1,7 @@
 ---
+import NotFound from "@/assets/not-found.svg";
 import PageLayout from "@/layouts/Base.astro";
+import { Image } from "astro:assets";
 
 const meta = {
 	description: "Oops! It looks like this page is lost in space!",
@@ -8,6 +10,9 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
+	<div>
+		<Image alt="not found" height={100} src={NotFound} width={100} />
+	</div>
 	<h1 class="title mb-6">404 | Page not Found</h1>
-	<p class="mb-8"> Oops something went wrong</p>
+	<p class="mb-8">Oops something went wrong</p>
 </PageLayout>

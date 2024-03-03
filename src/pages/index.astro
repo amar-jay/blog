@@ -2,6 +2,7 @@
 import SocialList from "@/components/SocialList.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import PageLayout from "@/layouts/Base.astro";
+import Title from "@/components/Title.astro";
 import { getAllPosts, sortMDByDate } from "@/utils";
 import {Image} from "astro:assets"
 
@@ -17,8 +18,8 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 	},
 	{
 		desc: "Generative Models, Variation of the architecture, trends and papers,...",
-		href: "/tags/transformers",
-		title: "Transformers",
+		href: "/tags/transformer",
+		title: "Transformer",
 	},
 	{
 		desc: "Dynamics of how react works internally, libraries and stuff",
@@ -67,7 +68,7 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
     </div>
 	</section>
 	<section aria-label="Blog post list" class="mt-16">
-		<h2 class="title mb-4 text-xl">Posts</h2>
+    <Title>Posts</Title>
 		<ul class="space-y-4">
       <span>None so far. In the coming days, I will start writing.....</span>
       <!--
@@ -82,7 +83,7 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 		</ul>
 	</section>
 	<section class="mt-16">
-		<h2 class="title mb-4 text-xl">Technologies</h2>
+    <Title>Technologies</Title>
 		<dl class="space-y-4">
 			{
 				cactusTech.map(({ desc, href, title }) => (

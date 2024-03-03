@@ -1,7 +1,7 @@
 <theme-toggle class="ms-2 sm:ms-4">
-	<button
+	<div
 		class="relative h-9 w-9 rounded-md p-2 ring-zinc-400 transition-all hover:ring-2"
-		type="button"
+		id="button"
 	>
 		<span class="sr-only">Dark Theme</span>
 		<svg
@@ -52,7 +52,7 @@
 			<path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
 			<path d="M19 11h2m-1 -1v2"></path>
 		</svg>
-	</button>
+	</div>
 </theme-toggle>
 
 <script>
@@ -63,7 +63,7 @@
 		#controller: AbortController | undefined;
 
 		connectedCallback() {
-			const button = this.querySelector("button")!;
+			const button = this.querySelector("#button")!;
 			// set aria role value
 			button.setAttribute("role", "switch");
 			button.setAttribute("aria-checked", String(rootInDarkMode()));
