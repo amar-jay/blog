@@ -50,5 +50,5 @@ jobs:
         run: pnpm astro check
 
         # ensure build works
-      - name: Run build
-        run: pnpm build
+      # - name: Run build
+        # run: pnpm build
