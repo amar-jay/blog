@@ -1,7 +1,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  50% {
+    stroke-dashoffset: 50;
+  }
+  100% {
+    stroke-dashoffset: 100;
+  }
+}
+
+@keyframes draw-reverse {
+  0% {
+    stroke-dashoffset: 50;
+  }
+  50% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 50;
+  }
+
+}
+
+.handwritten-text {
+    stroke-dasharray: 100;
+    /* stroke-dashoffset: 1000; */
+    animation: draw 5s infinite ease-in-out;
+    stroke-opacity: 0.5;
+    font-smooth: 10;
+    text-rendering: optimizeLegibility;
+    stroke-linejoin: round;
+  }
+
+.handwritten-text-reverse {
+    stroke-dasharray: 100;
+    /* stroke-dashoffset: 1000; */
+    animation: draw-reverse 5s infinite ease-in-out;
+    /* stroke-opacity: 0.5; */
+    font-smooth: 10;
+    text-rendering: optimizeLegibility;
+    stroke-linejoin: round;
+  }
+
 @layer base {
+
 	:root,
 	:root[data-theme="light"] {
 		color-scheme: light;
@@ -33,3 +80,4 @@
 		@apply mx-auto flex min-h-screen max-w-3xl flex-col bg-bgColor px-8 pt-16 font-sans text-sm font-normal text-textColor antialiased;
 	}
 }
+
