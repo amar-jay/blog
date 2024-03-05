@@ -1,0 +1,18 @@
+---
+import { Calendar } from "../../../components/shadcn/ui/calendar.tsx";
+---
+
+<div className="m-auto flex items-center justify-center  text-2xl">
+	<Calendar
+		className="rounded-md border bg-textColor/10"
+		classNames={{
+			months: "space-y-4 sm:space-x-4 sm:space-y-0",
+			day_range_end: "day-range-end space-x-4",
+			head_row: "flex justify-between",
+			row: "flex w-full mt-2 justify-between",
+			head_cell: "rounded-md font-normal px-3 text-lg text-nowrap",
+		}}
+		mode="single"
+		client:load
+	/>
+</div>
