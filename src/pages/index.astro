@@ -5,6 +5,7 @@ import Title from "@/components/Title.astro";
 import PageLayout from "@/layouts/Base.astro";
 //import { getAllPosts, sortMDByDate } from "@/utils";
 import { Image } from "astro:assets";
+import {fade } from "astro:transitions";
 
 //const MAX_POSTS = 10;
 //const allPosts = await getAllPosts();
@@ -64,7 +65,7 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 			</div>
 		</div>
 	</section>
-	<section aria-label="Blog post list" class="mt-16" >
+	<section aria-label="Blog post list" class="mt-16">
 		<Title>Posts</Title>
 		<ul class="space-y-4">
 			<span>None so far. In the coming days, I will start writing.....</span>
