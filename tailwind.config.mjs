@@ -24,7 +24,7 @@ export default {
 		require("@tailwindcss/aspect-ratio"),
 		plugin(function ({ addComponents }) {
 			addComponents({
-				".cactus-link": {
+				".blog-link": {
 					"&:hover": {
 						backgroundImage:
 							"linear-gradient(transparent,transparent 4px,hsl(var(--theme-link)) 4px,hsl(var(--theme-link)))",
@@ -107,7 +107,7 @@ export default {
 				DEFAULT: {
 					css: {
 						a: {
-							"@apply cactus-link no-underline": "",
+							"@apply blog-link no-underline": "",
 						},
 						blockquote: {
 							borderLeftWidth: "0",
@@ -152,7 +152,7 @@ export default {
 						},
 					},
 				},
-				cactus: {
+				blog: {
 					css: {
 						"--tw-prose-body": theme("colors.textColor / 1"),
 						"--tw-prose-bold": theme("colors.textColor / 1"),

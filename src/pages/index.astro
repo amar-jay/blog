@@ -11,7 +11,7 @@ import {fade } from "astro:transitions";
 //const allPosts = await getAllPosts();
 //const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
-const cactusTech: { desc: string; href: string; title: string }[] = [
+const techs: { desc: string; href: string; title: string }[] = [
 	{
 		desc: "A historical perspective of Integrated circuits, from flipflops to FPGA.",
 		href: "/tags/i.c.",
@@ -84,11 +84,11 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 		<Title>Technologies</Title>
 		<dl class="space-y-4">
 			{
-				cactusTech.map(({ desc, href, title }) => (
+				techs.map(({ desc, href, title }) => (
 					<div class="flex flex-col gap-2 md:flex-row">
 						<dt>
 							<span class="flex">
-								<a class="cactus-link" href={href}>
+								<a class="blog-link" href={href}>
 									{title}
 								</a>
 								:
