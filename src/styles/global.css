@@ -26,24 +26,51 @@
 	}
 }
 
+
+@-webkit-keyframes draw {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    50% {
+        stroke-dashoffset: 50;
+    }
+    100% {
+        stroke-dashoffset: 100;
+    }
+}
+
+@-webkit-keyframes draw-reverse {
+    0% {
+        stroke-dashoffset: 50;
+    }
+    50% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 50;
+    }
+}
+
 .handwritten-text {
-	stroke-dasharray: 100;
-	/* stroke-dashoffset: 1000; */
-	animation: draw 50s infinite ease-in-out;
-	stroke-opacity: 0.5;
-	font-smooth: 10;
-	text-rendering: optimizeLegibility;
-	stroke-linejoin: round;
+    stroke-dasharray: 100;
+    /* stroke-dashoffset: 1000; */
+			 -webkit-animation: draw-reverse 50s infinite ease-in-out;
+    animation: draw 50s infinite ease-in-out;
+    stroke-opacity: 0.5;
+    font-smooth: 10;
+    text-rendering: optimizeLegibility;
+    stroke-linejoin: round;
 }
 
 .handwritten-text-reverse {
-	stroke-dasharray: 100;
-	/* stroke-dashoffset: 1000; */
-	animation: draw-reverse 50s infinite ease-in-out;
-	/* stroke-opacity: 0.5; */
-	font-smooth: 10;
-	text-rendering: optimizeLegibility;
-	stroke-linejoin: round;
+    stroke-dasharray: 100;
+    /* stroke-dashoffset: 1000; */
+    -webkit-animation: draw-reverse 50s infinite ease-in-out;
+    animation: draw-reverse 50s infinite ease-in-out; /* fallback for other browsers */
+    /* stroke-opacity: 0.5; */
+    font-smooth: 10;
+    text-rendering: optimizeLegibility;
+    stroke-linejoin: round;
 }
 
 @layer base {
