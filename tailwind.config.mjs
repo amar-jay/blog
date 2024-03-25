@@ -107,7 +107,7 @@ export default {
 				DEFAULT: {
 					css: {
 						a: {
-							"@apply blog-link no-underline": "",
+							"@apply text-link no-underline cursor-pointer": "",
 						},
 						blockquote: {
 							borderLeftWidth: "0",
@@ -120,7 +120,7 @@ export default {
 							borderTopStyle: "dashed",
 						},
 						strong: {
-							fontWeight: "700",
+							"@apply font-bold text-link": "",
 						},
 						sup: {
 							"@apply ms-0.5": "",

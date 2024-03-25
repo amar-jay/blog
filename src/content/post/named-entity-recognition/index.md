@@ -6,14 +6,15 @@ publishDate: 25 March 2024
 updatedDate: 25 March 2024
 ---
 
+## Aim
+
 The aim of this project is to develop accurate and efficient Named Entity Recognition (NER) models specifically tailored for mammography radiology reports in the healthcare sector. The primary objectives include:
-Aim
 
 - Development of NER Models in mammography radiology reports
 - Establishing usable and effective NER models in the health sector
 - Finding solutions to accurately extract important information from textual reports
 
-#### Introduction:
+## Introduction:
 
 **Named-entity recognition** (**NER**) (also known as **(named)** **entity identification**, **entity chunking**, and **entity extraction**) is a subtask of [information extraction](https://en.wikipedia.org/wiki/Information_extraction "Information extraction") that seeks to locate and classify [named entities](https://en.wikipedia.org/wiki/Named_entity "Named entity") mentioned in [unstructured text](https://en.wikipedia.org/wiki/Unstructured_data "Unstructured data") into pre-defined categories.
 
@@ -36,7 +37,7 @@ Ultimately, we faced a divide in deciding between the two options. Option A boas
 
 ### Option A
 
-![Original BERT architecture vs ours](./original-vs-KomRade.png)
+![Original BERT architecture vs ours](./komrade.png)
 Over the years, the past couple of years since Transformer was first published and BERT being one of the first among them, there has been a lot of improvement across each layer. We have made some changes to the original architecture for efficiency. Above a simplified example of the BERT and our improvements.
 
 1. TrBPE
@@ -75,7 +76,7 @@ Inference and prompt engineering, is one of a sensitive task in the use of AI es
 
 The effectiveness of each prompt is rigorously assessed, and the resulting models are benchmarked against Option A.
 
-### Analysis
+## Analysis
 
 Based on this we hope to to build a NER Models from for mammography radiology reports that is less computatively expensive whilst highly accurate results. Using two methods
 
@@ -88,7 +89,7 @@ Evaluation metrics will determine the most effective approach.
 
 This report outlines the objectives, architectural modifications, and methodologies for developing NER models using the KomRade architecture. By leveraging advancements in transformer technology and adopting tailored approaches, we aim to contribute to the development of efficient and accurate NER models in the healthcare sector.
 
-### References:
+## References:
 
 1. Brando, Miranda, et al. "Is Pre-Training Truly Better than Meta-Learning?" _arXiv preprint : arXiv:2306.13841_ (2023). [Link](https://arxiv.org/abs/2306.13841)
 

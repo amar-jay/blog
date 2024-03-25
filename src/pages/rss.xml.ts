@@ -19,5 +19,6 @@ export const GET = async () => {
 			link: `posts/${post.slug}`,
 		})),
 
+//    customData: `<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="${SITE}rss.xml" />`
   });
 };
