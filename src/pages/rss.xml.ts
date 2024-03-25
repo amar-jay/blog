@@ -8,7 +8,7 @@ export const GET = async () => {
 	return rss({
 		title: siteConfig.title,
 		description: siteConfig.description,
-		site: 'amar-jay.vercel.app', // DONT GET WHY 'amar-jay' -> 'amarjay' in site name. import.meta.env.SITE,
+		site: import.meta.env.SITE, // DONT GET WHY 'amar-jay' -> 'amarjay' in site name. ,
 		items: posts.map((post) => ({
 			title: post.data.title,
 			description: post.data.description,
