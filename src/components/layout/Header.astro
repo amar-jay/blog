@@ -14,16 +14,33 @@ const url = new URL(Astro.request.url);
 			class="inline-flex items-center hover:filter-none sm:relative sm:inline-block"
 			href="/"
 		>
-          <svg
+			<svg
 				aria-hidden="true"
-				class="me-10 h-50 sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-20 sm:w-12"
+				class="h-50 me-10 sm:absolute sm:start-[-4.5rem] sm:me-0 sm:h-20 sm:w-12"
 				fill="none"
 				focusable="false"
-        viewBox="14 3 25 23"
-        xmlns="http://www.w3.org/2000/svg">
-  <text class="handwritten-text font-extrabold font-serif stroke-accent-2" fill="none" shape-rendering="geometricPrecision" stroke="black" stroke-width="0.5" x="15" y="15">_A</text>
-  <text class="handwritten-text-reverse font-extrabold stroke-accent font-serif " fill="none" shape-rendering="geometricPrecision" stroke="black" stroke-width="0.5" x="15.2" y="15">_A</text>
-</svg>
+				viewBox="14 3 25 23"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<text
+					class="handwritten-text stroke-accent-2 font-serif font-extrabold"
+					fill="none"
+					shape-rendering="geometricPrecision"
+					stroke="black"
+					stroke-width="0.5"
+					x="15"
+					y="15">_A</text
+				>
+				<text
+					class="handwritten-text-reverse stroke-accent font-serif font-extrabold"
+					fill="none"
+					shape-rendering="geometricPrecision"
+					stroke="black"
+					stroke-width="0.5"
+					x="15.2"
+					y="15">_A</text
+				>
+			</svg>
 			<span class="text-xl font-bold sm:text-2xl">...</span>
 		</a>
 		<nav
