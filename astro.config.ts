@@ -17,7 +17,7 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
 	// ! Please remember to replace the following site property with your own domain
-	site: "https://amar-jay.vercel.app/",
+	site: "https://amarjay.vercel.app/",
 	markdown: {
 		remarkPlugins: [remarkUnwrapImages, remarkReadingTime, remarkMath],
 		rehypePlugins: [
