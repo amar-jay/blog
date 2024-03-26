@@ -1,8 +1,8 @@
 ---
 title: intrinsic Value
 description: how accurately are the value of a stock/bond calculated
-publishDate: "22 Feb 2023"
-updatedDate: 22 Jan 2024
+publishDate: "27 Mar 2024"
+updatedDate: 27 Mar 2024
 tags: ["finance"]
 ---
 
