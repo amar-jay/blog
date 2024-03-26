@@ -1,9 +1,9 @@
 ---
-title: "Evoltion of large language models"
+title: "Evolution of large language models"
 description: "A brief history of large language models, from bigrams to transformers"
 tags: ["transformer", "emperical_analysis"]
 publishDate: 18 March 2024
-updatedDate: 25 March 2024
+updatedDate: 27 March 2024
 ---
 
 ## Abstract
