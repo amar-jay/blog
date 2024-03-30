@@ -1,6 +1,6 @@
 ---
 title: "Decoder Transformer"
-description: "How I understand the Transformer"
+description: "How I understand the Decoder Transformer in Generative Text Models"
 publishDate: "30 March 2024"
 updatedDate: "30 March 2024"
 coverImage:
