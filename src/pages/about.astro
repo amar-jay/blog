@@ -1,5 +1,6 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import { fade } from "astro:transitions";
 
 const meta = {
 	description: "I'm a starter theme for Astro.build",
@@ -7,7 +8,7 @@ const meta = {
 };
 ---
 
-<PageLayout meta={meta}>
+<PageLayout meta={meta} transition:animate={fade({ duration: "0.4s" })}>
 	<div class="space-y-6">
 		<h1 class="title">About</h1>
 		<p>Hi, I'm Abdel-manan A.R.</p>

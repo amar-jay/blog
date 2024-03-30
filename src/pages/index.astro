@@ -45,7 +45,7 @@ const techs: { desc: string; href: string; title: string }[] = [
 ];
 ---
 
-<PageLayout meta={{ title: "Home" }}>
+<PageLayout meta={{ title: "Home" }} transition:animate={fade({ duration: "0.4s" })}>
 	<section>
 		<div class="mb-6 inline-flex items-end gap-x-2">
 			<div class="mb-auto">
