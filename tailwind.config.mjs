@@ -60,7 +60,7 @@ export default {
 				},
 				foreground: "hsl(var(--foreground))",
 				input: "hsl(var(--input))",
-				link: "hsl(var(--theme-link) / <alpha-value>)",
+				link: "hsl(var(--theme-link) / <alphaj-value>)",
 				muted: {
 					DEFAULT: "hsl(var(--muted))",
 					foreground: "hsl(var(--muted-foreground))",

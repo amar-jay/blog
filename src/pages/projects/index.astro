@@ -1,65 +1,42 @@
 ---
-import PageLayout from "@/layouts/Base.astro";
-import Title from "@/components/Title.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
+import PageLayout from "@/components/layout/Base.astro";
+import { getAllProjectsClient,getAllProjectsServer } from "@/utils";
+
+const projects = await getAllProjectsClient()
+
+/*
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+
+export const getStaticPaths = (async () => {
+	const projectsEntries = await getAllProjectsServer();
+	return [{
+    props: { projects: projectsEntries },
+  }]
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { projects } = Astro.props;
+const { Content } = await projects.render();
+*/
+
 ---
 
 <PageLayout meta={{ title: "Projects" }}>
-	<Title>Projects</Title>
+	<h1 class="title mb-6">Projects</h1>
 	<div>
-		<ProjectCard
-			title="trBPE: A Byte Pair Encoder tailored for Turkish"
-			sources={{ Github: "https://github.com/amar-jay/trBPE" }}
-		>
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
-			ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur
-			officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
-			minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla
-			sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia
-			voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia
-			eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris
-			sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
-		</ProjectCard>
-		<ProjectCard
-			title="trBPE: A Byte Pair Encoder tailored for Turkish"
-			sources={{ Github: "https://github.com/amar-jay/trBPE" }}
-		>
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
-			ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur
-			officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
-			minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla
-			sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia
-			voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia
-			eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris
-			sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
-		</ProjectCard>
+    {
+      projects.map((project) => (
+        <ProjectCard
+          sources={{ Github: project?.data.github }}
+          tags={project?.data.tags}
+          title={project?.data.title}
+        >
+        <project.Content/>
+        </ProjectCard>
+      ))
 
-		<ProjectCard
-			title="trBPE: A Byte Pair Encoder tailored for Turkish"
-			sources={{ Github: "https://github.com/amar-jay/trBPE" }}
-		>
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
-			ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur
-			officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
-			minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla
-			sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia
-			voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia
-			eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris
-			sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
-		</ProjectCard>
-
-		<ProjectCard
-			title="trBPE: A Byte Pair Encoder tailored for Turkish"
-			sources={{ Github: "https://github.com/amar-jay/trBPE" }}
-		>
-			Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
-			ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur
-			officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
-			minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla
-			sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia
-			voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia
-			eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris
-			sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
-		</ProjectCard>
+    }
 	</div>
 </PageLayout>

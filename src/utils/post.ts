@@ -1,6 +1,16 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
+export function sortMDByDate(posts: Array<CollectionEntry<"post">>) {
+	return posts.sort((a, b) => {
+		const aDate = new Date(a.data.updatedDate ?? a.data.publishDate).valueOf();
+		const bDate = new Date(b.data.updatedDate ?? b.data.publishDate).valueOf();
+		return bDate - aDate;
+	});
+}
+
+
+
 /** Note: this function filters out draft posts based on the environment */
 export async function getAllPosts() {
 	return await getCollection("post", ({ data }) => {
@@ -8,12 +18,26 @@ export async function getAllPosts() {
 	});
 }
 
-export function sortMDByDate(posts: Array<CollectionEntry<"post">>) {
-	return posts.sort((a, b) => {
-		const aDate = new Date(a.data.updatedDate ?? a.data.publishDate).valueOf();
-		const bDate = new Date(b.data.updatedDate ?? b.data.publishDate).valueOf();
-		return bDate - aDate;
-	});
+export async function getAllProjectsServer() {
+	return getCollection("project");
+}
+export async function getAllProjectsClient() {
+	const projects = [];
+	try {
+		const projectColl = await getCollection("project");
+
+		for (let data of projectColl) {
+			const { Content } = await data?.render();
+			const project = {
+				slug: data?.slug,
+        data: data?.data,
+				Content: Content,
+			};
+			projects.push(project);
+		}
+	} finally {
+		return projects;
+	}
 }
 
 /** Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so. */

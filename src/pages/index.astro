@@ -2,7 +2,7 @@
 import SocialList from "@/components/SocialList.astro";
 import Title from "@/components/Title.astro";
 //import PostPreview from "@/components/blog/PostPreview.astro";
-import PageLayout from "@/layouts/Base.astro";
+import PageLayout from "@/components/layout/Base.astro";
 //import { getAllPosts, sortMDByDate } from "@/utils";
 import { Image } from "astro:assets";
 import { fade } from "astro:transitions";
@@ -68,7 +68,7 @@ const techs: { desc: string; href: string; title: string }[] = [
 	<section aria-label="Blog post list" class="mt-16">
 		<Title>Posts</Title>
 		<ul class="space-y-4">
-			<span>None so far. In the coming days, I will start writing.....</span>
+			<span>None so far. I will start writing soon.....</span>
 			<!--
 			{
 				allPostsByDate.map((p) => (

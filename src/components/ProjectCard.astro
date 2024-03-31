@@ -1,13 +1,7 @@
 ---
 const {
 	sources,
-	tags = {
-		random1: "None",
-		random2: "None",
-		random3: "None",
-		random4: "None",
-		random5: "None",
-	},
+	tags = ["astro"],
 	// the main content of the section
 	title,
 } = Astro.props;
@@ -18,6 +12,7 @@ if (title.length < 10) {
 
 const links: string[][] = sources && Object.entries(sources);
 const contentTags: Record<string, string> = tags;
+const tagLinks = {}
 ---
 
 <div class="my-8 w-full rounded-sm bg-accent/5 p-4 shadow-sm sm:px-8 md:p-8 md:px-16">
@@ -43,14 +38,18 @@ const contentTags: Record<string, string> = tags;
 	<!-- Separator -->
 
 	<!-- Main Content -->
+
+  <div class="prose-underscore prose prose-sm text-white">
 	<slot />
+  </div>
+
 	<!-- Main Content -->
 	<div class="mt-5 flex justify-center gap-3 text-textColor/50">
 		{
 			tags &&
-				Object.entries(contentTags).map(([key, value]) => (
+			contentTags.map((tag) => (
 					<span>
-						<a href={value ?? "#"}>{key}</a>
+						<a href={tagLinks[tag] ?? "/#"}>{tag}</a>
 					</span>
 				))
 		}
