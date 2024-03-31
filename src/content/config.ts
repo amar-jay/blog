@@ -37,7 +37,7 @@ const project = defineCollection({
 	type: "content",
 	schema: () =>
 		z.object({
-			title: z.string().min(1).max(60),
+			title: z.string().min(5).max(60),
 			github: z.string().min(1),
 			tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
 		}),

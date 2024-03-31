@@ -39,6 +39,10 @@ export const menuLinks: {
 		title: "Blog",
 		path: "/posts/",
 	},
+    {
+		title: "Projects",
+		path: "/projects/",
+	},
 	{
 		title: "About",
 		path: "/about/",

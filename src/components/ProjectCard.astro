@@ -6,16 +6,13 @@ const {
 	title,
 } = Astro.props;
 
-if (title.length < 10) {
-	throw Error("The description must be at least 10 characters long");
-}
 
 const links: string[][] = sources && Object.entries(sources);
 const contentTags: Record<string, string> = tags;
 const tagLinks = {}
 ---
 
-<div class="my-8 w-full rounded-sm bg-accent/5 p-4 shadow-sm sm:px-8 md:p-8 md:px-16">
+<div class="my-8 w-full rounded-sm bg-accent/10 p-4 shadow-sm sm:px-8 md:p-8 md:px-16">
 	<!-- Section Title -->
 	<h2 class="font-serif text-2xl font-medium text-black dark:text-gray-300">
 		<a href={links?.[0]?.[1] ?? "#"}>
@@ -39,7 +36,7 @@ const tagLinks = {}
 
 	<!-- Main Content -->
 
-  <div class="prose-underscore prose prose-sm text-white">
+  <div class="prose-underscore prose prose-sm text-black dark:text-white">
 	<slot />
   </div>
 
