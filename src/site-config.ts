@@ -22,7 +22,8 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 	webmentions: {
-		link: "https://github.com/amar-jay",
+		link: "https://webmention.io/amarjay.vercel.app/webmention",
+    pingback: "https://webmention.io/amarjay.vercel.app/xmlrpc",
 	},
 };
 
