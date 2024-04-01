@@ -20,8 +20,8 @@ import db from "@astrojs/db";
 export default defineConfig({
   // ! Please remember to replace the following site property with your own domain
   site: "https://amarjay.vercel.app/",
-  output: 'hybrid',
-  adapter: vercel(),
+  //output: 'hybrid',
+  //adapter: vercel(),
   markdown: {
     remarkPlugins: [remarkUnwrapImages, remarkReadingTime, remarkMath],
     rehypePlugins: [rehypeKatex, [rehypeExternalLinks, {
