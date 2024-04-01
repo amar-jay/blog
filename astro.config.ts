@@ -12,7 +12,7 @@ import { expressiveCodeOptions } from "./src/site-config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import react from "@astrojs/react";
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel/static';
 
 import db from "@astrojs/db";
 
