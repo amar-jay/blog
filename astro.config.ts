@@ -12,9 +12,7 @@ import { expressiveCodeOptions } from "./src/site-config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import react from "@astrojs/react";
-import vercel from '@astrojs/vercel/static';
-
-import db from "@astrojs/db";
+//import vercel from '@astrojs/vercel/static';
 
 // https://astro.build/config
 export default defineConfig({
@@ -36,7 +34,7 @@ export default defineConfig({
   },
   integrations: [expressiveCode(expressiveCodeOptions), icon(), tailwind({
     applyBaseStyles: false
-  }), sitemap(), mdx(), react(), db()],
+  }), sitemap(), mdx(), react()],
   image: {
     domains: ["webmention.io", "manans-site.vercel.app", "fonts.googleapis.com"]
   },

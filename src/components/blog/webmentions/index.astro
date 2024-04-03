@@ -7,24 +7,26 @@ import Likes from "./Likes.astro";
 const url = new URL(Astro.url.pathname, Astro.site);
 
 const webMentions = await getWebmentionsForUrl(`${url}`);
-if (!webMentions.length) return;
+//if (!webMentions.length) return;
 ---
 
-{
-	!!webMentions.length && (
 		<>
-			<hr class="border-solid" />
-			<h2 class="mb-8 before:hidden">Webmentions for this post</h2>
+			<hr class="border-solid border-accent" />
+			<h4 class="text-xl mb-8 before:hidden underline">Webmentions</h4>
 			<div class="space-y-10">
-				<Likes mentions={webMentions} />
-				<Comments mentions={webMentions} />
+      {
+        webMentions.length ? (
+          <>
+              <Likes mentions={webMentions} />
+              <Comments mentions={webMentions} />
+          </>
+        ): <span class="ml-5">No webmentions yet. Be the first!</span>
+      }
 			</div>
-			<p class="mt-8">
+			<p class="mt-8 opacity-50 text-xs">
 				Responses powered by{" "}
 				<a href="https://webmention.io" rel="noopener noreferrer" target="_blank">
 					Webmentions
 				</a>
 			</p>
 		</>
-	)
-}
