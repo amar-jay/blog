@@ -5,6 +5,8 @@ description: "Exploring GPT-3's diverse training datasets for language model pre
 tags: ["ML-AI", "transformer"]
 ---
 
+## Understanding the Text Corpus and Training Datasets of GPT-3
+
 The development of large language models (LLMs) like GPT-3 relies on extensive and diverse text corpora for training, encompassing a myriad of topics and natural and computer languages. This will delve into the text corpus used to train GPT-3, its composition, and the implications of using such a vast dataset for language model pretraining.
 
 ### GPT-3's Pretraining Dataset
