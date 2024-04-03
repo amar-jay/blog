@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import createGlobe from "cobe";
 import { useSpring } from "react-spring";
 import {rootInDarkMode} from "../utils";
@@ -14,18 +14,23 @@ interface GlobeProps {
 	markers: Marker[];
 }
 
-function getUserPref() {
-		  const storedTheme = typeof localStorage !== "undefined" && localStorage.getItem("theme");
-	   const theme = storedTheme || (lightModePref.matches ? "light" : "dark");
-    return theme === “dark” ? 1: 0;
-	}
 
 
 function Globe({ className, phi, markers }: GlobeProps) {
 	const globeRef = useRef<HTMLCanvasElement>(null);
 	const pointerInteracting = useRef<any>(null);
 	const pointerInteractionMovement = useRef(0);
+  /*
  const [theme,setTheme] = useState(0)
+
+function getUserPref() {
+		  const storedTheme = typeof localStorage !== "undefined" && localStorage.getItem("theme");
+	   const theme = storedTheme || (lightModePref.matches ? "light" : "dark");
+    return theme === “dark” ? 1: 0;
+	}
+  document.addEventListener("astro:after-swap", () => setTheme(getUserPref()));
+   document.removeEventListener("astro:after-swap", () => setTheme(getUserPref()));
+  */
 	const [{ r }, api] = useSpring(() => ({
 		r: 0,
 		config: {
@@ -44,7 +49,6 @@ function Globe({ className, phi, markers }: GlobeProps) {
 		window.addEventListener("resize", onResize);
 		onResize();
 
-  document.addEventListener("astro:after-swap", () => setTheme(getUserPref()));
 
 		if (!globeRef.current) return;
 		const globe = createGlobe(globeRef.current, {
@@ -53,7 +57,7 @@ function Globe({ className, phi, markers }: GlobeProps) {
 			height: width * 2,
 			phi: 0,
 			theta: 0.3,
-			dark: theme, //rootInDarkMode() ? 1: 0,
+			dark: rootInDarkMode() ? 1: 0,
 			diffuse: 3,
 			mapSamples: 16000,
 			mapBrightness: 1.2,
@@ -76,7 +80,6 @@ function Globe({ className, phi, markers }: GlobeProps) {
 		setTimeout(() => globeRef.current && (globeRef.current.style.opacity = "1"));
 		return () => {
 			globe.destroy();
-   document.removeEventListener("astro:after-swap", () => setTheme(getUserPref()));
 			window.removeEventListener("resize", onResize);
 		};
 	}, [rootInDarkMode,markers]);
