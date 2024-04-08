@@ -13,7 +13,7 @@
 		"check": "astro check"
 	},
 	"dependencies": {
-		"@astrojs/db": "^0.8.5",
+		"@astrojs/db": "^0.10.1",
 		"@astrojs/mdx": "2.2.2",
 		"@astrojs/react": "^3.0.10",
 		"@astrojs/rss": "4.0.5",
