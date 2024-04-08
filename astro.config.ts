@@ -12,14 +12,14 @@ import { expressiveCodeOptions } from "./src/site-config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import react from "@astrojs/react";
-//import vercel from '@astrojs/vercel/static';
+import vercel from '@astrojs/vercel/static';
 
 // https://astro.build/config
 export default defineConfig({
   // ! Please remember to replace the following site property with your own domain
   site: "https://amarjay.vercel.app/",
-  //output: 'hybrid',
-  //adapter: vercel(),
+  output: 'static',
+  adapter: vercel(),
   markdown: {
     remarkPlugins: [remarkUnwrapImages, remarkReadingTime, remarkMath],
     rehypePlugins: [rehypeKatex, [rehypeExternalLinks, {
