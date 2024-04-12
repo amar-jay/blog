@@ -36,7 +36,7 @@ export default defineConfig({
     applyBaseStyles: false
   }), sitemap(), mdx(), react()],
   image: {
-    domains: ["webmention.io", "manans-site.vercel.app", "fonts.googleapis.com"]
+    domains: ["webmention.io", "manans-site.vercel.app", "fonts.googleapis.com", "avatars.githubusercontent.com"]
   },
   // https://docs.astro.build/en/guides/prefetch/
   prefetch: true,
