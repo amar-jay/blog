@@ -7,7 +7,7 @@ import Likes from "./Likes.astro";
 const url = new URL(Astro.url.pathname, Astro.site);
 
 const webMentions = await getWebmentionsForUrl(`${url}`);
-//if (!webMentions.length) return;
+if (!webMentions.length) return;
 ---
 
 		<>
@@ -15,7 +15,7 @@ const webMentions = await getWebmentionsForUrl(`${url}`);
 			<h4 class="text-xl mb-8 before:hidden underline">Webmentions</h4>
 			<div class="space-y-10">
       {
-        webMentions.length ? (
+        (webMentions.length > 0) ? (
           <>
               <Likes mentions={webMentions} />
               <Comments mentions={webMentions} />

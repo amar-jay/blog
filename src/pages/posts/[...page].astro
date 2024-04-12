@@ -7,7 +7,7 @@ import PostPreview from "@/components/blog/PostPreview.astro";
 import PageLayout from "@/components/layout/Base.astro";
 import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils";
 
-export const prerender = true;
+
 export const getStaticPaths = (async ({ paginate }) => {
 	const allPosts = await getAllPosts();
 	const allPostsByDate = sortMDByDate(allPosts);
