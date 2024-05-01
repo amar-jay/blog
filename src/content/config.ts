@@ -11,8 +11,8 @@ const post = defineCollection({
 	type: "content",
 	schema: ({ image }) =>
 		z.object({
-			title: z.string().max(60),
-			description: z.string().min(50).max(160),
+			title: z.string().min(1),
+			description: z.string().min(30),
 			publishDate: z
 				.string()
 				.or(z.date())
@@ -37,7 +37,7 @@ const project = defineCollection({
 	type: "content",
 	schema: () =>
 		z.object({
-			title: z.string().min(5).max(60),
+			title: z.string().min(5),
 			github: z.string().min(1),
 			tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
 		}),
