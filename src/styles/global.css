@@ -139,7 +139,7 @@
   :root[data-theme="light"] {
 		color-scheme: light;
 		--theme-bg: 0 0% 98%;
-		--theme-link: 33 49% 67%;
+		--theme-link: 33 49% 41%;
 		--theme-text: 203 11% 15%;
 		--theme-accent: 20 100% 60%;
 		--theme-accent-2: 0 0% 7%;
@@ -150,7 +150,7 @@
   :root[data-theme="dark"] {
 		color-scheme: dark;
 		--theme-bg: 210 6% 12%;
-    --theme-link: 172 18% 41%;         
+    --theme-link: 172 18% 67%;         
     --theme-text: 210 10% 90%;       
     --theme-accent: 137 100% 52%;     
     --theme-accent-2: 0 0% 93%;      
