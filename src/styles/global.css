@@ -148,15 +148,22 @@
 
 	:root[data-theme="dark"] {
 		color-scheme: dark;
+    --theme-bg: 210deg 24% 10%;          /* Dark background */
+    --theme-link: 33deg 49% 70%;         /* Slightly lighter for contrast */
+    --theme-text: 210deg 10% 90%;        /* Light text for readability */
+    --theme-accent: 20deg 100% 65%;      /* Slightly adjusted for dark background */
+    --theme-accent-2: 0deg 0% 90%;       /* Light variant for secondary accents */
+    --theme-quote: 351deg 66% 70%;       /* Lightened for better visibility */
+	}
+/*     
 		--theme-bg: 210deg 6% 12%;
 		--theme-link: 172deg 18% 41%;
 		--theme-text: 210 40% 98%;
 		--theme-accent: 137.14deg 100% 51.96%;
-		/*--theme-accent: #73a770; 159deg 64% 45%;*/
+		//--theme-accent: #73a770; 159deg 64% 45%;
 		--theme-accent-2: 0deg 0% 93%;
-		--theme-quote: 118, 24%, 55%;
-	}
-
+		--theme-quote: 118, 24%, 55%; }*/
+  
 	html {
 		@apply scroll-smooth;
 	}
