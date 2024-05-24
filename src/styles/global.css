@@ -148,7 +148,7 @@
 
 	:root[data-theme="dark"] {
 		color-scheme: dark;
-    --theme-bg: 210deg 24% 10%;          /* Dark background */
+		--theme-bg: 210deg 6% 12%;
     --theme-link: 33deg 49% 70%;         /* Slightly lighter for contrast */
     --theme-text: 210deg 10% 90%;        /* Light text for readability */
     --theme-accent: 20deg 100% 65%;      /* Slightly adjusted for dark background */
@@ -156,7 +156,6 @@
     --theme-quote: 351deg 66% 70%;       /* Lightened for better visibility */
 	}
 /*     
-		--theme-bg: 210deg 6% 12%;
 		--theme-link: 172deg 18% 41%;
 		--theme-text: 210 40% 98%;
 		--theme-accent: 137.14deg 100% 51.96%;
