@@ -99,9 +99,9 @@ export default {
 			},
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			transitionProperty: {
-				height: "height",
-			},
+			// transitionProperty: {
+			// 	height: "height",
+			// },
       // Remove above once tailwindcss exposes theme type
 			typography: (theme) => ({
 				DEFAULT: {
