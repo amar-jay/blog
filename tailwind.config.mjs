@@ -13,7 +13,7 @@ export default {
 		ringOffsetColor: false,
 		ringOffsetWidth: false,
 		scrollSnapType: false,
-		textOpacity: false,
+	//	textOpacity: false,
 		// disable some core plugins as they are included in the css, even when unused
 		touchAction: false,
 	},
