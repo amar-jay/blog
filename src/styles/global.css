@@ -150,11 +150,11 @@
 		color-scheme: dark;
 		--theme-bg: 210deg 6% 12%;
 		--theme-link: 172deg 18% 41%;
-		--theme-text: 220deg 3% 79%;
+		--theme-text: 210 40% 98%;
 		--theme-accent: 137.14deg 100% 51.96%;
 		/*--theme-accent: #73a770; 159deg 64% 45%;*/
 		--theme-accent-2: 0deg 0% 93%;
-		--theme-quote: 102deg 100% 86%;
+		--theme-quote: 118, 24%, 55%;
 	}
 
 	html {
