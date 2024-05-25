@@ -107,7 +107,7 @@ export default {
 				DEFAULT: {
 					css: {
 						a: {
-							"@apply text-link no-underline cursor-pointer": "",
+							"@apply text-link underline cursor-pointer": "",
 						},
 						blockquote: {
 							borderLeftWidth: "0",
