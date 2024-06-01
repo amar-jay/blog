@@ -1,6 +1,6 @@
 ---
 title: "FPGAs"
-description: "by Jon Y from <a href='https://www.asianometry.com'> Asianoetry</a>"
+description: "by Jon Y from Asianoetry"
 publishDate: "1 Jun 2024"
 ---
 A Field Programmable Gate Array or FPGA is an integrated circuit that can be reprogrammed after manufacture to emulate a digital circuit.
