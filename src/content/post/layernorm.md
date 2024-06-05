@@ -5,10 +5,14 @@ publishDate: "1 May 2024"
 tags: ["transformer"]
 ---
 
+## Intro
 Let's explore how **LayerNorm** is handled, as one of the layers in the model. We begin with the [PyTorch documentation for LayerNorm](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html). LayerNorm originates from the seminal paper by [Ba et al. (2016)](https://arxiv.org/abs/1607.06450) and was integrated into the Transformer architecture by [Vaswani et al.](https://arxiv.org/abs/1706.03762) in their renowned paper __"Attention is All You Need."__ [GPT-2](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) adopted a similar architecture to the Transformer but notably shifted the position of LayerNorm, now referred to as the pre-normalization version. In this version, the residual path of the Transformer remains clean, with LayerNorm positioned as the initial layer of each block, leading to improved training stability.
 
 Upon inspecting the [PyTorch implementation of LayerNorm](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html), you'll likely notice the absence of the actual equation implementation. This is because it's deeply embedded within the codebase, obscured behind a dynamic dispatcher, possibly in auto-generated CUDA code (for detailed enthusiasts, refer to [layer_norm.cpp](https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/layer_norm.cpp) and [layer_norm_kernel.cu](https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/cuda/layer_norm_kernel.cu)). PyTorch prioritizes efficiency, which justifies this design choice. However, for our purposes, understanding LayerNorm necessitates starting by manually implementing it using simpler PyTorch operations. Although less efficient than using a `LayerNorm` module directly, this approach is algorithmically instructive.
 
+## LayerNorm Implementation
+
+### Forward pass
 Here's a direct implementation of LayerNorm's mathematics using basic PyTorch operations:
 
 ```python
@@ -55,6 +59,8 @@ out, cache = LayerNorm.forward(x, w, b)
 ```
 
 What we get out is the tensor `out`, also of shape `B,T,C`, where each C-dimensional "fibre" of activations (as we call them) is normalized and then scaled and at the end also shifted by the weights and biases of this layer. Notice that, importantly, we also return a variable `cache`, which is a tuple of the input activations `x`, the weights `w`, the mean `mean`, and the reciprocal standard deviation `rstd`. These are all variables we need during the backward pass.
+
+### Backward pass
 
 PyTorch can of course do the backward pass of this layer for us with its Autograd. Let's do that first:
 
@@ -127,7 +133,12 @@ print(a[b,t,c])
 print(a.view(-1)[b*T*C + t*C + c])
 ```
 
-Both of these print 0.3309. So in this way, we know how to access all the individual elements, and how to offset all the pointers. Notice in particular that the channel dimension is the innermost dimension. So as we increase offset by 1, we are traversing the channel dimension. This is important to consider for the memory layout of our C implementation. The equivalent forward pass in C becomes:
+Both of these print $0.3309$. So in this way, we know how to access all the individual elements, and how to offset all the pointers. Notice in particular that the channel dimension is the innermost dimension. So as we increase offset by 1, we are traversing the channel dimension. This is important to consider for the memory layout of our C implementation. 
+
+## C implementation
+
+### Forward pass
+The equivalent forward pass in C becomes:
 
 ```c
 #include <stdio.h>
@@ -173,6 +184,8 @@ void layernorm_forward(float* out, float* mean, float* rstd,
 ```
 
 You'll see how I offset the pointer to the `inp[b,t]`, and then you know that the next `C` elements are the channels of that position in (batch, time). And the backward pass:
+
+### Backward pass
 
 ```c
 void layernorm_backward(float* dinp, float* dweight, float* dbias,
@@ -221,7 +234,7 @@ void layernorm_backward(float* dinp, float* dweight, float* dbias,
 
 One additional detail to note is that we always $+=$ into the gradients. We never use $=$ and we never use $*=$. This is important stylistically because if you have one variable used multiple times in a graph, the backward pass gradients always add up. In this repo this is not important because we don't have exotic branching, but it's proper. So during training we always first do `zero_grad` to set all the gradients to zero, and then we accumulate into them during backward pass.
 
-### Difference between LayerNorm and RMSNorm
+## Difference between LayerNorm and RMSNorm
 
 One more note on differences between training and inference. Some of you may have know RMSNorm or might heard of it.
 
@@ -257,4 +270,5 @@ class RMSNorm(torch.nn.Module):
 - **Absence of Time Dimension in Individual Layer:** Another difference arises in handling the time dimension (`T`) within individual layers during inference. While LayerNorm may loop over time within each layer during training, calculating normalization across all time steps, RMSNorm simplifies this process. In inference, token generation occurs sequentially, with each token predicted at time `t` fed into the forward pass at time `t+1`. Therefore, you won't find loops iterating over time dimensions within individual layers in the implementation of RMSNorm.
 - **Lack of Intermediate Calculations Memory:** Lastly, during inference, RMSNorm doesn't retain intermediate calculations, memory, or cache. This is because there's no backward pass to follow during inference. Therefore, there's no need to keep track of intermediate variables, resulting in significantly lower memory consumption during inference compared to training. Additionally, there's no implementation of a `backward` function for RMSNorm, as there's no backward pass during inference.
 
+## Conclusion
 This was just the LayerNorm. We go through the exact same process for all the other GPT layers. Most of the other layers are actually easier than LayerNorm. Hope that helps!
