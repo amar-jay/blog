@@ -101,15 +101,16 @@ export default {
 			},
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			transitionProperty: {
-				height: "height",
-			},
 			// Remove above once tailwindcss exposes theme type
+			// transitionProperty: {
+			// 	height: "height",
+			// },
+      // Remove above once tailwindcss exposes theme type
 			typography: (theme) => ({
 				DEFAULT: {
 					css: {
 						a: {
-							"@apply text-link no-underline cursor-pointer": "",
+							"@apply text-link underline cursor-pointer": "",
 						},
 						blockquote: {
 							borderLeftWidth: "0",

@@ -148,7 +148,8 @@
 		--theme-quote: #cb2a2a;
 	}
 
-	:root[data-theme="dark"] {
+/*
+  :root[data-theme="dark"] {
 		color-scheme: dark;
 		--theme-bg: #1d1f20;
 		--theme-link: #567b76;
@@ -159,6 +160,18 @@
 	}
 
 	/*--theme-accent: 159deg 64% 45%;*/
+
+
+  :root[data-theme="dark"] {
+		color-scheme: dark;
+		--theme-link: 33 49% 59%;
+		--theme-text: 203 11% 90%;
+		--theme-accent: 20 100% 60%;
+		--theme-accent-2: 0 0% 93%;
+		--theme-quote: 351 66% 56%;
+		--theme-bg: 210 6% 12%;
+	}
+
 	html {
 		@apply scroll-smooth;
 	}
