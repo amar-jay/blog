@@ -73,7 +73,6 @@
 }
 
 @layer base {
-	/**
 	:root {
 		--background: 0 0% 100%;
 		--foreground: 222.2 84% 4.9%;
@@ -135,31 +134,28 @@
 		--input: 217.2 32.6% 17.5%;
 		--ring: 212.7 26.8% 83.9%;
 	}
-  */
-	:root,
-	:root[data-theme="light"] {
+
+  :root,
+  :root[data-theme="light"] {
 		color-scheme: light;
-		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
-		--theme-bg: #fafafa;
-		--theme-link: #d4af82;
-		--theme-text: #22272a;
-		--theme-accent: #ff7733;
-		--theme-accent-2: #121212;
-		--theme-quote: #cb2a2a;
+		--theme-bg: 0 0% 98%;
+		--theme-link: 33 49% 41%;
+		--theme-text: 203 11% 15%;
+		--theme-accent: 20 100% 60%;
+		--theme-accent-2: 0 0% 7%;
+		--theme-quote: 351 66% 48%;
 	}
 
 /*
   :root[data-theme="dark"] {
 		color-scheme: dark;
-		--theme-bg: #1d1f20;
-		--theme-link: #567b76;
-		--theme-text: #ffffff;
-		--theme-accent: #0aff50;
-		--theme-accent-2: #ededed;
-		--theme-quote: #73a871;
-	}
-
-	/*--theme-accent: 159deg 64% 45%;*/
+		--theme-bg: 210 6% 12%;
+    --theme-link: 172 18% 67%;
+    --theme-text: 210 10% 90%;
+    --theme-accent: 137 100% 52%;
+    --theme-accent-2: 0 0% 93%;
+    --theme-quote: 118 24% 55%;
+	}      */
 
 
   :root[data-theme="dark"] {
@@ -184,3 +180,4 @@
 		@apply mx-auto flex min-h-screen max-w-3xl flex-col bg-background px-8 pt-16 font-sans text-sm font-normal text-textColor antialiased;
 	}
 }
+
