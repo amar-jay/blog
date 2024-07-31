@@ -13,13 +13,13 @@ export default {
 		ringOffsetColor: false,
 		ringOffsetWidth: false,
 		scrollSnapType: false,
-		textOpacity: false,
+	//	textOpacity: false,
 		// disable some core plugins as they are included in the css, even when unused
 		touchAction: false,
 	},
 	darkMode: ["class", '[data-theme="dark"]'],
 	plugins: [
-		require("tailwindcss-animate"),
+    require("tailwindcss-animate"),
 		require("@tailwindcss/typography"),
 		require("@tailwindcss/aspect-ratio"),
 		plugin(function ({ addComponents }) {
@@ -42,46 +42,44 @@ export default {
 	theme: {
 		extend: {
 			animation: {
-				"accordion-down": "accordion-down 0.2s ease-out",
-				"accordion-up": "accordion-up 0.2s ease-out",
-			},
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
 			colors: {
-				accent: "var(--theme-accent)",
-				"accent-2": "var(--theme-accent-2)",
-				background: "var(--theme-bg) / <alpha-value>",
-				border: "var(--border)",
+				accent: "hsl(var(--theme-accent) / <alpha-value>)",
+				"accent-2": "hsl(var(--theme-accent-2) / <alpha-value>)",
+				background: "hsl(var(--theme-bg) / <alpha-value>)",
+				border: "hsl(var(--border))",
 				card: {
-					DEFAULT: "var(--card)",
-					foreground: "var(--card-foreground)",
+					DEFAULT: "hsl(var(--card))",
+					foreground: "hsl(var(--card-foreground))",
 				},
-				/*
 				destructive: {
-					DEFAULT: "var(--destructive)",
+					DEFAULT: "hsl(var(--destructive))",
 					foreground: "hsl(var(--destructive-foreground))",
 				},
-        */
-				foreground: "var(--foreground)",
-				input: "var(--input)",
-				link: "var(--theme-link)",
+				foreground: "hsl(var(--foreground))",
+				input: "hsl(var(--input))",
+				link: "hsl(var(--theme-link) / <alpha-value>)",
 				muted: {
-					DEFAULT: "var(--muted)",
-					foreground: "var(--muted-foreground)",
+					DEFAULT: "hsl(var(--muted))",
+					foreground: "hsl(var(--muted-foreground))",
 				},
 				popover: {
-					DEFAULT: "var(--popover)",
+					DEFAULT: "hsl(var(--popover))",
 					foreground: "hsl(var(--popover-foreground))",
 				},
 				primary: {
-					DEFAULT: "var(--primary))",
-					foreground: "var(--primary-foreground)",
+					DEFAULT: "hsl(var(--primary))",
+					foreground: "hsl(var(--primary-foreground))",
 				},
-				quote: "var(--theme-quote)",
-				ring: "var(--ring)",
+				quote: "hsl(var(--theme-quote) / <alpha-value>)",
+				ring: "hsl(var(--ring))",
 				secondary: {
-					DEFAULT: "var(--secondary)",
-					foreground: "var(--secondary-foreground)",
+					DEFAULT: "hsl(var(--secondary))",
+					foreground: "hsl(var(--secondary-foreground))",
 				},
-				textColor: "var(--theme-text)",
+				textColor: "hsl(var(--theme-text) / <alpha-value>)",
 			},
 
 			fontFamily: {
@@ -101,7 +99,6 @@ export default {
 			},
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			// Remove above once tailwindcss exposes theme type
 			// transitionProperty: {
 			// 	height: "height",
 			// },
@@ -157,13 +154,13 @@ export default {
 				},
 				blog: {
 					css: {
-						"--tw-prose-body": theme("colors.textColor"),
-						"--tw-prose-bold": theme("colors.textColor"),
-						"--tw-prose-bullets": theme("colors.textColor"),
-						"--tw-prose-code": theme("colors.quote"),
+						"--tw-prose-body": theme("colors.textColor / 1"),
+						"--tw-prose-bold": theme("colors.textColor / 1"),
+						"--tw-prose-bullets": theme("colors.textColor / 1"),
+						"--tw-prose-code": theme("colors.quote / 1"),
 						"--tw-prose-headings": theme("colors.accent-2 / 1"),
 						"--tw-prose-hr": "0.5px dashed #666",
-						"--tw-prose-links": theme("colors.link"),
+						"--tw-prose-links": theme("colors.textColor / 1"),
 						"--tw-prose-quotes": theme("colors.quote / 1"),
 						"--tw-prose-th-borders": "#666",
 					},
@@ -178,5 +175,6 @@ export default {
 				},
 			}),
 		},
+
 	},
 };
