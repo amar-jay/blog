@@ -5,7 +5,7 @@ publishDate: "5 August 2024"
 tags: ["encoding", "video"]
 ---
 
-# Video Codecs
+## Introduction
 
 In the digital age, video content is ubiquitous. Whether you're streaming your favorite show, video calling a friend, or watching a YouTube tutorial, video codecs play a crucial role behind the scenes. Let's explore what video codecs are, their evolution, and how you can work with them using **FFmpeg**.
 
