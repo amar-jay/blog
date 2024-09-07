@@ -6,7 +6,7 @@ updatedDate: "30 March 2024"
 coverImage:
   src: "./index.png"
   alt: "Transformer architecutre"
-tags: ["transformer"]
+tags: ["transformer", "neural networks"]
 ---
 
 The transformer model is by far the most notable deep learning architecture till date. It is well-known for its use in LLMs and diffusion models. It was developed by Google, first proposed in the paper [Attention is all you need.](#)

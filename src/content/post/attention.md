@@ -3,7 +3,7 @@ title: "Understanding Squared attention"
 description: "Just a brief explanation of how attention mechanism works. As well as the quadratic scaling of attention."
 publishDate: "31 July 2024"
 updatedDate: "31 July 2024"
-tags: ["transformer"]
+tags: ["transformer", "neural networks"]
 ---
 
 
