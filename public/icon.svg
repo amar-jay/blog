@@ -1,6 +1,29 @@
-<svg width="238.4938232421875px" height="203.6px" xmlns="http://www.w3.org/2000/svg" viewBox="130.75308837890626 -26.799999999999997 238.4938232421875 203.6" style="background: rgba(0, 0, 0, 0);" preserveAspectRatio="xMidYMid"><defs><linearGradient id="editing-shiny-gradient" x1="0.04322727117869957" x2="0.9567727288213004" y1="0.2966316784620999" y2="0.7033683215379001" gradientUnits="objectBoundingBox"><stop offset="0.0" stop-color="#2bbc89"></stop><stop offset="0.5" stop-color="#2bbc89"></stop><stop offset="1.0" stop-color="#2bbc89"></stop></linearGradient><linearGradient id="editing-shiny-gradient2" x1="0" x2="0" y1="0" y2="1"><stop offset="0.2" stop-color="#fff" stop-opacity="0.8"></stop><stop offset="0.8" stop-color="#fff" stop-opacity="0"></stop></linearGradient><filter id="editing-shiny2" x="-100%" y="-100%" width="300%" height="300%"><feMorphology operator="erode" radius="2"></feMorphology></filter><filter id="editing-shiny" x="-100%" y="-100%" width="300%" height="300%"><feFlood flood-color="#fff" result="flood"></feFlood><feConvolveMatrix in="SourceGraphic" result="conv" order="8,8" divisor="1" kernelMatrix="0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1 1 0 0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0 1 0 0 1 1 0 0 1 1 0 0 0 0 1 1 0 0 0 "></feConvolveMatrix><feOffset dx="0" dy="4" in="conv" result="offset"></feOffset><feComposite operator="in" in="flood" in2="offset" result="comp"></feComposite><feGaussianBlur in="offset" stdDeviation="3" result="shadow"></feGaussianBlur><feColorMatrix in="shadow" type="matrix" values="0.7 0 0 0 0  0 0.7 0 0 0  0 0 0.7 0 0  0 0 0 0.3 0" result="dark-shadow"></feColorMatrix><feOffset dx="0" dy="4" in="dark-shadow" result="offset-shadow"></feOffset><feOffset dx="0" dy="2" in="conv" result="offset-2"></feOffset><feComposite operator="out" in="offset" in2="offset-2" result="edge-diff"></feComposite><feGaussianBlur in="edge-diff" stdDeviation="1" result="edge-blur"></feGaussianBlur><feColorMatrix in="edge-blur" result="edge-shadow" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0"></feColorMatrix><feComposite operator="in" in="edge-shadow" in2="offset" result="edge-shadow-in"></feComposite><feOffset dx="0" dy="1" in="edge-shadow-in" result="edge-shadow-final"></feOffset><feMerge result="out"><feMergeNode in="offset-shadow"></feMergeNode><feMergeNode in="comp"></feMergeNode><feMergeNode in="edge-shadow-final"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g filter="url(#editing-shiny)"><g transform="translate(169.72501182556152, 121.22000122070312)"><path d="M80.64-67.44L80.64 0L67.18 0L67.18-18.22L19.88-18.22L19.88 0L6.42 0L6.42-37.11L6.42-37.11Q6.42-45.24 9.21-52.07L9.21-52.07L9.21-52.07Q12.01-58.90 16.98-63.82L16.98-63.82L16.98-63.82Q21.95-68.73 28.73-71.48L28.73-71.48L28.73-71.48Q35.51-74.22 43.53-74.22L43.53-74.22L73.86-74.22L73.86-74.22Q75.26-74.22 76.50-73.70L76.50-73.70L76.50-73.70Q77.74-73.19 78.67-72.25L78.67-72.25L78.67-72.25Q79.60-71.32 80.12-70.08L80.12-70.08L80.12-70.08Q80.64-68.84 80.64-67.44L80.64-67.44ZM19.88-37.11L19.88-31.68L67.18-31.68L67.18-60.76L43.53-60.76L43.53-60.76Q42.91-60.76 40.91-60.58L40.91-60.58L40.91-60.58Q38.92-60.40 36.31-59.68L36.31-59.68L36.31-59.68Q33.69-58.95 30.80-57.45L30.80-57.45L30.80-57.45Q27.90-55.95 25.46-53.31L25.46-53.31L25.46-53.31Q23.03-50.67 21.45-46.71L21.45-46.71L21.45-46.71Q19.88-42.75 19.88-37.11L19.88-37.11ZM154.13 6.16L154.13 18.22L94.98 18.22L94.98 6.16L154.13 6.16Z" fill="url(#editing-shiny-gradient)"></path></g></g><g filter="url(#editing-shiny2)"><g transform="translate(169.725004196167, 121.22000026702881)"><path d="M80.64-67.44L80.64 0L67.18 0L67.18-18.22L19.88-18.22L19.88 0L6.42 0L6.42-37.11L6.42-37.11Q6.42-45.24 9.21-52.07L9.21-52.07L9.21-52.07Q12.01-58.90 16.98-63.82L16.98-63.82L16.98-63.82Q21.95-68.73 28.73-71.48L28.73-71.48L28.73-71.48Q35.51-74.22 43.53-74.22L43.53-74.22L73.86-74.22L73.86-74.22Q75.26-74.22 76.50-73.70L76.50-73.70L76.50-73.70Q77.74-73.19 78.67-72.25L78.67-72.25L78.67-72.25Q79.60-71.32 80.12-70.08L80.12-70.08L80.12-70.08Q80.64-68.84 80.64-67.44L80.64-67.44ZM19.88-37.11L19.88-31.68L67.18-31.68L67.18-60.76L43.53-60.76L43.53-60.76Q42.91-60.76 40.91-60.58L40.91-60.58L40.91-60.58Q38.92-60.40 36.31-59.68L36.31-59.68L36.31-59.68Q33.69-58.95 30.80-57.45L30.80-57.45L30.80-57.45Q27.90-55.95 25.46-53.31L25.46-53.31L25.46-53.31Q23.03-50.67 21.45-46.71L21.45-46.71L21.45-46.71Q19.88-42.75 19.88-37.11L19.88-37.11ZM154.13 6.16L154.13 18.22L94.98 18.22L94.98 6.16L154.13 6.16Z" fill="url(#editing-shiny-gradient2)"></path></g></g><style>text {
-  font-size: 64px;
-  font-family: Arial Black;
-  dominant-baseline: central;
-  text-anchor: middle;
-}</style></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="378" height="375" viewBox="0 0 378 375">
+<defs>
+<clipPath id="clip_0">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M0 0H1575V1562.5H0Z" fill-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_1">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M10.427975 .000000000000101896149H1573.5542V1562.5H10.427975Z" fill-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_2">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M632.46127 926.8691H1209.773V988.3931H632.46127Z" fill-rule="evenodd"/>
+</clipPath>
+<clipPath id="clip_3">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M0 0H1575V1562.5H0Z" fill-rule="evenodd"/>
+</clipPath>
+</defs>
+<g clip-path="url(#clip_0)">
+<path transform="matrix(.75,0,0,.75,0,0)" d="M0 0H504V500H0Z" fill="#ffffff"/>
+</g>
+<g clip-path="url(#clip_1)">
+<path transform="matrix(.86043646,0,0,.86043646,2.502714,.000000000000024455075)" d="M0 0H436V436H0Z" fill="#292929"/>
+</g>
+<g clip-path="url(#clip_2)">
+<path transform="matrix(.057678798,0,0,.057678798,151.7907,222.44858)" d="M0 0H2402V256H0Z" fill="#00bf63"/>
+</g>
+<g clip-path="url(#clip_3)">
+<text fill="#e4e4e4" xml:space="preserve" transform="matrix(1.5638859 0 0 1.5638859 49.332937 257.2922)" font-size="18.66" font-family="Quicksand"><tspan y="20" x="32.265626 38.272756 48.552179 58.775629 63.55145 73.84952 84.31549 95.30385 105.5273 112.392627 120.82507 130.17168 141.12271 147.98804">the underscore</tspan></text>
+<text fill="#e4e2dd" xml:space="preserve" transform="matrix(1.5638859 0 0 1.5638859 48.298154 64.872859)" font-size="96.51" font-family="BRAKE"><tspan y="95" x="0">A</tspan></text>
+</g>
+</svg>
