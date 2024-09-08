@@ -9,7 +9,7 @@ coverImage:
   alt: "Compact disc cover image"
 ---
 
-## introduction
+## Introduction
 
 Few innovations have had as profound an impact as the Compact Disc (CD). The Compact Disc (CD) revolutionized the way the world consumed music and data, marking a pivotal moment in technological and cultural history. Initially met with skepticism, CDs rapidly surpassed all expectations, reshaping the music and data storage industries. From its inception in the late 1970s to its dominance in the 1990s and eventual decline in the 21st century, this blog explores the history of CDs, technological innovation, corporate collaboration between Philips and Sony to its eventual dominance, and highlights key milestones in its development and adoption.
 
@@ -95,7 +95,7 @@ The CD's potential extended beyond music. In 1984, Philips and Sony published th
 
 In 1985, major computer manufacturers, along with Microsoft, Sony, and Philips, met at the High Sierra Hotel and Casino in Nevada to develop a standard for storing files on CDs. This led to the ISO 9660 standard, released in 1988, which set the international standard for organizing files on a CD.
 
-The first PC CD-ROM drives appeared in 1990, initially priced around $300. As Taiwanese and Korean manufacturers entered the market, prices plummeted, reaching $100 by 1995. This price drop made CD-ROM drives ubiquitous in personal computers, setting the stage for the CD's next chapter.
+The first PC CD-ROM drives appeared in 1990, initially priced around \$300. As Taiwanese and Korean manufacturers entered the market, prices plummeted, reaching \$100 by 1995. This price drop made CD-ROM drives ubiquitous in personal computers, setting the stage for the CD's next chapter.
 
 ## The CD's Golden Age and Decline
 
