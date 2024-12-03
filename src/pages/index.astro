@@ -40,7 +40,7 @@ const interests: { desc: string; href?: string; title: string }[] = [
     title: "ML"
 	},
 	 {
-		desc: "",
+		desc: ".",
     title: "Analysis & Valuation in Semiconductor Sector"
 	},
 	{
@@ -112,16 +112,14 @@ const techs: { desc: string; href: string; title: string }[] = [
 		</div>
 	</section>
 	<section class="mt-16">
-		<Title>Fields of Expertise</Title>
+		<Title>Interests</Title>
 		<dl class="space-y-4">
 			{
       interests.map(({desc, title}) => (
 					<div class="flex flex-col gap-2 md:flex-row">
 						<dt>
-							<span class="flex">
-								<a class="blog-link" href={"#"}>
+							<span class="flex blog-link">
 									{title}
-								</a>
 								:
 							</span>
 						</dt>
