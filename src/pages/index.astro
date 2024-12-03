@@ -35,7 +35,7 @@ const interests: { desc: string; href?: string; title: string }[] = [
     title:"HDL & chip design"
 	},
 	 {
-		desc: "research and writing on vintage technologies and the evolution of modern computer design & architecture - both from the business inguity side and technoligical acuity",
+		desc: "research on vintage technologies - both the business acuity and technological ingenuity",
     title:"Computer History"
   },
 ]
@@ -93,23 +93,8 @@ const techs: { desc: string; href: string; title: string }[] = [
 			</div>
 		</div>
 	</section>
-	<section aria-label="Blog post list" class="mt-16">
-		<Title>Posts</Title>
-		<ul class="space-y-4">
-			<!-- <span>None so far. I will start writing soon.....</span> -->
-			{
-				allPostsByDate.map((p) => (
-					<li class="flex flex-col gap-x-2 sm:flex-row">
-						<PostPreview post={p} />
-					</li>
-				))
-			}
-		</ul>
-	</section>
-
 	<section class="mt-16">
 		<Title>Fields of Expertise</Title>
-		I have a keen interest in;
 		<dl class="space-y-4">
 			{
       interests.map(({desc, title}) => (
@@ -128,6 +113,21 @@ const techs: { desc: string; href: string; title: string }[] = [
 			}
 		</dl>
 	</section>
+
+	<section aria-label="Blog post list" class="mt-16">
+		<Title>Posts</Title>
+		<ul class="space-y-4">
+			<!-- <span>None so far. I will start writing soon.....</span> -->
+			{
+				allPostsByDate.map((p) => (
+					<li class="flex flex-col gap-x-2 sm:flex-row">
+						<PostPreview post={p} />
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
 	<section class="mt-16">
 		<Title>Technologies</Title>
 		<dl class="space-y-4">
