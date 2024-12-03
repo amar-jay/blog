@@ -11,29 +11,34 @@ const MAX_POSTS = 10;
 const allPosts = await getAllPosts();
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
-const interests: { desc: string; href?: string; title?: string }[] = {
-	"Web Development": {
+const interests: { desc: string; href?: string; title: string }[] = [
+	{
 		desc: "using React & Nextjs",
-		href: "/tags/i.c.",
-		title: "I.C.'s",
+		href: "/",
+		title: "Web Development",
 	},
-	"ML": {
+	{
 		desc: "primarily transformer & diffusion models",
+    title: "ML"
 	},
-	"Analysis & Valuation in Semiconductor Sector": {
+	 {
 		desc: "",
+    title: "Analysis & Valuation in Semiconductor Sector"
 	},
-	"Open-sourceness":{
+	{
 		desc: "RISCV, TensTorrent, OpenROAD, OpenLane",
+    title:"Open-sourceness"
 
 	},
-	"HDL & chip design": {
+	 {
 		desc: "CPU & GPU Design",
+    title:"HDL & chip design"
 	},
-	"Computer History": {
+	 {
 		desc: "research and writing on vintage technologies and the evolution of modern computer design & architecture - both from the business inguity side and technoligical acuity",
-	}
-}
+    title:"Computer History"
+  },
+]
 const techs: { desc: string; href: string; title: string }[] = [
 	{
 		desc: "A historical perspective of Integrated circuits, from flipflops to FPGA.",
@@ -107,12 +112,12 @@ const techs: { desc: string; href: string; title: string }[] = [
 		I have a keen interest in;
 		<dl class="space-y-4">
 			{
-      interests.map(({desc}, k) => (
+      interests.map(({desc, title}) => (
 					<div class="flex flex-col gap-2 md:flex-row">
 						<dt>
 							<span class="flex">
 								<a class="blog-link" href={"#"}>
-									{k}
+									{title}
 								</a>
 								:
 							</span>
