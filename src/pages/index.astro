@@ -7,7 +7,7 @@ import { getAllPosts, sortMDByDate } from "@/utils";
 import { Image } from "astro:assets";
 import { fade } from "astro:transitions";
 
-const MAX_POSTS = 10;
+const MAX_POSTS = 5;
 const allPosts = await getAllPosts();
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
@@ -29,7 +29,7 @@ const work: { desc: string; href?: string; title: string }[] = [
   },
 ];
 
-const interests: { desc: string; href?: string; title: string }[] = [
+const interests: { desc?: string; href?: string; title: string }[] = [
 	{
 		desc: "using React & Nextjs",
 		href: "/",
@@ -40,7 +40,6 @@ const interests: { desc: string; href?: string; title: string }[] = [
     title: "ML"
 	},
 	 {
-		desc: ".",
     title: "Analysis & Valuation in Semiconductor Sector"
 	},
 	{
@@ -53,7 +52,7 @@ const interests: { desc: string; href?: string; title: string }[] = [
     title:"HDL & chip design"
 	},
 	 {
-		desc: "research on vintage technologies - both the business acuity and technological ingenuity",
+		desc: "both the business acuity and technological ingenuity",
     title:"Computer History"
   },
 ]
@@ -115,17 +114,14 @@ const techs: { desc: string; href: string; title: string }[] = [
 		<Title>Interests</Title>
 		<dl class="space-y-4">
 			{
-      interests.map(({desc, title}) => (
+      interests.map((props) => (
 					<div class="flex flex-col gap-2 md:flex-row">
 						<dt>
-							<span class="flex">
-								<a class="blog-link" href={""}>
-									{title}
-              </a>
-								:
+							<span class="flex font-bold">
+									{props.title}
 							</span>
 						</dt>
-						<dd>{desc}</dd>
+						<dd>({props?.desc})</dd>
 					</div>
 				))
 			}
