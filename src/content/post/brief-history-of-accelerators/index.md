@@ -3,7 +3,7 @@ title: "Brief history of accelerators"
 description: "How hybrid computation became as it is. CUDA, and beyond, How hybrid computation became as it is. CUDA, and beyond"
 publishDate: "22 Feb 2023"
 updatedDate: 22 Jan 2024
-tags: ["I.C.", "ML-AI"]
+tags: ["🍟", "ML-AI"]
 ---
 
 ## History
@@ -25,11 +25,11 @@ Large chip area while optimizing for power usage.
 Optimized to mazimize execution throughput of numerous threads while allowing each thread much longer execution time . This is known as **throughput-oriented design**.
 Factors in the choice of processors
 
-- Large Consumer base(INstalled base) -- Cuda.
+- Large Consumer base(Installed base) -- CUDA.
 - Practicality and easy accessibility
 - Support for IEEE floating standards.
 
-2007- release of Cuda.
+2007- release of CUDA.
 Facilitate the ease of parallel programming.
 
 ## Architecture of a Modern GPU

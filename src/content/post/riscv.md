@@ -3,7 +3,7 @@ title: "Understanding RISC-V"
 description: "If you’ve ever looked into processors, you’ve probably heard of big names like Intel, AMD, or ARM. But let me introduce you to **RISC-V**, a bold and open alternative that’s changing how CPUs are designed, built, and used."
 publishDate: "28 Dec 2024"
 updatedDate: "28 Dec 2024"
-tags: ["🍟","chips", "riscv", "cpu"]
+tags: ["🍟", "riscv"]
 ---
 
 If you’ve ever looked into processors, you’ve probably heard of big names like Intel, AMD, or ARM. But let me introduce you to **RISC-V**, a bold and open alternative that’s changing how CPUs are designed, built, and used.
@@ -26,18 +26,18 @@ RISC-V’s architecture is **modular** by design, offering unmatched flexibility
 
 ### RISC-V Base and Extension Modules
 
-|**Module**|**Description**|
-|---|---|
-|**RV32I**|32-bit base integer instruction set.|
-|**RV64I**|64-bit base integer instruction set.|
-|**RV32E**|32-bit base set optimized for embedded systems (fewer registers).|
-|**M Extension**|Adds support for integer multiplication and division operations.|
-|**A Extension**|Atomic instructions for multi-core processors.|
-|**F/D Extensions**|Adds single-precision (F) and double-precision (D) floating-point operations.|
-|**C Extension**|Compressed instructions to reduce code size and improve efficiency.|
-|**V Extension**|Vector instructions for applications like machine learning and graphics.|
-|**B Extension**|Bit manipulation instructions for cryptography and networking.|
-|**Z Extensions**|Specialized extensions for areas like security (`Zicsr`) or supervisor-level instructions (`Zifencei`).|
+| **Module**         | **Description**                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------- |
+| **RV32I**          | 32-bit base integer instruction set.                                                                    |
+| **RV64I**          | 64-bit base integer instruction set.                                                                    |
+| **RV32E**          | 32-bit base set optimized for embedded systems (fewer registers).                                       |
+| **M Extension**    | Adds support for integer multiplication and division operations.                                        |
+| **A Extension**    | Atomic instructions for multi-core processors.                                                          |
+| **F/D Extensions** | Adds single-precision (F) and double-precision (D) floating-point operations.                           |
+| **C Extension**    | Compressed instructions to reduce code size and improve efficiency.                                     |
+| **V Extension**    | Vector instructions for applications like machine learning and graphics.                                |
+| **B Extension**    | Bit manipulation instructions for cryptography and networking.                                          |
+| **Z Extensions**   | Specialized extensions for areas like security (`Zicsr`) or supervisor-level instructions (`Zifencei`). |
 
 ---
 
@@ -68,6 +68,7 @@ AI startups and giants alike are turning to RISC-V for its modular design. Many 
 RISC-V is slowly catching up to ARM and x86 in consumer tech. Profiles like **RVA22** and **RVA23** aim to support Linux and Android, bringing RISC-V closer to powering everything from smartphones to PCs.
 
 ---
+
 ## The SHD Group: Bold Projections for RISC-V
 
 The **SHD Group**, a prominent consulting and market analysis firm in the semiconductor industry, has been closely monitoring the rise of RISC-V. Known for their detailed forecasts and strategic insights, the SHD Group has outlined some intriguing projections about the future of RISC-V in the global market.
