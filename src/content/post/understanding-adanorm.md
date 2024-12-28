@@ -1,7 +1,7 @@
 ---
 title: "Understanding AdaNorm"
 description: "Understanding Adaptive Layer Normalization. First introduced in the DiT paper"
-tags: ["transformer", "neural networks"]
+tags: ["transformer", "neural networks", "ml-ai"]
 publishDate: 07 September 2024
 updatedDate: 07 September 2024
 ---

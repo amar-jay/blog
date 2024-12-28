@@ -3,13 +3,12 @@ title: "Understanding Squared attention"
 description: "Just a brief explanation of how attention mechanism works. As well as the quadratic scaling of attention."
 publishDate: "31 July 2024"
 updatedDate: "31 July 2024"
-tags: ["transformer", "neural networks"]
+tags: ["transformer", "neural networks", "ml-ai"]
 ---
-
 
 ## Introduction
 
-Self-attention was first introduced in the Transformer architecture by  [Vaswani et al.'s paper - Attention is all you need](https://arxiv.org/abs/1706.03762). This mechanism plays a crucial role in the architecture of modern models like GPT. Self-attention allows the model to weigh the importance of different words in a sentence when encoding a sequence, leading to more accurate context understanding and improved performance in natural language processing tasks.
+Self-attention was first introduced in the Transformer architecture by [Vaswani et al.'s paper - Attention is all you need](https://arxiv.org/abs/1706.03762). This mechanism plays a crucial role in the architecture of modern models like GPT. Self-attention allows the model to weigh the importance of different words in a sentence when encoding a sequence, leading to more accurate context understanding and improved performance in natural language processing tasks.
 
 In contrast to RNN architectures, where information is passed sequentially and stored in a hidden state, self-attention processes all tokens in parallel. This parallel processing not only speeds up computation but also enables the model to capture long-range dependencies more effectively. By considering all positions of the input sequence simultaneously, self-attention aggregates all states across time into a single, comprehensive representation.
 

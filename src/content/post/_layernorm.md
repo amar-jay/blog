@@ -1,9 +1,9 @@
 ---
-title: "Layernorm"
+title: "Layernorm - Karpathy"
 description: "layer normalization of GPT by Andrej Karpathy"
 publishDate: "1 May 2024"
 updatedDate: "1 May 2024"
-tags: ["transformer", "neural networks"]
+tags: ["transformer", "neural networks", "ml-ai"]
 ---
 
 Quick tutorial. Let's look at how LayerNorm is handled, as one example layer in the model. We start with the [PyTorch docs for LayerNorm](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html). LayerNorm of course comes from this original paper by [Ba et al. 2016](https://arxiv.org/abs/1607.06450), and was incorporated into the Transformer in [Vaswani et al.](https://arxiv.org/abs/1706.03762) famous paper Attention is All You Need. [GPT-2](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) picked up the same architecture as the Transformer, but the position of the LayerNorm was famously moved into what is now called the pre-normalization version. That is, the residual path of the Transformer is kept clean, and the LayerNorms are now the first layer of each block of the Transformer. This positively improves training stability.

@@ -2,17 +2,19 @@
 title: "Layernorm"
 description: "layer normalization of GPT by Andrej Karpathy"
 publishDate: "1 May 2024"
-tags: ["transformer"]
+tags: ["transformer", "neural networks", "ml-ai"]
 ---
 
 ## Intro
-Let's explore how **LayerNorm** is handled, as one of the layers in the model. We begin with the [PyTorch documentation for LayerNorm](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html). LayerNorm originates from the seminal paper by [Ba et al. (2016)](https://arxiv.org/abs/1607.06450) and was integrated into the Transformer architecture by [Vaswani et al.](https://arxiv.org/abs/1706.03762) in their renowned paper __"Attention is All You Need."__ [GPT-2](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) adopted a similar architecture to the Transformer but notably shifted the position of LayerNorm, now referred to as the pre-normalization version. In this version, the residual path of the Transformer remains clean, with LayerNorm positioned as the initial layer of each block, leading to improved training stability.
+
+Let's explore how **LayerNorm** is handled, as one of the layers in the model. We begin with the [PyTorch documentation for LayerNorm](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html). LayerNorm originates from the seminal paper by [Ba et al. (2016)](https://arxiv.org/abs/1607.06450) and was integrated into the Transformer architecture by [Vaswani et al.](https://arxiv.org/abs/1706.03762) in their renowned paper **"Attention is All You Need."** [GPT-2](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) adopted a similar architecture to the Transformer but notably shifted the position of LayerNorm, now referred to as the pre-normalization version. In this version, the residual path of the Transformer remains clean, with LayerNorm positioned as the initial layer of each block, leading to improved training stability.
 
 Upon inspecting the [PyTorch implementation of LayerNorm](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html), you'll likely notice the absence of the actual equation implementation. This is because it's deeply embedded within the codebase, obscured behind a dynamic dispatcher, possibly in auto-generated CUDA code (for detailed enthusiasts, refer to [layer_norm.cpp](https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/layer_norm.cpp) and [layer_norm_kernel.cu](https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/cuda/layer_norm_kernel.cu)). PyTorch prioritizes efficiency, which justifies this design choice. However, for our purposes, understanding LayerNorm necessitates starting by manually implementing it using simpler PyTorch operations. Although less efficient than using a `LayerNorm` module directly, this approach is algorithmically instructive.
 
 ## LayerNorm Implementation
 
 ### Forward pass
+
 Here's a direct implementation of LayerNorm's mathematics using basic PyTorch operations:
 
 ```python
@@ -106,9 +108,10 @@ print("db error:", (b.grad - db).abs().max().item())
 Notice one more thing. Inside the backward pass we recomputed the variable `norm`. We already calculated this variable in the forward pass but then we threw it away! Couldn't we have made this also be a part of the `cache` and save this recompute? Actually, we very well could and you'd of course get the exact same results. The amount of stuff we save into our `cache` is completely up to us. We didn't even have to save `mean` and `rstd` either, and we could have recomputed them in the backward pass. The difference is that `mean` and `rstd` are very small, only of shape `B,T`, where as `norm` is of shape `B,T,C`. So this is simply a tradeoff between memory and compute. By not keeping `norm` in the cache, we are saving memory, but we are trading it off for a bit of compute later in the backward pass. This is very common in all the layers, and you'll see that different implementations of various layers in deep learning frameworks may all have different "checkpointing settings". Yes, confusingly enough, this is called checkpointing and has nothing to do with saving the model weights to disk. It's about saving intermediate variables in the forward pass to save compute in the backward pass.
 
 Okay so that's the version with PyTorch tensors. Now we have to move this to `C` and get rid of the Tensor abstraction. Before I give you the full implementation of the forward pass, a brief word on Tensors. What are Tensors? They are
-1) a 1D block of memory called Storage that holds the raw data, and
-2) a View over that storage that holds its shape. [PyTorch Internals](http://blog.ezyang.com/2019/05/pytorch-internals/) could be helpful here.
-So for example if we have the 3D tensor:
+
+1. a 1D block of memory called Storage that holds the raw data, and
+2. a View over that storage that holds its shape. [PyTorch Internals](http://blog.ezyang.com/2019/05/pytorch-internals/) could be helpful here.
+   So for example if we have the 3D tensor:
 
 ```python
 torch.manual_seed(42)
@@ -133,11 +136,12 @@ print(a[b,t,c])
 print(a.view(-1)[b*T*C + t*C + c])
 ```
 
-Both of these print $0.3309$. So in this way, we know how to access all the individual elements, and how to offset all the pointers. Notice in particular that the channel dimension is the innermost dimension. So as we increase offset by 1, we are traversing the channel dimension. This is important to consider for the memory layout of our C implementation. 
+Both of these print $0.3309$. So in this way, we know how to access all the individual elements, and how to offset all the pointers. Notice in particular that the channel dimension is the innermost dimension. So as we increase offset by 1, we are traversing the channel dimension. This is important to consider for the memory layout of our C implementation.
 
 ## C implementation
 
 ### Forward pass
+
 The equivalent forward pass in C becomes:
 
 ```c
@@ -271,4 +275,5 @@ class RMSNorm(torch.nn.Module):
 - **Lack of Intermediate Calculations Memory:** Lastly, during inference, RMSNorm doesn't retain intermediate calculations, memory, or cache. This is because there's no backward pass to follow during inference. Therefore, there's no need to keep track of intermediate variables, resulting in significantly lower memory consumption during inference compared to training. Additionally, there's no implementation of a `backward` function for RMSNorm, as there's no backward pass during inference.
 
 ## Conclusion
+
 This was just the LayerNorm. We go through the exact same process for all the other GPT layers. Most of the other layers are actually easier than LayerNorm. Hope that helps!
