@@ -6,7 +6,11 @@ updatedDate: "28 Dec 2024"
 tags: ["🍟","chips", "riscv", "cpu"]
 ---
 
-### What Is RISC-V?
+If you’ve ever looked into processors, you’ve probably heard of big names like Intel, AMD, or ARM. But let me introduce you to **RISC-V**, a bold and open alternative that’s changing how CPUs are designed, built, and used.
+
+---
+
+## What Is RISC-V?
 
 RISC-V (pronounced “risk-five”) is an **open standard for instruction sets**, meaning anyone can use its specifications to design their own processors—without paying royalties or licensing fees. It’s like giving engineers a blank canvas and letting them create processors for everything from microcontrollers to high-end servers.
 
@@ -16,11 +20,11 @@ The organization **RISC-V International** oversees the standard, manages brandin
 
 ---
 
-### Modular Design: RISC-V’s Superpower
+## Modular Design: RISC-V’s Superpower
 
 RISC-V’s architecture is **modular** by design, offering unmatched flexibility. Companies can start with one of its base modules and customize them with various extensions or even create proprietary ones. This flexibility has made RISC-V attractive across industries, though it has also led to some fragmentation.
 
-#### RISC-V Base and Extension Modules
+### RISC-V Base and Extension Modules
 
 |**Module**|**Description**|
 |---|---|
@@ -37,7 +41,7 @@ RISC-V’s architecture is **modular** by design, offering unmatched flexibility
 
 ---
 
-### A New Player: Tenstorrent and Jim Keller
+## A New Player: Tenstorrent and Jim Keller
 
 If you’re into processors, you’ve probably heard of **Jim Keller**, a legend known for his work on AMD Zen, Tesla’s AI chips, and Apple’s A-series processors. Keller is now the CEO of **Tenstorrent**, a company embracing RISC-V to push the boundaries of AI and high-performance computing.
 
@@ -45,63 +49,63 @@ Tenstorrent is unique because it doesn’t just design CPUs—it focuses on comb
 
 ---
 
-### Where Is RISC-V Making an Impact?
+## Where Is RISC-V Making an Impact?
 
-#### **1. Academia**
+### **1. Academia**
 
 RISC-V’s simplicity makes it ideal for teaching assembly language and CPU design. It’s quickly becoming the go-to architecture in classrooms.
 
-#### **2. Embedded Systems**
+### **2. Embedded Systems**
 
 This is where RISC-V shines today. Companies are adopting it for microcontrollers and IoT devices due to its low cost and flexibility. Even big names like NVIDIA and Apple reportedly use RISC-V cores in their products, though they don’t advertise it.
 
-#### **3. AI Hardware**
+### **3. AI Hardware**
 
 AI startups and giants alike are turning to RISC-V for its modular design. Many customize RISC-V cores with their own extensions, like low-precision matrix multiplication for neural networks.
 
-#### **4. Consumer Devices**
+### **4. Consumer Devices**
 
 RISC-V is slowly catching up to ARM and x86 in consumer tech. Profiles like **RVA22** and **RVA23** aim to support Linux and Android, bringing RISC-V closer to powering everything from smartphones to PCs.
 
 ---
-### The SHD Group: Bold Projections for RISC-V
+## The SHD Group: Bold Projections for RISC-V
 
 The **SHD Group**, a prominent consulting and market analysis firm in the semiconductor industry, has been closely monitoring the rise of RISC-V. Known for their detailed forecasts and strategic insights, the SHD Group has outlined some intriguing projections about the future of RISC-V in the global market.
 
-#### **1. Explosive Growth in Market Share**
+### **1. Explosive Growth in Market Share**
 
 SHD Group predicts that RISC-V will achieve **double-digit market share** in the global semiconductor industry by 2030. This growth is fueled by:
 
 - **Adoption in Embedded Systems**: RISC-V's modularity and low cost make it a perfect fit for microcontrollers and IoT devices, two of the fastest-growing segments in the tech industry.
 - **Growing Presence in Data Centers**: Companies like Alibaba and SpacemiT are deploying RISC-V-based processors in cloud environments, where scalability and cost-effectiveness are crucial.
 
-#### **2. Competition in High-Performance Computing (HPC)**
+### **2. Competition in High-Performance Computing (HPC)**
 
 RISC-V, traditionally seen as a lightweight architecture, is now entering the HPC domain. SHD Group highlights advancements in out-of-order core designs and custom extensions, which could make RISC-V competitive with x86 and ARM in server and AI workloads by 2028.
 
 The report underscores the role of companies like **Tenstorrent** and other RISC-V players in developing processors tailored for AI and machine learning. With the demand for specialized AI chips surging, RISC-V’s flexibility gives it a unique edge.
 
-#### **3. Increasing Open-Source Ecosystem**
+### **3. Increasing Open-Source Ecosystem**
 
 According to SHD Group, the open-source nature of RISC-V will drive innovation in ways traditional architectures cannot match. They project a robust ecosystem of **free and proprietary designs** that will lower the entry barrier for startups and smaller semiconductor companies.
 
 - By 2026, they anticipate a significant increase in RISC-V cores being developed for niche markets, such as **custom SoCs for automotive, robotics, and wearables**.
 - Open-source software tools like GCC and LLVM are already supporting RISC-V, and SHD believes this ecosystem will mature rapidly with the introduction of more optimized frameworks.
 
-#### **4. Fragmentation Challenges**
+### **4. Fragmentation Challenges**
 
 While RISC-V’s modularity is a strength, SHD Group warns that **fragmentation** could slow adoption. Unlike ARM, which offers a cohesive ecosystem, RISC-V allows companies to add proprietary extensions, leading to incompatibilities between implementations.
 
 SHD emphasizes the need for RISC-V International to create stricter guidelines and standardized profiles (like the **RVA profiles**) to ensure interoperability across implementations.
 
-#### **5. Expanding Into Consumer Electronics**
+### **5. Expanding Into Consumer Electronics**
 
 Perhaps the boldest prediction from the SHD Group is that RISC-V will power a significant portion of consumer electronics by 2035. This includes:
 
 - **Smartphones**: With profiles like RVA23 targeting Android, SHD expects RISC-V to start appearing in budget and mid-tier smartphones within the next few years.
 - **Smart TVs and Wearables**: SHD highlights RISC-V’s suitability for these markets due to its energy efficiency and scalability.
 
-#### **6. Geopolitical Implications**
+### **6. Geopolitical Implications**
 
 The SHD Group report also touches on geopolitics, emphasizing how RISC-V's open nature allows countries to avoid reliance on foreign IP. This is particularly relevant in regions like:
 
@@ -110,7 +114,7 @@ The SHD Group report also touches on geopolitics, emphasizing how RISC-V's open 
 
 ---
 
-### Can RISC-V Compete With Intel, AMD, or ARM?
+## Can RISC-V Compete With Intel, AMD, or ARM?
 
 The high-end processor market has traditionally been dominated by Intel, AMD, and ARM. While RISC-V isn’t quite there yet, progress is accelerating. Companies like Alibaba (XuanTie C910/C920 cores) and SpacemiT (K1 core) are proving that RISC-V can handle workloads ranging from cloud servers to consumer devices.
 
@@ -118,7 +122,7 @@ There’s also a lot of excitement around upcoming RISC-V designs. Several compa
 
 ---
 
-### The Road Ahead
+## The Road Ahead
 
 RISC-V represents a bold step towards a more open and competitive CPU ecosystem. Its modular design, open nature, and growing industry support make it a compelling alternative to traditional ISAs. With heavyweights like Jim Keller and Tenstorrent in the mix, the future of RISC-V looks brighter than ever.
 
