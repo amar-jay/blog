@@ -2,7 +2,7 @@
 title: "Notes from Probabilistic Robotics"
 description: "Probabilistic Robotics by Sebastian Thrun aimed to teach me how to model uncertainty in robot perception and control using probabilistic techniques."
 publishDate: "28 Jan 2025"
-updatedDate: "28 Jan 2025"
+updatedDate: "07 Feb 2025"
 tags: ["filters", slam", "robotics"]
 ---
 
@@ -190,33 +190,37 @@ $\text{Based on the Bayes rule,}$
 
 $$
 p(x|z)
-= \frac {p(z|x)p(x)} {p(z)}
-= \frac {p(z|x, v)p(x|v)} {p(z|v)}
+  = \frac {p(z|x)p(x)} {p(z)}
+  = \frac {p(z|x, v)p(x|v)} {p(z|v)}
 $$
 
 $\text{so taking }\ z = p(z_t)$ $\text{and }\ v = p(z_{1:t-1}, u_{1:t})$
 
 $$
-\begin{gather}
-\\
-p(x_t | z_{1:t},u_{1:t})= p(x_t | z_t, z_{1:t-1},u_{1:t}) = \frac{p(z_t | x_t,z_{1:t−1},u_{1:t})\ p(x_t | z_{1:t−1},u_{1:t})}{p(z_t | z_{1:t−1},u_{1:t})} \\
-\text{where the normalizing factor, }\ \eta = p(z_t | z_{1:t−1},u_{1:t}) \\
-\\
-\Rightarrow p(x_t | z_{1:t},u_{1:t}) = \eta\ p(z_t | x_t,z_{1:t−1},u_{1:t})\ p(x_t | z_{1:t−1},u_{1:t}) \\
-\\
-\end{gather}
+p(x_t | z_{1:t},u_{1:t})= p(x_t | z_t, z_{1:t-1},u_{1:t}) = \frac{p(z_t | x_t,z_{1:t−1},u_{1:t})\ p(x_t | z_{1:t−1},u_{1:t})}{p(z_t | z_{1:t−1},u_{1:t})}
+$$
+
+$$
+\text{where the normalizing factor, }\ \eta = p(z_t | z_{1:t−1},u_{1:t})
+$$
+
+$$
+\Rightarrow p(x_t | z_{1:t},u_{1:t}) =
+\eta\ p(z_t | x_t,z_{1:t−1},u_{1:t})\ p(x_t | z_{1:t−1},u_{1:t})
 $$
 
 $\text{Due to conditional independence, }\ p(z_t | x_t)\ =\ p(z_t | x_t,z_{1:t−1},u_{1:t})$
 
 $$
-\Rightarrow p(x_t | z_{1:t},u_{1:t}) = \eta\ p(z_t | x_t)\ p(x_t | z_{1:t−1},u_{1:t}) \\
+\Rightarrow p(x_t | z_{1:t},u_{1:t}) = \eta\ p(z_t | x_t)\ p(x_t | z_{1:t−1},u_{1:t})
 $$
 
-$\text{Also, }\ p(x_t | z_{1:t−1},u_{1:t}) \text{ is known as *the predictive distribution*. Also represented as}$ $\overline{\mathrm{bef}}(x_t)$.
+$\text{Also, }\ p(x_t | z_{1:t−1},u_{1:t}) \text{ is known as *the predictive distribution*.
+Also represented as}$ $\overline{\mathrm{bef}}(x_t)$.
 
 $$
-\Rightarrow p(x_t | z_{1:t},u_{1:t}) = \eta\ p(z_t | x_t)\ \overline{\mathrm{bef}}(x_t)
+\Rightarrow p(x_t | z_{1:t},u_{1:t}) =
+\eta\ p(z_t | x_t)\ \overline{\mathrm{bef}}(x_t)
 $$
 
 $\text{Let's expand the term, }\ \overline{\mathrm{bef}}(x_t)  = p(x_t| z_{1:t-1}, u_{1:t})$
@@ -226,28 +230,63 @@ $$
 $$
 
 $$
-\begin{gather}
-\overline{\mathrm{bef}}(X_1) = \int{p(X_1 | X_0, u_0)\ \mathrm{bef}(X_0)} dx \\
+\overline{\mathrm{bef}}(X_1) = \int{p(X_1 | X_0, u_0)\ \mathrm{bef}(X_0)} dx
+$$
+
+$$
 bel(X_1) = η\ p(Z_1 | X_1)\ \overline{\mathrm{bef}}(X_1)
-\end{gather}
 $$
 
 So say the next action is a **push**,
 
 $$
-\begin{gather}
-\overline{\mathrm{bef}}(X_1) = p(X_1 | X_0\text{=open}, u_1\text{=push})\ \mathrm{bef}(X_0\text{=open}) \\ + p(X_1 | X_0\text{=closed}, u_1\text{=push})\ \mathrm{bef}(X_0\text{=closed}) \\ \\
+\overline{\mathrm{bef}}(X_1) = p(X_1 | X_0\text{=open}, u_1\text{=push})\ \mathrm{bef}(X_0\text{=open})
+$$
 
-\overline{\mathrm{bef}}(X_1\text{=open}) = 1.0*0.5 + 0.8*0.5 = 0.9 \\
-\overline{\mathrm{bef}}(X_1\text{=closed}) = 0.0*0.5 + 0.2*0.5 = 0.1 \\ \\
+$$
++ p(X_1 | X_0\text{=closed}, u_1\text{=push})\ \mathrm{bef}(X_0\text{=closed})
+$$
 
-bel(X_1) = \eta \ p(Z_1 | X_1)\ \overline{\mathrm{bef}}(X_1) \\
-\mathrm{bef}(X_1\text{=closed}) = \eta*0.8*0.1=0.08\eta \\
-\mathrm{bef}(X_1\text{ = open})= \eta*0.4*0.9=0.36\eta \\ \\
-\eta = \frac {1} {0.08 + 0.36} = 2.272 \\ \\
-\mathrm{bef}(X_1\text{ = open})= 0.181 \\
-\mathrm{bef}(X_1\text{=closed})= 0.817 \\
-\end{gather}
+<br/>
+<br/>
+
+$$
+\overline{\mathrm{bef}}(X_1\text{=open}) = 1.0\times 0.5 + 0.8\times 0.5 = 0.9
+$$
+
+$$
+\overline{\mathrm{bef}}(X_1\text{=closed}) = 0.0 \times 0.5 + 0.2 \times 0.5 = 0.1
+$$
+
+<br/><br/>
+
+$$
+bel(X_1) = \eta \ p(Z_1 | X_1)\ \overline{\mathrm{bef}}(X_1)
+$$
+
+$$
+\mathrm{bef}(X_1\text{=closed}) = \eta*0.8*0.1=0.08\eta
+$$
+
+$$
+\mathrm{bef}(X_1\text{ = open})= \eta*0.4*0.9=0.36\eta
+$$
+
+<br/>
+<br/>
+
+$$
+\eta = \frac {1} {0.08 + 0.36} = 2.272
+$$
+
+<br/>
+<br/>
+$$
+\mathrm{bef}(X_1\text{ = open})= 0.181
+$$
+
+$$
+\mathrm{bef}(X_1\text{=closed})= 0.817
 $$
 
 So, the robot believes with $82\%$ accuracy that the door is closed. At first glance, this probability may appear to be sufficiently high to simply accept this hypothesis as the world state and act accordingly. However, such an approach may result in unnecessarily high costs. If mistaking a closed door for an open one incurs costs (e.g., the robot crashes into a door), considering both hypotheses in the decision making process will be essential, as unlikely as one of them may be.
@@ -270,7 +309,7 @@ So, the robot believes with $82\%$ accuracy that the door is closed. At first gl
 - The Kalman filter was invented in the 1950s by Rudolph Emil Kalman,
 - Kalman filters is not applicable to discrete or hybrid state spaces but for continuous state spaces.
 - In Kalman filters the state transition model is considered to be a multivariate guassian with the mean being $\mu_t=A_t\mu_{t-1} + B_tu_{t} + \epsilon_0$ and covariance of $R_t$.
-- The measurement probability must be linear in its arguments $z_t = C_tx_t + \sigma_t$ , where $\sigma_t$ is the measurement noise with mean 0 and covariance $Q_t$ ie $p(z_t|x_t)$ has a mean of $C_tx_t$.
+- The measurement probability must be linear in its arguments $z_t = C_tx_t + \sigma_t$ , where $\sigma_t$ is the measurement noise with mean 0 and covariance $Q_t$ ie $p(z_t|x_t)$ has a mean of $C_t x_t$.
 - The initial belief must be normal distributed. by $\mu_0$ and covariance $\Sigma_0$.
 
 #### Kalman Filter Algorithm
@@ -371,4 +410,4 @@ def kalman_filter(A, B, C, R, Q, mu_prev, Sigma_prev, u, z):
 
 ### NEXT STEP
 
-- [ ] Proof of KF
+- [ ] Proof of K.F.
