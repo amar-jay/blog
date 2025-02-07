@@ -34,9 +34,9 @@ Robotics? Robotics is increasingly becoming a software science, a distinct field
 - **Prior** - a distribution that represents the accumulated past . A uniform distribution prior = maximum uncertainty
 - **Belief** from Bayes theorem is a probability distribution of the likelihood of each state against the possible existing state.
   $$
-  bel(x_k) = p(x_k | x_{k-1}, z_{k-1}, u_k, \delta)
+  bef(x_k) = p(x_k | x_{k-1}, z_{k-1}, u_k, \delta)
   $$
-  where $bel(x)$ is the belief at state $k$,
+  where $bef(x)$ is the belief at state $k$,
   $z$ is the prior at state $k-1$
   $u$ is the internal state (measurement)
   $\delta$ represents noise from control action
@@ -111,35 +111,35 @@ def bayes_filter(belief_x1, u_t, z_t):
 pseudo code 2
 
 ```python
-def bayes_filter(bel_x_prev, u_t, z_t):
+def bayes_filter(bef_x_prev, u_t, z_t):
     """
     Parameters:
-    - bel_x_prev: Belief at time t-1 (prior)
+    - bef_x_prev: Belief at time t-1 (prior)
     - u_t: Action at time t
     - z_t: Observation at time t
     Returns:
-    - bel_x_t: Updated belief at time t
+    - bef_x_t: Updated belief at time t
     """
-    bel_x_t = {}
+    bef_x_t = {}
 
     # Prediction Step (Motion Update)
     for x_t in states:
         # Compute prediction for x_t by marginalizing over x_{t-1}
         predicted_belief = sum(
-            motion_model(x_t, u_t, x_prev) * bel_x_prev[x_prev]
+            motion_model(x_t, u_t, x_prev) * bef_x_prev[x_prev]
             for x_prev in states
         )
 
         # Measurement Update (Correction)
         measurement_prob = measurement_model(z_t, x_t)
-        bel_x_t[x_t] = measurement_prob * predicted_belief
+        bef_x_t[x_t] = measurement_prob * predicted_belief
 
     # Normalization
-    normalizer = sum(bel_x_t.values())
-    for x_t in bel_x_t:
-        bel_x_t[x_t] /= normalizer
+    normalizer = sum(bef_x_t.values())
+    for x_t in bef_x_t:
+        bef_x_t[x_t] /= normalizer
 
-    return bel_x_t
+    return bef_x_t
 
 ```
 
@@ -148,6 +148,7 @@ def bayes_filter(bel_x_prev, u_t, z_t):
 #### NOTE
 
 <div style="border: 1px solid #ccc; border-radius: 8px; padding: 16px; background-color: #f9f9f909; margin: 16px 0;"> &#8505; <strong>The Markov Assumption</strong>: postulates that past and future data are independent if one knows the current state x_t </div>
+
 - The Bayes filter makes a Markov assumption that specifies that the state is a complete summary of the past. This assumption implies the belief is sufficient to represent the past history of the robot. In robotics, the Markov assumption is usually only an approximation. There are conditions under which it is violated.
 
 - Since the Bayes filter is not a practical algorithm, in that it cannot be implemented on a digital computer, probabilistic algorithms use tractable approximations. Such approximations may be evaluated according to different criteria, relating to their accuracy, efficiency, and ease of implementation.
@@ -159,8 +160,8 @@ Our illustration of the Bayes filter algorithm is based on a scenario, where a r
 #### Solution
 
 - the initial belief a door is closed open open is uniform
-  $bel(X_0=\text{open}) = 0.5$
-  $bel(X_0=\text{closes}) = 0.5$
+  $bef(X_0=\text{open}) = 0.5$
+  $bef(X_0=\text{closes}) = 0.5$
 
 - confusion matrix of sensor data conditioned on the ground truth. ie $p(Z_t=\text{Predicted} | X_t = \text{Actual})$
 
@@ -196,6 +197,8 @@ $$
 
 $\text{so taking }\ z = p(z_t)$ $\text{and }\ v = p(z_{1:t-1}, u_{1:t})$
 
+<br/>
+
 $$
 p(x_t | z_{1:t},u_{1:t})= p(x_t | z_t, z_{1:t-1},u_{1:t}) = \frac{p(z_t | x_t,z_{1:t−1},u_{1:t})\ p(x_t | z_{1:t−1},u_{1:t})}{p(z_t | z_{1:t−1},u_{1:t})}
 $$
@@ -204,24 +207,33 @@ $$
 \text{where the normalizing factor, }\ \eta = p(z_t | z_{1:t−1},u_{1:t})
 $$
 
+<br/>
+
 $$
 \Rightarrow p(x_t | z_{1:t},u_{1:t}) =
 \eta\ p(z_t | x_t,z_{1:t−1},u_{1:t})\ p(x_t | z_{1:t−1},u_{1:t})
 $$
 
-$\text{Due to conditional independence, }\ p(z_t | x_t)\ =\ p(z_t | x_t,z_{1:t−1},u_{1:t})$
+<br/>
+
+$\text{Due to conditional independence, }\ p(z_t | x_t)\ =\ p(z_t | x_t,z_{1:t−1}, u_{1:t})$
 
 $$
 \Rightarrow p(x_t | z_{1:t},u_{1:t}) = \eta\ p(z_t | x_t)\ p(x_t | z_{1:t−1},u_{1:t})
 $$
 
-$\text{Also, }\ p(x_t | z_{1:t−1},u_{1:t}) \text{ is known as *the predictive distribution*.
-Also represented as}$ $\overline{\mathrm{bef}}(x_t)$.
+<br/>
+
+$\text{Also,} p(x_t | z_{1:t−1},u_{1:t})$ $\text{is known as}$ _the predictive distribution_.
+
+$\text{Also represented as}$ $\overline{\mathrm{bef}}(x_t)$.
 
 $$
 \Rightarrow p(x_t | z_{1:t},u_{1:t}) =
 \eta\ p(z_t | x_t)\ \overline{\mathrm{bef}}(x_t)
 $$
+
+<br/>
 
 $\text{Let's expand the term, }\ \overline{\mathrm{bef}}(x_t)  = p(x_t| z_{1:t-1}, u_{1:t})$
 
@@ -229,12 +241,14 @@ $$
 = \int{p(x_t| x_{t-1}, u_t)\ p(x_{t-1} | z_{1:t-1}, u_{1:t-1})}\ dx
 $$
 
+<br/>
+
 $$
 \overline{\mathrm{bef}}(X_1) = \int{p(X_1 | X_0, u_0)\ \mathrm{bef}(X_0)} dx
 $$
 
 $$
-bel(X_1) = η\ p(Z_1 | X_1)\ \overline{\mathrm{bef}}(X_1)
+bef(X_1) = η\ p(Z_1 | X_1)\ \overline{\mathrm{bef}}(X_1)
 $$
 
 So say the next action is a **push**,
@@ -248,7 +262,6 @@ $$
 $$
 
 <br/>
-<br/>
 
 $$
 \overline{\mathrm{bef}}(X_1\text{=open}) = 1.0\times 0.5 + 0.8\times 0.5 = 0.9
@@ -258,10 +271,10 @@ $$
 \overline{\mathrm{bef}}(X_1\text{=closed}) = 0.0 \times 0.5 + 0.2 \times 0.5 = 0.1
 $$
 
-<br/><br/>
+<br/>
 
 $$
-bel(X_1) = \eta \ p(Z_1 | X_1)\ \overline{\mathrm{bef}}(X_1)
+bef(X_1) = \eta \ p(Z_1 | X_1)\ \overline{\mathrm{bef}}(X_1)
 $$
 
 $$
@@ -273,14 +286,13 @@ $$
 $$
 
 <br/>
-<br/>
 
 $$
 \eta = \frac {1} {0.08 + 0.36} = 2.272
 $$
 
 <br/>
-<br/>
+
 $$
 \mathrm{bef}(X_1\text{ = open})= 0.181
 $$
@@ -406,7 +418,7 @@ def kalman_filter(A, B, C, R, Q, mu_prev, Sigma_prev, u, z):
 
 ---
 
-- Complexity = approximately O(d2.8)
+- Complexity = approximately $O(d2.8)$
 
 ### NEXT STEP
 
