@@ -10,7 +10,7 @@ tags: ["filters", slam", "robotics"]
 
 by Sebastian **THRUN**
 
-Probabilistic Robotics by Sebastian Thrun aimed to teach me how to model uncertainty in robot perception and control using probabilistic techniques. It introduced me to Bayesian filters, Kalman filters, particle filters, and Markov decision processes. The book focused on decision-making, localization, mapping, and sensor fusion, all of which were crucial for navigating dynamic environments. I'm still not done reading it
+[Probabilistic Robotics by Sebastian Thrun](https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf) aimed to teach me how to model uncertainty in robot perception and control using probabilistic techniques. It introduced me to Bayesian filters, Kalman filters, particle filters, and Markov decision processes. The book focused on decision-making, localization, mapping, and sensor fusion, all of which were crucial for navigating dynamic environments. I'm still not done reading it
 
 ### Will Learn
 
