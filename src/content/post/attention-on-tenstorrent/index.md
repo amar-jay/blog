@@ -14,7 +14,7 @@ $$
 attention = softmax(\frac{Q^TK} {\sqrt {d_k}})V 
 $$
 
----
+## Intro 
 
 Flash Attention was a paper written by Tri Dao et al. in 2022 as a better alternative for running attention mechanisms on NVIDIA GPUs. So far, there have been three iterations of Flash Attention:
 
@@ -32,7 +32,7 @@ Flash Attention has been one of the most significant optimization techniques in 
 
 Recently, I read a paper in the [Tenstorrent GitHub repository (tenstorrent/tt-metal)](https://github.com/tenstorrent/tt-metal/blob/main/tech_reports/FlashAttention/FlashAttention.md) on the use of Flash Attention on Tenstorrent hardware. This article serves as my notes as I read through it.
 
----
+## Understanding
 
 The architecture of Tenstorrent hardware differs from CUDA-based GPUs. At a high level, both approaches distribute computation across multiple simple CPU-like cores that perform arithmetic in parallel and later combine the results. However, CUDA hardware is structured such that each device is divided into blocks, which are further divided into threads. Each thread executes an arithmetic, recieving and sending tasks, and uses the CUDA programming model to efficiently manage these operations by leveraging various levels of  cache.
 
@@ -61,8 +61,8 @@ That's basically it there is nothing more to add after that.  Since KV cache is 
 
 ## References 
 
-[1]  [Flash Attention Paper (Tri Dao, 2022, arxiv)](https://arxiv.org/pdf/2205.14135)
-[2]  [Flash Attention 2 Paper (Tri Dao, 2023, arxiv)](https://arxiv.org/pdf/2307.08691)
-[3]  [Flash Attention 3 Paper (Tri Dao, 2024, arxiv)](https://arxiv.org/pdf/2407.08608)
-[4]  [Flash Attention on Tenstorrent Report](https://github.com/tenstorrent/tt-metal/blob/main/tech_reports/FlashAttention/FlashAttention.md)
+- [1]  [Flash Attention Paper (Tri Dao, 2022, arxiv)](https://arxiv.org/pdf/2205.14135)
+- [2]  [Flash Attention 2 Paper (Tri Dao, 2023, arxiv)](https://arxiv.org/pdf/2307.08691)
+- [3]  [Flash Attention 3 Paper (Tri Dao, 2024, arxiv)](https://arxiv.org/pdf/2407.08608)
+- [4]  [Flash Attention on Tenstorrent Report](https://github.com/tenstorrent/tt-metal/blob/main/tech_reports/FlashAttention/FlashAttention.md)
 
