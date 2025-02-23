@@ -56,7 +56,7 @@ As a result, its **Flash Attention mechanism** differs significantly from conven
 
 That's basically it there is nothing more to add after that.  Since KV cache is already known or you can research on it and asynchronous computation in the tenstorrent tensix was already explained. These were the comparisons to control:
 
-![](https://github.com/tenstorrent/tt-metal/raw/main/tech_reports/FlashAttention/images/image3.png)
+![Stats](https://github.com/tenstorrent/tt-metal/raw/main/tech_reports/FlashAttention/images/image3.png)
 
 
 ## References 
