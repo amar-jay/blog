@@ -4,7 +4,7 @@ import type { CollectionEntry } from "astro:content";
 
 import Pagination from "@/components/Paginator.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
-import PageLayout from "@/components/layout/Base.astro";
+import BaseLayout from "@/components/layout/Base.astro";
 import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils";
 
 
@@ -43,7 +43,7 @@ const paginationProps = {
 };
 ---
 
-<PageLayout meta={meta}>
+<BaseLayout meta={meta}>
 	<h1 class="title mb-6">Posts</h1>
 	<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
 		<section aria-label="Blog post list">
