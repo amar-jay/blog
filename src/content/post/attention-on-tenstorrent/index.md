@@ -52,7 +52,7 @@ Thus, its programming execution model is quite different from CUDA's. Instead of
 
 As a result, its **Flash Attention mechanism** differs significantly from conventional implementations. However, as mentioned earlier, the fundamental approach remains the same: **chunking and tiling $Q, K, V$, then computing and caching intermediate results before performing softmax and summation.**
 
-	After reading all the technical report, I realized that the "flash attention" on the tenstorrent looks more like a asynchronous KV cache than flash-attention itself. 
+> After reading all the technical report, I realized that the "flash attention" on the tenstorrent looks more like a asynchronous KV cache than flash-attention itself. 
 
 That's basically it there is nothing more to add after that.  Since KV cache is already known or you can research on it and asynchronous computation in the tenstorrent tensix was already explained. These were the comparisons to control:
 
