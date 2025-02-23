@@ -4,14 +4,14 @@
 	"description": "Amar Jay's Personal Blog",
 	"icons": [
 		{
-			"src": "/192x192.png",
+			"src": "/192x192.jpg",
 			"sizes": "192x192",
-			"type": "image/png"
+			"type": "image/jpeg"
 		},
 		{
 			"src": "/512x512.png",
 			"sizes": "512x512",
-			"type": "image/png"
+			"type": "image/jpeg"
 		}
 	],
 	"start_url": "/",
