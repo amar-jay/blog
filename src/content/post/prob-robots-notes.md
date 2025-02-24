@@ -3,7 +3,7 @@ title: "Notes from Probabilistic Robotics"
 description: "Probabilistic Robotics by Sebastian Thrun aimed to teach me how to model uncertainty in robot perception and control using probabilistic techniques."
 publishDate: "28 Jan 2025"
 updatedDate: "07 Feb 2025"
-tags: ["filters", slam", "robotics"]
+tags: ["robotics"]
 ---
 
 ## Notes from Probabilistic Robotics

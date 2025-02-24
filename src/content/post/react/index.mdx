@@ -7,11 +7,18 @@ draft: true
 ---
 
 import Counter from "./counter.tsx";
-import Title from "../../../components/Title.astro";
+import Title from "@/components/Title.astro";
 import Calendar from "./calendar.astro";
 import Carousel from "./carousel.tsx";
 import Dialog from "./dialog.tsx";
 import Menu from "./menu.tsx";
+
+
+import Globe from "@/components/globe.tsx";
+
+## Testing globe in react markdown
+
+<Globe client:load className="h-screen" markers={[{location: [40.924, 29.141], size: 0.08}]}/>
 
 ## Testing react
 

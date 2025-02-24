@@ -2,7 +2,7 @@
 title: "Video Codecs"
 description: "What are video codes, their evolution, and how to work with them"
 publishDate: "5 August 2024"
-tags: ["encoding", "video"]
+tags: ["encoding"]
 ---
 
 ## Introduction
