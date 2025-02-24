@@ -1,7 +1,7 @@
 ---
 title: "The History of Compact Discs (CDs)"
 description: "A tale of technological innovation, corporate collobation, and mass adoption."
-tags: ["history", "technology"]
+tags: ["history"]
 publishDate: 08 September 2024
 updatedDate: 08 September 2024
 coverImage:

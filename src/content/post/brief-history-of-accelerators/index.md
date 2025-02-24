@@ -3,7 +3,7 @@ title: "Brief history of accelerators"
 description: "How hybrid computation became as it is. CUDA, and beyond, How hybrid computation became as it is. CUDA, and beyond"
 publishDate: "22 Feb 2023"
 updatedDate: 22 Jan 2024
-tags: ["🍟", "ML-AI"]
+tags: ["SoC", "ML-AI"]
 ---
 
 ## History

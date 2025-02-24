@@ -1,7 +1,7 @@
 ---
 title: "Named Entity Recognition for Mammograph Radiology Reporting"
 description: "This was my attempt at ner for medical reporting in technofest -- had to step down before qualifying stage"
-tags: ["transformer", "medicine", "ml-ai", "neural networks"]
+tags: ["transformer", "ml-ai", "neural networks"]
 publishDate: 25 March 2024
 updatedDate: 25 March 2024
 ---
