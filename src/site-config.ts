@@ -37,6 +37,46 @@ export const siteConfig: SiteConfig =
 			},
 	};
 
+export const structuredData =
+	{
+		"@context":
+			"https://schema.org",
+		"@type":
+			"WebSite",
+		name: "amar jay",
+		url: "amarjay.vercel.app",
+		potentialAction:
+			{
+				"@type":
+					"SearchAction",
+				target:
+					"https://amarjay.vercel.app/?s={search_term_string}",
+				"query-input":
+					"required name=search_term_string",
+			},
+		hasPart:
+			[
+				{
+					"@type":
+						"SiteNavigationElement",
+					name: "Home",
+					url: "https://amarjay.vercel.app/",
+				},
+				{
+					"@type":
+						"SiteNavigationElement",
+					name: "Projects",
+					url: "https://amarjay.vercel.app/projects",
+				},
+				{
+					"@type":
+						"SiteNavigationElement",
+					name: "Blog",
+					url: "https://amarjay.vercel.app/blog",
+				},
+			],
+	};
+
 // Used to generate links in both the Header & Footer.
 export const menuLinks: {
 	title: string;
