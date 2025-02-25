@@ -6,7 +6,7 @@ import PageLayout from "@/components/layout/Base.astro";
 import { getAllPosts, sortMDByDate } from "@/utils";
 import { Image } from "astro:assets";
 import { fade } from "astro:transitions";
-
+import { Globe2, BrainCircuit, LineChart, Cpu, CircuitBoard, Library } from "lucide-react";
 const MAX_POSTS = 5;
 const allPosts = await getAllPosts();
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
@@ -29,34 +29,41 @@ const work: { desc: string; href?: string; title: string }[] = [
   },
 ];
 
-const interests: { desc?: string; href?: string; title: string }[] = [
-	{
-		desc: "using React & Nextjs",
-		href: "/",
-		title: "Web Development",
-	},
-	{
-		desc: "primarily transformer & diffusion models",
-    title: "ML"
-	},
-	 {
-    title: "Valuation & Analysis",
-    desc:"in the Semiconductor Sector"
-	},
-	{
-		desc: "RISCV, TensTorrent, OpenROAD, OpenLane",
-    title:"Open-sourceness"
 
-	},
-	 {
-		desc: "CPU & GPU Design",
-    title:"HDL & chip design"
-	},
-	 {
-		desc: "both the business acuity and technological ingenuity",
-    title:"Computer History"
+const interests: { desc?: string; href?: string; title: string; Icon: any }[] = [
+  {
+    desc: "using React & Nextjs",
+    href: "/",
+    title: "Web Dev",
+    Icon: Globe2, // Represents global connectivity & web tech
   },
-]
+  {
+    desc: "primarily transformer & diffusion models",
+    title: "ML",
+    Icon: BrainCircuit, // Represents AI & neural networks
+  },
+  {
+    title: "Valuation & Analysis",
+    desc: "in the Semiconductor Sector",
+    Icon: LineChart, // Represents financial & performance analysis
+  },
+  {
+    desc: "RISCV, TensTorrent, OpenROAD, OpenLane",
+    title: "Open-source",
+    Icon: CircuitBoard, // Represents hardware & open-source chip design
+  },
+  {
+    desc: "CPU & GPU Design",
+    title: "HDL & Chip Design",
+    Icon: Cpu, // Represents CPU/GPU architecture & HDL
+  },
+  {
+    desc: "both the business acuity and technological ingenuity",
+    title: "Computer History",
+    Icon: Library, // Represents historical knowledge & research
+  },
+];
+
 const techs: { desc: string; href: string; title: string }[] = [
 	{
 		desc: "A historical perspective of Integrated circuits, from flipflops to FPGA.",
@@ -111,7 +118,7 @@ const techs: { desc: string; href: string; title: string }[] = [
 			</div>
 		</div>
 	</section>
-	<section class="mt-16">
+	<!-- <section class="mt-16">
 		<Title>Interests</Title>
 		<dl class="space-y-4">
 			{
@@ -127,7 +134,32 @@ const techs: { desc: string; href: string; title: string }[] = [
 				))
 			}
 		</dl>
-	</section>
+	</section> -->
+
+    <section class="mt-16">
+		<Title>Interests</Title>
+      <div class="grid grid-cols-3 max-w-[32rem] pr-0 gap-3 gap-y-9  cursor-pointer mx-auto ">
+        {interests.map(({ title, desc, Icon}) => (
+          <div
+            key={title}
+            class="relative flex flex-col items-center justify-center bg-primary-foreground/10 p-6 w-24 h-24 rounded-lg shadow-lg hover:shadow-xl ring-1 dark:ring-black/50 ring-black/10 transition-transform transform-gpu hover:-translate-y-1"
+				title={desc} // This enables the native tooltip
+          >
+            {/* Badge */}
+            <span class="absolute top-2 right-2 px-1 text-[8px] font-bold bg-accent/50 dark:text-white rounded-md shadow">
+              {title}
+            </span>
+
+            {/* Icon */}
+				            <div class="flex items-center justify-center w-16 h-16">
+              <span class="text-8xl">{<Icon class="text-8xl"/>}</span>
+            </div>
+            </div>
+        ))}
+      </div>
+    </section>
+
+
 
 	<section class="mt-16">
 		<Title>Work</Title>
