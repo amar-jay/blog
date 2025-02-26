@@ -12,56 +12,55 @@ const allPosts = await getAllPosts();
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
 const work: { desc: string; href?: string; title: string }[] = [
-  {
-    title: "Currently",
-    href: "#",
-    desc: "A student majoring Electrical & Electronics Engineering",
-  },
-  {
-    title: "Remora @ Teknopark",
-    href: "https://remora.com.tr/",
-    desc: "Interned briefly at Remora during my sophomore year",
-  },
-  {
-    title: "Software developer",
-    href: "#",
-    desc: "A freelance developer building web/mobile applications",
-  },
+	{
+		title: "Currently",
+		href: "#",
+		desc: "A student majoring Electrical & Electronics Engineering",
+	},
+	{
+		title: "Remora @ Teknopark",
+		href: "https://remora.com.tr/",
+		desc: "Interned briefly at Remora during my sophomore year",
+	},
+	{
+		title: "Software developer",
+		href: "#",
+		desc: "A freelance developer building web/mobile applications",
+	},
 ];
 
-
 const interests: { desc?: string; href?: string; title: string; Icon: any }[] = [
-  {
-    desc: "using React & Nextjs",
-    href: "/",
-    title: "Web Dev",
-    Icon: Globe2, // Represents global connectivity & web tech
-  },
-  {
-    desc: "primarily transformer & diffusion models",
-    title: "ML",
-    Icon: BrainCircuit, // Represents AI & neural networks
-  },
-  {
-    title: "Valuation & Analysis",
-    desc: "in the Semiconductor Sector",
-    Icon: LineChart, // Represents financial & performance analysis
-  },
-  {
-    desc: "RISCV, TensTorrent, OpenROAD, OpenLane",
-    title: "Open-source",
-    Icon: CircuitBoard, // Represents hardware & open-source chip design
-  },
-  {
-    desc: "CPU & GPU Design",
-    title: "HDL & Chip Design",
-    Icon: Cpu, // Represents CPU/GPU architecture & HDL
-  },
-  {
-    desc: "both the business acuity and technological ingenuity",
-    title: "Computer History",
-    Icon: Library, // Represents historical knowledge & research
-  },
+	{
+		desc: "using React & Nextjs",
+		href: "/",
+		title: "Web Development",
+		Icon: Globe2, // Represents global connectivity & web tech
+	},
+	{
+		desc: "primarily transformer & diffusion models",
+		title: "ML",
+		Icon: BrainCircuit, // Represents AI & neural networks
+	},
+	{
+		title: "Valuation & Analysis",
+		desc: "in the Semiconductor Sector",
+		Icon: LineChart, // Represents financial & performance analysis
+	},
+	{
+		desc: "RISCV, TensTorrent, OpenROAD, OpenLane",
+		title: "Open-source",
+		Icon: CircuitBoard, // Represents hardware & open-source chip design
+	},
+	{
+		desc: "CPU & GPU Design",
+		title: "HDL & Chip Design",
+		Icon: Cpu, // Represents CPU/GPU architecture & HDL
+	},
+	{
+		desc: "both the business acuity and technological ingenuity",
+		title: "Computer History",
+		Icon: Library, // Represents historical knowledge & research
+	},
 ];
 
 const techs: { desc: string; href: string; title: string }[] = [
@@ -118,24 +117,22 @@ const techs: { desc: string; href: string; title: string }[] = [
 			</div>
 		</div>
 	</section>
-	<!-- <section class="mt-16">
+	<section class="mt-16">
 		<Title>Interests</Title>
 		<dl class="space-y-4">
 			{
-      interests.map((props) => (
+				interests.map((props) => (
 					<div class="flex flex-col gap-2 md:flex-row">
 						<dt>
-							<span class="flex font-bold">
-									{props.title}
-							</span>
+							<span class="flex font-bold">{props.title}</span>
 						</dt>
 						<dd>({props?.desc})</dd>
 					</div>
 				))
 			}
 		</dl>
-	</section> -->
-
+	</section>
+	<!--
     <section class="mt-16">
 		<Title>Interests</Title>
       <div class="grid grid-cols-3 max-w-[32rem] pr-0 gap-3 gap-y-9  cursor-pointer mx-auto ">
@@ -158,14 +155,13 @@ const techs: { desc: string; href: string; title: string }[] = [
         ))}
       </div>
     </section>
-
-
+--->
 
 	<section class="mt-16">
 		<Title>Work</Title>
 		<dl class="space-y-4">
 			{
-      work.map(({desc, title, href}) => (
+				work.map(({ desc, title, href }) => (
 					<div class="flex flex-col gap-2 md:flex-row">
 						<dt>
 							<span class="flex font-bold">
@@ -195,7 +191,7 @@ const techs: { desc: string; href: string; title: string }[] = [
 		</ul>
 	</section>
 
-<!--
+	<!--
 	<section class="mt-16">
 		<Title>Technologies</Title>
 		<dl class="space-y-4">
