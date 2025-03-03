@@ -123,11 +123,11 @@ q_\pi(s, a) = \sum p(s', r| s, a)G_{t}
 $$
 where $p(s', r | s, a)$ represent the environment's dynamics( also called the transition probability)
 
-### What is the difference between $p(s', r| s, a)$ and the $\pi(a|s)$
+### What is the difference between transition probability and the policy
 
-the policy is determined by the agent. The policy is basically how an agent reacts in a particular state
+the policy, $\pi(a|s)$ is determined by the agent. The policy is basically how an agent reacts in a particular state
 
-The transition probability is the determined by the environment. it is the probability distribution that determines the reward the agent should get when in a particular state. It is also called the reward model. Or the environments dynamics.
+The transition probability, $p(s', r| s, a)$ is the determined by the environment. it is the probability distribution that determines the reward the agent should get when in a particular state. It is also called the reward model. Or the environments dynamics.
 
 
 So to elaborate on the second bellman optimality equation.
@@ -239,8 +239,7 @@ $$
 However in exploration we randomly 
 
 $$
-\DeclareMathOperator*{\rand}{rand}
-\pi_* =  \arg \rand_{\pi \in S} v_\pi (s) 
+\pi_* =  \arg rand_{\pi \in S} v_\pi (s) 
 $$
 
 Usually exploration and exploitation is managed using $\epsilon$. This method is known as $\epsilon$-greedy policy of $Q$

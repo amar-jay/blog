@@ -75,42 +75,43 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
   "name": "amar jay",
   "url": "https://amarjay.vercel.app",
   "description": "Amar Jay's blog | One Love ☝️️",
+  "image": "https://amarjay.vercel.app/_astro/64834413_1cC5Qn.webp",
   "author": {
     "@type": "Person",
     "name": "Amar Jay",
-    "url": "https://amarjay.vercel.app/about"
+    "url": "/about"
   },
   "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://amarjay.vercel.app/?s={search_term_string}",
-    "query-input": "required name=search_term_string"
-  },
+      "@type": "SearchAction",
+      "target": "https://amarjay.vercel.app/?q={query}",
+      "query": "required"
+    },
   "inLanguage": "en",
   "hasPart": [
     {
       "@type": "SiteNavigationElement",
       "name": "Home",
-      "url": "https://amarjay.vercel.app/"
+      "url": "/"
     },
     {
       "@type": "SiteNavigationElement",
       "name": "Projects",
-      "url": "https://amarjay.vercel.app/projects"
+      "url": "/projects"
     },
     {
       "@type": "SiteNavigationElement",
       "name": "Blog",
-      "url": "https://amarjay.vercel.app/blog"
+      "url": "/blog"
     },
     {
       "@type": "SiteNavigationElement",
       "name": "About",
-      "url": "https://amarjay.vercel.app/about"
+      "url": "/about"
     }
   ],
   "sameAs": [
     "https://github.com/amar-jay",
-    "https://twitter.com/_amarjay",
+    "https://twitter.com/_amarjay"
   ]
 }
 </script>
