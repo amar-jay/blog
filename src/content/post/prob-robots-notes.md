@@ -493,6 +493,7 @@ $$
 
 
 ##### Why is $G_t$ known as a  Jacobian
+
 because it differs for different points in time. that is $\mu_{t-1}$ and $u_t$. 
 
 
@@ -500,6 +501,7 @@ The same method for state transition probability applies for measurement update 
 $$
 h(x_t) \approx h(\bar{\mu_t}) + \nabla h(\bar{\mu_t})(x_t - \bar{\mu_t})
 $$
+
 $$
 \text{where } \nabla h(\bar{\mu_t}) =: H_t
 $$
@@ -508,7 +510,8 @@ $$
 = h(\bar{\mu_t}) + (x_t - \bar{\mu_t}) H_t 
 $$
 $p(z_t | x_t) =$
-$$=det({2\pi Q_t})^{0.5} \exp\left(-\frac{1}{2}[z_t - h(\bar{\mu}_t) - H_t(x_t - \bar{\mu}_t)]^T Q_t^{-1} [z_t - h(\bar{\mu}_t) - H_t(x_t - \bar{\mu}_t)]\right)$$`
+
+$$=det({2\pi Q_t})^{0.5} \exp\left(-\frac{1}{2}[z_t - h(\bar{\mu}_t) - H_t(x_t - \bar{\mu}_t)]^T Q_t^{-1} [z_t - h(\bar{\mu}_t) - H_t(x_t - \bar{\mu}_t)]\right)$$
 
 
 ##### Algorithm
