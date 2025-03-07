@@ -2,7 +2,7 @@
 title: "Notes from Probabilistic Robotics"
 description: "Probabilistic Robotics by Sebastian Thrun aimed to teach me how to model uncertainty in robot perception and control using probabilistic techniques."
 publishDate: "28 Jan 2025"
-updatedDate: "07 Feb 2025"
+updatedDate: "07 March 2025"
 tags: ["robotics"]
 ---
 
@@ -610,5 +610,35 @@ The Information Filter algorithm $(\xi_{t-1}, \Omega_{t-1}, u_t, z_t)$:
 - **Higher Computational Cost in High-Dimensional State Spaces**:
     - The need for frequent matrix inversions makes EIF computationally inferior for large state spaces.
     - This is a major reason why EKFs are more widely used than EIFs.
-### NEXT STEP
+
+#### Summary Notes
+- Updating a Kalman filter based on a control is computationally simple, whereas incorporating a measurement is more difficult. The opposite is the case for the information filter, where incorporating a measurement is simple, but updating the filter based on a control is difficult.
+- For both KF and IF, to calcualate the correct posterior three assumptions are made. and if it meats these assumptions it is called a _linear gaussian system_.
+	1. The initial belief is gaussian
+	2. State Transition Probability is a PDF linear in its argument ($x_n$, $u_n$) with added independent noise
+	3. Measurement Probability is a PDF linear in its argument with added independent noise
+- Both filters can be extended to non-linear problems. This is basically computed using the tangent of the non-linear function at the mean because tangents are linear, making them applicable. This is done using its Taylor expansion and the result of this expansion results in a Jacobian matrix. 
+- The accuracy of Taylor expansion depends on two factors
+	1. Degree of non-linearlity (the smaller the better)
+	2. Width of the posterior (the smaller the covariance the better)
+- Extended Kalman filter is more popular and frequently used that Extended Information Filter
+- One of the primary advantages of Gaussian filters is computational: The update requires time polynomial in the dimensionality of the state space. This is not the case of some of the techniques described in the next chapter. The primary disadvantage is their confinement to unimodal Gaussian distributions.
+
+### Non Parametric Filters
+- [ ] Histogram Filter
+- [ ] Particle Filter
+
+Nonparametric filters do not rely on a fixed functional form of the posterior, such as Gaussians. Instead, they approximate posteriors by a finite number of values, each roughly corresponding to a region in state space. Both types of techniques, histograms and particle filters, do not make strong parametric assumptions on the posterior density. In particular, they are well-suited to represent complex multimodal beliefs. For this reason, they are often the method of choice when a robot has to cope with phases of global uncertainty, and when it faces hard data association problems that yield separate, distinct hypotheses.
+
+
+#### Histogram Filter
+Histogram filters decompose the state space into finitely many regions, and represent the cumulative posterior for each region by a single probability value. they are of two kinds; 
+1. Discrete Bayes Filter -- for discrete spaces
+2. Histogram Filters -- for continuous spaces
+
+
+The discrete Bayes filter algorithm is popular in many areas of signal processing (such as speech recognition -- _is it still used currently?_ ), where it is often referred to as the forward pass of a hidden Markov models
+
+
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 16px; background-color: #f9f9f909; margin: 16px 0;"> 😥 <strong>TODO</strong>:  I don't really understand the advantage of non-parametric filters, so I'll come back to it later. </div>
 
