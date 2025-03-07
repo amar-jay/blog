@@ -16,6 +16,7 @@ by Sebastian **THRUN**
 
 - [x] State Estimation
 - [x] Gaussian filter (Bayes Filter)
+- [x] Kalman filter
 - [ ] Non parametricc filter
 - [ ] Robot Localization
 - [ ] MonteCarlo Localixzation
@@ -316,9 +317,11 @@ So, the robot believes with $82\%$ accuracy that the door is closed. At first gl
 
 ### Gaussian Filters
 
-- [x] What is canonical representation(natural representation) and moments representation?
-- The representation of a Gaussian by its mean and covariance is called the moments representation. the mean and covariance are the first and second moments of probability distribution
-- The Kalman filter was invented in the 1950s by Rudolph Emil Kalman,
+**What is canonical representation(natural representation) and moments representation?**
+
+The representation of a Gaussian by its mean and covariance is called the moments representation. the mean and covariance are the first and second moments of probability distribution
+
+- The Kalman filter was invented in the 1950s by **Rudolph Emil Kalman**,
 - Kalman filters is not applicable to discrete or hybrid state spaces but for continuous state spaces.
 - In Kalman filters the state transition model is considered to be a multivariate guassian with the mean being $\mu_t=A_t\mu_{t-1} + B_tu_{t} + \epsilon_0$ and covariance of $R_t$.
 - The measurement probability must be linear in its arguments $z_t = C_tx_t + \sigma_t$ , where $\sigma_t$ is the measurement noise with mean 0 and covariance $Q_t$ ie $p(z_t|x_t)$ has a mean of $C_t x_t$.
@@ -352,6 +355,8 @@ $$
 \Sigma_t^{\text{pred}} = A_t \Sigma_{t-1} A_t^T + R_t
 $$
 
+These variables are the moment representation of the predictive distribution of bayes filter, $\overline{\mathrm{bef}}(x) = p(x_t | x_{t-1}, z_{t-1}, u_t)$
+
 ##### Step 2: Update (Correction)
 
 The Kalman Gain is:
@@ -371,6 +376,8 @@ The updated covariance estimate is:
 $$
 \Sigma_t = \left( I - K_t C_t \right) \Sigma_t^{\text{pred}}
 $$
+
+Similarly these $\mu_t$ and $\Sigma_t$ are the moment representation of belief, akin to that in that of bayes filters $bef(x) = p(x_k | x_{k-1}, z_{k-1}, u_k, \delta)$ of bayes filter
 
 ##### Return
 
@@ -416,10 +423,189 @@ def kalman_filter(A, B, C, R, Q, mu_prev, Sigma_prev, u, z):
     return mu_t, Sigma_t
 ```
 
----
+
+#### Summary of Kalman Filter
+- Probably the best studied technique for implementing the Bayes filter is the Kalman Filter. Gaussians have two repesentation
+  1. Canonical Representation
+  2. Moments Representation (mean and variance)
+
+- Like the vanilla bayes filter, Kalman filter are represented by stochastic probabilies and beliefs
+- Unlike the vanilla bayes filter, the next state are predicted _linearly_ from state vectors and control vector. ie $\text{next state} = A_t x_{t-1} + B_t u_t + \epsilon_t$. 
+
+- Making the state transition distribution, $p(x_t | u_t, x_{t-1})$, is a PDF function of the gaussian.
+
+$$
+=det(2\pi R_t)^{-0.5} exp\{ -\frac{1}{2} (x_t - A_tx_{t-1} - B_tu_t)^T R_t^{-1} (x_t - A_tx_{t-1} - B_tu_t)\}
+$$
+
+- Similary the measurement and state are linearly related. and its PDF is the measurement probability, $p(z_t | x_t)$.
+
+$$
+\text{measurement random variable, } Z_t = C_t x_t + \delta_t
+$$  
+
+- The kalman filter algorithm $(\mu_{t-1}, \Sigma_{t-1}, u_t, z_t)$:
+
+  1.  $\bar{\mu}_t = A_t \mu_{t-1} + B_t u_t$  - prediction step for mean
+  2.  $\bar{\Sigma}_t = A_t \Sigma_{t-1} A_t^T + R_t$ - prediction step for covar.
+  3.  $K_t = \bar{\Sigma}_t C_t^T (C_t \bar{\Sigma}_t C_t^T + Q_t)^{-1}$ - $K_t$ is the Kalman gain, mean-squared error formula
+  4.  $\mu_t = \bar{\mu}_t + K_t (z_t - C_t \bar{\mu}_t)$ - update step for mean
+  5.  $\Sigma_t = (I - K_t C_t) \bar{\Sigma}_t$  - update step for covar.
+  6.  **return** $\mu_t, \Sigma_t$
 
 - Complexity = approximately $O(d2.8)$
 
+- Also a thing to always remember is in KF. the state tranistion probability, measurement update and the belief are assumed to be a perfect normal distribution ie $\sim \mathcal{N}(\mu, \sigma^2)$ -- (at the very least considered so when used in the moments representation)  
+
+#### Extended Kalman Filters
+
+In practice, the assumptions of linear stae transitions and linear measurements with added gaussian nose are rearely fulfilled. Fore example, a robot that moves with constant translational and rotational velocity typically moves on a circular trajectory which cannot be described by linear next state transitions. 
+
+Also, unlike in vanilla KF. our $x_t$ and $z_t$ are governed by non linear functions `g` and `h`.
+
+$X_t = g(u_t, x_{t-1}) + \epsilon_t$ 
+$Z_t = h(x_t) + \delta_t$
+
+Unfortunately with non-linear `g` and `h`, the belief is no longer a true gaussuan but an appoximation. Thus, the EKF inherits from the Kalman filter the basic representation, but it differs in that this belief is only approximate, not exact as was the case in Kalman filters. 
+
+The key idea underlying the EKF is **linearization**. Linearizatino approximated `g` by a linear function that is tangent to `g` at the mean of the Gaussian. There exist many techniques for linearizing non-linear functions. EKFs utilize (First order) _Taylor expansion_.
+
+Extrapolation is achieved by a term proportional to the gradient of $g$ at $\mu_{t-1}$ and $u_t$:
+
+$$
+g(u_t, x_{t-1}) \approx g(u_t, \mu_{t-1}) + \nabla g(u_t, \mu_{t-1}) (x_{t-1} - \mu_{t-1})
+$$
+
+$$
+\text{where } \nabla g(u_t, \mu_{t-1}) =: G_t
+$$
+
+$$
+= g(u_t, \mu_{t-1}) + (x_{t-1} - \mu_{t-1}) G_t
+$$
+
+
+Note that $G_t$ is a $n \times n$ matrix written as gaussian, the matrix is a **Jacobian**. the next stae probabilty $p(x_t | u_t, x_{t-1})$ is approximated as follows:
+
+$$
+ \approx \det(2\pi R_t)^{-1/2} \exp \left( -\frac{1}{2} \left[ x_t - g(u_t, \mu_{t-1}) - G_t (x_{t-1} - \mu_{t-1}) \right]^T R_t^{-1} \left[ x_t - g(u_t, \mu_{t-1}) - G_t (x_{t-1} - \mu_{t-1}) \right] \right)
+$$
+
+
+##### Why is $G_t$ known as a  Jacobian
+because it differs for different points in time. that is $\mu_{t-1}$ and $u_t$. 
+
+
+The same method for state transition probability applies for measurement update and $h$.
+$$
+h(x_t) \approx h(\bar{\mu_t}) + \nabla h(\bar{\mu_t})(x_t - \bar{\mu_t})
+$$
+$$
+\text{where } \nabla h(\bar{\mu_t}) =: H_t
+$$
+
+$$
+= h(\bar{\mu_t}) + (x_t - \bar{\mu_t}) H_t 
+$$
+$p(z_t | x_t) =$
+$$=det({2\pi Q_t})^{0.5} \exp\left(-\frac{1}{2}[z_t - h(\bar{\mu}_t) - H_t(x_t - \bar{\mu}_t)]^T Q_t^{-1} [z_t - h(\bar{\mu}_t) - H_t(x_t - \bar{\mu}_t)]\right)$$`
+
+
+##### Algorithm
+The Extended Kalman Filter algorithm $(\mu_{t-1}, \Sigma_{t-1}, u_t, z_t)$:
+
+1.  $\bar{\mu}_t = g(u_t, \mu_{t-1})$  - prediction step for mean(state pred.)
+2.  $\bar{\Sigma}_t = G_t \Sigma_{t-1} G_t^T + R_t$  - prediction step for covariance
+3.  $K_t = \bar{\Sigma}_t H_t^T (H_t \bar{\Sigma}_t H_t^T + Q_t)^{-1}$  - $K_t$ is the Kalman gain
+4.  $\mu_t = \bar{\mu}_t + K_t (z_t - h(\bar{\mu}_t))$  - update step for mean, (using meas. pred.)
+5.  $\Sigma_t = (I - K_t H_t) \bar{\Sigma}_t$  - update step for covariance
+6.  **return** $\mu_t, \Sigma_t$
+
+
+### Information Filter
+The dual of Kalman filter is the information filter. Similar to KF and EKF, the belief is a *guassian-ish*.
+
+
+#### Difference between K.F and I.F
+Whereas in the Kalman filter family of algorithms, Gaussians are represented by *their moments (mean, covariance)*, **information filters represent Gaussians in their canonical representation**, which is comprised of an **information matrix** and **an information vector**. 
+
+
+The information matrix, $\Gamma$ is the inverse of the covariance. and the information vector, is the product of the covariance inverse and the mean. So, it is easy to see that $Ω$ and $ξ$ are a complete parameterization of a Gaussian.
+$$
+\ = \Sigma^{-1}
+$$
+$$
+\ = \Sigma^{-1} \mu
+$$
+
+
+#### Why the canonical representation?
+In many ways, the canonical representation is more elegant than the moments representation. In particular, the negative logarithm of the Gaussian (which plays an essential role in information theory) is a quadratic function in the canonical parameters $\Omega$ and $\xi$:
+
+$$-\log p(x) = \text{const.} + \frac{1}{2} x^T \Omega x - x^T \xi$$
+
+Here $const.$ is a constant. The reader may notice that we cannot use the symbol $\eta$ to denote this constant, since negative logarithms of probabilities do not normalize to $1$. 
+
+The negative logarithm of our distribution $p(x)$ is quadratic in $x$, with the quadratic term parameterized by $\Omega$ and the linear term by $\xi$. In fact, for Gaussians, $\Omega$ must be positive semidefinite, hence $-\log p(x)$ is a quadratic distance function with mean $\mu = \Omega^{-1}\xi$. 
+
+This is easily verified by setting the first derivative of (3.73) to zero:
+
+$$\frac{\partial[-\log p(x)]}{\partial x} = 0 \iff \Omega x - \xi = 0 \iff x = \Omega^{-1}\xi$$
+
+The matrix $\Omega$ determines the rate at which the l function increases in the different dimensions of the variable $x$. A quadratic distance that is weighted by a matrix $\Omega$ is called ***Mahalanobis distance.***
+
+
+##### Information Filter Algorithm
+The Information Filter algorithm $(\xi_{t-1}, \Omega_{t-1}, u_t, z_t)$:
+
+1.  $\bar{\Omega}_t = (A_t \Omega_{t-1}^{-1} A_t^T + R_t)^{-1}$  - predicted information matrix  
+2.  $\bar{\xi}_t = \bar{\Omega}_t \left(A_t \Omega_{t-1}^{-1} \xi_{t-1} + B_t u_t\right)$  - predicted information state  
+3.  $\Omega_t = C_t^T Q_t^{-1} C_t + \bar{\Omega}_t$  - update step for information matrix  
+4.  $\xi_t = C_t^T Q_t^{-1} z_t + \bar{\xi}_t$  - update step for information state  
+5.  **return** $\xi_t, \Omega_t$  
+
+
+Just like in K.F. 
+$$
+\bar{\mu}_t = A_t x_{t-1} + B_t u_t + \epsilon_t
+$$
+$$
+\bar{\Sigma}_t = C_t x_t + \delta_t
+$$
+
+
+#### Extended Information Filter
+Just like EKF is to KF, EIF is to IF. It has g and h functions to represent non-linearities in state transition space and measurement posterior. but in this case they are matrices
+
+##### Algorithm  
+The Information Filter algorithm $(\xi_{t-1}, \Omega_{t-1}, u_t, z_t)$:
+1. $\mu_{t-1} = \Omega^{-1}_{t-1}\xi_{t-1}$
+2.  $\bar{\Omega}_t = (G_t \Omega_{t-1}^{-1} G_t^T + R_t)^{-1}$  - predicted information matrix  
+3.  $\bar{\xi}_t = \bar{\Omega}_t\ g(u_t, \mu_{t-1})$  - predicted information state  
+4.  $\bar{\mu}_t = g(u_t, \mu_{t-1})$
+5.  $\Omega_t = H_t^T Q_t^{-1} H_t + \bar{\Omega}_t$  - update step for information matrix  
+6.  $\xi_t = H_t^T Q_t^{-1}\ [z_t-h(\bar{\mu}_t) + H_t \bar{\mu_t}]\ +\ \bar{\xi}_t$  - update step for information state  
+7.  **return** $\xi_t, \Omega_t$  
+
+
+#### Advantages of IF Over KF
+
+- **Handling Global Uncertainty**: Setting Ω=0\Omega = 0Ω=0 in the information filter represents complete uncertainty, whereas in the Kalman filter, this corresponds to an infinite covariance, which is problematic in robotics.
+- **Better for Sparse Measurements**: Sensor measurements often provide information about only a subset of state variables. The information filter naturally handles this, while EKFs require special provisions.
+- **Numerical Stability**: Information filters tend to be more numerically stable than Kalman filters in many applications.
+- **Efficient Multi-Robot Data Fusion**:
+    - Multi-robot problems require decentralized sensor fusion, which is naturally supported by information filters.
+    - Bayesian integration of sensor data becomes simple **addition** in logarithmic form, which is commutative and allows integration in any order, with arbitrary delays.
+    - The Kalman filter can also do this, but with higher computational overhead.
+
+
+#### Disadvantages of the EIF
+
+- **Matrix Inversions in Nonlinear Systems**:
+    - The EIF requires matrix inversions in both the prediction and update steps.
+    - EKFs often avoid inverting matrices of comparable size, making them more computationally efficient.
+- **Higher Computational Cost in High-Dimensional State Spaces**:
+    - The need for frequent matrix inversions makes EIF computationally inferior for large state spaces.
+    - This is a major reason why EKFs are more widely used than EIFs.
 ### NEXT STEP
 
-- [ ] Proof of K.F.
