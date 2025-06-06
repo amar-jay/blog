@@ -31,9 +31,9 @@ export const siteConfig: SiteConfig =
 		},
 		webmentions:
 			{
-				link: "https://webmention.io/amarjay.vercel.app/webmention",
+				link: "https://webmention.io/amarjay.com/webmention",
 				pingback:
-					"https://webmention.io/amarjay.vercel.app/xmlrpc",
+					"https://webmention.io/amarjay.com/xmlrpc",
 			},
 	};
 
@@ -44,13 +44,13 @@ export const structuredData =
 		"@type":
 			"WebSite",
 		name: "amar jay",
-		url: "amarjay.vercel.app",
+		url: "amarjay.com",
 		potentialAction:
 			{
 				"@type":
 					"SearchAction",
 				target:
-					"https://amarjay.vercel.app/?s={search_term_string}",
+					"https://amarjay.com/?s={search_term_string}",
 				"query-input":
 					"required name=search_term_string",
 			},
@@ -60,19 +60,19 @@ export const structuredData =
 					"@type":
 						"SiteNavigationElement",
 					name: "Home",
-					url: "https://amarjay.vercel.app/",
+					url: "https://amarjay.com/",
 				},
 				{
 					"@type":
 						"SiteNavigationElement",
 					name: "Projects",
-					url: "https://amarjay.vercel.app/projects",
+					url: "https://amarjay.com/projects",
 				},
 				{
 					"@type":
 						"SiteNavigationElement",
 					name: "Blog",
-					url: "https://amarjay.vercel.app/blog",
+					url: "https://amarjay.com/blog",
 				},
 			],
 	};
