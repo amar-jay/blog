@@ -28,7 +28,7 @@ In other words, Flash Attention uses tiling to prevent materialization of the la
 
 To achieve this, it employs a cumulative approach to computing softmax. Rather than computing softmax in a single step, it computes it incrementally and normalizes the accumulated values to approximate the final softmax result. While this method is reasonably accurate, it can deviate under low-precision training, making it less advisable. Since the publication of Flash Attention, it has been well known for its instability and poorer performance in training scenarios compared to conventional methods.
 
-Flash Attention has been one of the most significant optimization techniques in Machine Learning, particularly for Transformer models, over the past few years. Its performance on NVIDIA GPUs is undeniable, achieving up to **$7–8×$ speed improvements** over baseline GPT-2 performance.
+Flash Attention has been one of the most significant optimization techniques in Machine Learning, particularly for Transformer models, over the past few years. Its performance on NVIDIA GPUs is undeniable, achieving up to **$7-8×$ speed improvements** over baseline GPT-2 performance.
 
 Recently, I read a paper in the [Tenstorrent GitHub repository (tenstorrent/tt-metal)](https://github.com/tenstorrent/tt-metal/blob/main/tech_reports/FlashAttention/FlashAttention.md) on the use of Flash Attention on Tenstorrent hardware. This article serves as my notes as I read through it.
 

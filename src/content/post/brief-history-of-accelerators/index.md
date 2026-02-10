@@ -51,7 +51,7 @@ Facilitate the ease of parallel programming.
 - [ ] Scalability across hardware
 
 - [ ] [[History of GPU computing]]
-- [ ] Cuda C/  heterogeneous CPU–GPU joint computing/SPMD
+- [ ] Cuda C/  heterogeneous CPU-GPU joint computing/SPMD
 - [ ] Floating points, precision, numerical stability
 - [ ] Parallel computation patterns
   - [ ] Convolution
