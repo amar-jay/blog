@@ -7,7 +7,6 @@ import PostPreview from "@/components/blog/PostPreview.astro";
 import BaseLayout from "@/components/layout/Base.astro";
 import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils";
 
-
 export const getStaticPaths = (async ({ paginate }) => {
 	const allPosts = await getAllPosts();
 	const allPostsByDate = sortMDByDate(allPosts);
@@ -80,12 +79,13 @@ const paginationProps = {
 						</svg>
 						Tags
 					</h2>
-					<ul class="flex flex-wrap gap-2 text-background">
+					<ul class="flex flex-wrap gap-1 text-background">
 						{uniqueTags.map((tag) => (
 							<li>
 								<a
 									aria-label={`View all posts with the tag: ${tag}`}
-									class="flex items-center justify-center rounded-lg bg-accent p-1"
+									class="flex items-center justify-center
+            rounded-md bg-textColor/40 p-1 text-background"
 									href={`/tags/${tag}/`}
 								>
 									{tag}
@@ -102,4 +102,4 @@ const paginationProps = {
 			)
 		}
 	</div>
-</PageLayout>
+</BaseLayout>

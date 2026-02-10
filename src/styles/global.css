@@ -135,8 +135,8 @@
 		--ring: 212.7 26.8% 83.9%;
 	}
 
-  :root,
-  :root[data-theme="light"] {
+	:root,
+	:root[data-theme="light"] {
 		color-scheme: light;
 		--theme-bg: 0 0% 98%;
 		--theme-link: 33 49% 41%;
@@ -146,7 +146,7 @@
 		--theme-quote: 351 66% 48%;
 	}
 
-/*
+	/*
   :root[data-theme="dark"] {
 		color-scheme: dark;
 		--theme-bg: 210 6% 12%;
@@ -157,8 +157,7 @@
     --theme-quote: 118 24% 55%;
 	}      */
 
-
-  :root[data-theme="dark"] {
+	:root[data-theme="dark"] {
 		color-scheme: dark;
 		--theme-link: 33 49% 59%;
 		--theme-text: 203 11% 90%;
