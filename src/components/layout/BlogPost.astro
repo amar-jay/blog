@@ -23,26 +23,26 @@ const { headings } = await post.render();
 ---
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
-	<div class="gap-x-10 lg:flex lg:items-start">
-		{!!headings.length && <TOC headings={headings} />}
-		<article class="flex-grow break-words" data-pagefind-body
-        transition:animate={fade({ duration: "0.2s" })}
+	<div class="gap-x-1  lg:flex lg:items-start">
+		<article class="flex-growbreak-words" data-pagefind-body
     >
 			<div id="blog-hero"><BlogHero content={post} /></div>
 			<div
-				class="prose-blog prose prose-sm mt-12 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
+				class="prose prose-sm prose-blog max-w-[80ch] pr-20  mt-12 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute  prose-headings:before:text-accent prose-th:before:content-none prose-h2:before:content-['#'] prose-h3:before:content-['##']  prose-h4:before:content-['###']  prose-h2:before:-ms-5  prose-h3:before:-ms-7 prose-h4:before:-ms-8 prose-h1:before:-ms-0"
 			>
 				<slot />
 				<WebMentions />
 			</div>
 		</article>
+		{!!headings.length && <TOC headings={headings} />}
 	</div>
 	<button
 		aria-label="Back to Top"
 		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-zinc-400 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 dark:bg-zinc-700 sm:end-8 sm:h-12 sm:w-12"
 		data-show="false"
 		id="to-top-btn"
-		><svg
+		>
+		<svg
 			aria-hidden="true"
 			class="h-6 w-6"
 			fill="none"

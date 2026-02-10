@@ -80,12 +80,12 @@ const paginationProps = {
 						</svg>
 						Tags
 					</h2>
-					<ul class="flex flex-wrap gap-2 text-background">
+					<ul class="flex flex-wrap gap-2">
 						{uniqueTags.map((tag) => (
 							<li>
 								<a
 									aria-label={`View all posts with the tag: ${tag}`}
-									class="flex items-center justify-center rounded-lg bg-accent p-1"
+									class="flex items-center justify-center rounded-t-md blog-link bg-accent/15 p-1"
 									href={`/tags/${tag}/`}
 								>
 									{tag}

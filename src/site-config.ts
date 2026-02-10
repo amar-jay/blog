@@ -11,7 +11,7 @@ export const siteConfig: SiteConfig =
 			"amar-jay",
 		// Meta property used as the default description meta property
 		description:
-			"One Love ☝️️",
+			"孤独",
 		// HTML lang property, found in src/layouts/Base.astro L:18
 		lang: "en-GB",
 		// Meta property, found in src/components/BaseHead.astro L:42

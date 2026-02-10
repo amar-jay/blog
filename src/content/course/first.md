@@ -72,7 +72,7 @@ of the function, implying you should find `A`. The table
 | 9   | (0.9, 0.1)         | (0.56, 0.32, 0.12)       |
 | 10  | (0.4, 0.6)         | (0.36, 0.42, 0.22)       |
 
-<!-- ![line of best fit](./fig.gif) -->
+![line of best fit](./fig.gif)
 
 Using this data, we are trying to model this environment by creating the line of best fit, such that given a random input, we can get the closest value of the Output we can possibly get as illustated in the figure.
 To do so, there are various means of doing so, but the conventional is to find the total mean and variances across the entire dataset. and using that we can compute a the line of best fit
