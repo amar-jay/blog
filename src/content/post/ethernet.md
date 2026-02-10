@@ -1,10 +1,9 @@
 ---
 title: "From CAN to TSN"
 description: "A Practical Tour of Automotive Networking from CAN to Ethernet"
-This isn’t a crisis of belief—it’s the mourning of it."
 tags: ["electronics"]
-publishDate: 9 Feb 2025
-updatedDate: 9 Feb 2025
+publishDate: 9 Feb 2026
+updatedDate: 9 Feb 2026
 ---
 
 ## How cars quietly became distributed computers
@@ -148,3 +147,11 @@ Yet here they are — converging, merging, and reshaping one of the world’s la
 The most interesting revolutions often look like simple wiring changes.
 
 They are anything but.
+
+## References & Further Reading
+
+A short, practical reading list for diving deeper into the ideas behind CAN, Ethernet, TSN, and modern automotive architectures:
+
+1. Introduction to TSN (Avnu Alliance): https://avnu.org/what-is-tsn/
+
+2. Automotive Ethernet Overview (Broadcom): https://www.broadcom.com/products/ethernet-connectivity/automotive-ethernet

@@ -533,7 +533,7 @@ The dual of Kalman filter is the information filter. Similar to KF and EKF, the 
 Whereas in the Kalman filter family of algorithms, Gaussians are represented by *their moments (mean, covariance)*, **information filters represent Gaussians in their canonical representation**, which is comprised of an **information matrix** and **an information vector**. 
 
 
-The information matrix, $\Gamma$ is the inverse of the covariance. and the information vector, is the product of the covariance inverse and the mean. So, it is easy to see that $Ω$ and $ξ$ are a complete parameterization of a Gaussian.
+The information matrix, $\Gamma$ is the inverse of the covariance. and the information vector, is the product of the covariance inverse and the mean. So, it is easy to see that $\Omega$ and $\xi$ are a complete parameterization of a Gaussian.
 $$
 \ = \Sigma^{-1}
 $$
@@ -593,7 +593,7 @@ The Information Filter algorithm $(\xi_{t-1}, \Omega_{t-1}, u_t, z_t)$:
 
 #### Advantages of IF Over KF
 
-- **Handling Global Uncertainty**: Setting Ω=0\Omega = 0Ω=0 in the information filter represents complete uncertainty, whereas in the Kalman filter, this corresponds to an infinite covariance, which is problematic in robotics.
+- **Handling Global Uncertainty**: Setting $\Omega = 0$ in the information filter represents complete uncertainty, whereas in the Kalman filter, this corresponds to an infinite covariance, which is problematic in robotics.
 - **Better for Sparse Measurements**: Sensor measurements often provide information about only a subset of state variables. The information filter naturally handles this, while EKFs require special provisions.
 - **Numerical Stability**: Information filters tend to be more numerically stable than Kalman filters in many applications.
 - **Efficient Multi-Robot Data Fusion**:

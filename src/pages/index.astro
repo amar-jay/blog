@@ -1,15 +1,14 @@
 ---
 import SocialList from "@/components/SocialList.astro";
 import Title from "@/components/Title.astro";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import PageLayout from "@/components/layout/Base.astro";
-import { getAllPosts, sortMDByDate } from "@/utils";
+import BaseLayout from "@/components/layout/Base.astro";
+//import { getAllPosts, sortMDByDate } from "@/utils";
 import { Image } from "astro:assets";
 import { fade } from "astro:transitions";
 import { Globe2, BrainCircuit, LineChart, Cpu, CircuitBoard, Library } from "lucide-react";
-const MAX_POSTS = 5;
-const allPosts = await getAllPosts();
-const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
+//const MAX_POSTS = 5;
+//const allPosts = await getAllPosts();
+//const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
 const work: { desc: string; href?: string; title: string }[] = [
 	{
@@ -68,41 +67,9 @@ const interests: { desc?: string; href?: string; title: string; Icon: any }[] = 
 	},
 ];
 
-const techs: { desc: string; href: string; title: string }[] = [
-	{
-		desc: "A historical perspective of Integrated circuits, from flipflops to FPGA.",
-		href: "/tags/i.c.",
-		title: "I.C.'s",
-	},
-	{
-		desc: "Generative Models, Variation of the architecture, trends and papers,...",
-		href: "/tags/transformer",
-		title: "Transformer",
-	},
-	{
-		desc: "Dynamics of how react works internally, libraries and stuff",
-		href: "/tags/react",
-		title: "React",
-	},
-	{
-		desc: "Accounting and Basic Financial analysis, perhaps on Time series pre-trained models",
-		href: "/tags/finance",
-		title: "Finance",
-	},
-	// {
-	// 	desc: "Some stuff on english, turkish, french, arabic...",
-	// 	href: "/tags/language",
-	// 	title: "Languages",
-	// },
-	// {
-	// 	desc: "....",
-	// 	href: "#",
-	// 	title: "Faith",
-	// },
-];
 ---
 
-<PageLayout meta={{ title: "Home" }} transition:animate={fade({ duration: "0.4s" })}>
+<BaseLayout meta={{ title: "Home" }} transition:animate={fade({ duration: "0.4s" })}>
 	<section>
 		<div class="mb-6 inline-flex items-end gap-x-2">
 			<div class="mb-auto">
@@ -200,30 +167,6 @@ const techs: { desc: string; href: string; title: string }[] = [
   </p> -->
 		</dl>
 	</section>
-	<!--
-    <section class="mt-16">
-		<Title>Interests</Title>
-      <div class="grid grid-cols-3 max-w-[32rem] pr-0 gap-3 gap-y-9  cursor-pointer mx-auto ">
-        {interests.map(({ title, desc, Icon}) => (
-          <div
-            key={title}
-            class="relative flex flex-col items-center justify-center bg-primary-foreground/10 p-6 w-24 h-24 rounded-lg shadow-lg hover:shadow-xl ring-1 dark:ring-black/50 ring-black/10 transition-transform transform-gpu hover:-translate-y-1"
-				title={desc} // This enables the native tooltip
-          >
-            {/* Badge */}
-            <span class="absolute top-2 right-2 px-1 text-[8px] font-bold bg-accent/50 dark:text-white rounded-md shadow">
-              {title}
-            </span>
-
-            {/* Icon */}
-				            <div class="flex items-center justify-center w-16 h-16">
-              <span class="text-8xl">{<Icon class="text-8xl"/>}</span>
-            </div>
-            </div>
-        ))}
-      </div>
-    </section>
---->
 
 	<section class="mt-8">
 		<Title>Work</Title>
@@ -245,42 +188,27 @@ const techs: { desc: string; href: string; title: string }[] = [
 			}
 		</dl>
 	</section>
-	<!-- <span>None so far. I will start writing soon.....</span> -->
-	<!---
-	<section aria-label="Blog post list" class="mt-16">
-		<Title>Posts</Title>
-		<ul class="space-y-4">
-			{
-				allPostsByDate.map((p) => (
-					<li class="flex flex-col gap-x-2 sm:flex-row">
-						<PostPreview post={p} />
-					</li>
-				))
-			}
-		</ul>
-	</section>
-  -->
 
-	<!--
 	<section class="mt-16">
-		<Title>Technologies</Title>
-		<dl class="space-y-4">
-			{
-				techs.map(({ desc, href, title }) => (
-					<div class="flex flex-col gap-2 md:flex-row">
-						<dt>
-							<span class="flex">
-								<a class="blog-link" href={href}>
-									{title}
-								</a>
-								:
-							</span>
-						</dt>
-						<dd>{desc}</dd>
-					</div>
-				))
-			}
-		</dl>
-	</section>
-  -->
-</PageLayout>
+		<Title>Interests</Title>
+      <div class="grid grid-cols-3 max-w-[32rem] pr-0 gap-9  cursor-pointer mx-auto ">
+        {interests.map(({ title, desc, Icon}, i) => (
+          <div
+            key={i}
+            class="relative flex flex-col items-center justify-center bg-primary-foreground/5 p-6 w-full h-full rounded-lg ring-1 ring-black/10 dark:ring-white/10 transition-all"
+				title={desc} // This enables the native tooltip
+          >
+            {/* Badge */}
+            <span class="absolute top-2 right-2 px-1 py-1 text-xs font-bold bg-accent/10 dark:text-white rounded-md shadow">
+              {title}
+            </span>
+
+            {/* Icon */}
+				            <div class="flex items-center justify-center w-16 h-16">
+              <span class="text-8xl">{<Icon class="text-8xl"/>}</span>
+            </div>
+            </div>
+        ))}
+      </div>
+    </section> 
+</BaseLayout>
