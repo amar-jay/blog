@@ -4,7 +4,8 @@ import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
 import { Resvg } from "@resvg/resvg-js";
 import { siteConfig } from "@/site-config.ts";
-import { getAllPosts, getFormattedDate } from "@/utils";
+import { getFormattedDate } from "@/utils";
+import { entryIdToSlug, getAllPosts } from "@/utils/post";
 
 import RobotoMono from "@/assets/roboto-mono-regular.ttf";
 import RobotoMonoBold from "@/assets/roboto-mono-700.ttf";
@@ -33,7 +34,7 @@ const markup = (title: string, description: string, pubDate: string) =>
 		<div tw="flex flex-col flex-1 w-full p-10 justify-center flex-wrap">
 			<p tw="text-2xl mb-6">${pubDate}</p>
 			<h1 tw="text-6xl font-bold leading-snug text-white">${title}</h1>
-			<p tw="text-2xl leading-snug text-wrap wrap">${description}</p>
+			<p tw="text-2xl leading-snug text-wrap">${description}</p>
 		</div>
 		<div tw="flex items-center justify-between w-full p-5 border-t border-[#2bbc89] text-xl">
 			<div tw="flex items-center">
@@ -54,7 +55,7 @@ export async function GET(context: APIContext) {
 	});
 	const svg = await satori(markup(title, description, postDate) as unknown as ReactNode, ogOptions);
 	const png = new Resvg(svg).render().asPng();
-	return new Response(png, {
+	return new Response(new Uint8Array(png), {
 		headers: {
 			"Content-Type": "image/png",
 			"Cache-Control": "public, max-age=31536000, immutable",
@@ -67,7 +68,7 @@ export async function getStaticPaths() {
 	return posts
 		.filter(({ data }) => !data.ogImage)
 		.map((post) => ({
-			params: { slug: post.slug },
+			params: { slug: entryIdToSlug(post.id) },
 			props: {
 				title: post.data.title,
 				description: post.data.description,

@@ -107,7 +107,9 @@ export default {
 				DEFAULT: {
 					css: {
 						a: {
-							"@apply text-link underline cursor-pointer": "",
+							color: theme("colors.link / 1"),
+							textDecoration: "underline",
+							cursor: "pointer",
 						},
 						blockquote: {
 							borderLeftWidth: "0",
@@ -120,10 +122,11 @@ export default {
 							borderTopStyle: "dashed",
 						},
 						strong: {
-							"@apply font-bold text-link": "",
+							fontWeight: "700",
+							color: theme("colors.link / 1"),
 						},
 						sup: {
-							"@apply ms-0.5": "",
+							marginInlineStart: "0.125rem",
 							a: {
 								"&:after": {
 									content: "']'",
@@ -132,9 +135,11 @@ export default {
 									content: "'['",
 								},
 								"&:hover": {
-									"@apply text-link no-underline bg-none": "",
+									color: theme("colors.link / 1"),
+									textDecoration: "none",
+									backgroundImage: "none",
 								},
-								"@apply bg-none": "",
+								backgroundImage: "none",
 							},
 						},
 						"tbody tr": {

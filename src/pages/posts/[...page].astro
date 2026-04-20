@@ -5,8 +5,7 @@ import type { CollectionEntry } from "astro:content";
 import Pagination from "@/components/Paginator.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import BaseLayout from "@/components/layout/Base.astro";
-import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils";
-
+import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils/post";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allPosts = await getAllPosts();

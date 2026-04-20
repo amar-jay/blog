@@ -1,9 +1,9 @@
 ---
 import ProjectCard from "@/components/ProjectCard.astro";
 import PageLayout from "@/components/layout/Base.astro";
-import { getAllProjectsClient,getAllProjectsServer } from "@/utils";
+import { getAllProjectsClient } from "@/utils/post";
 
-const projects = await getAllProjectsClient()
+const projects = await getAllProjectsClient();
 
 /*
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";

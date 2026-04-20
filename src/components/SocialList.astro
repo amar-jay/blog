@@ -12,12 +12,19 @@ const socialLinks: {
 	name: string;
 }[] = [
 
-    {
-      friendlyName: "rss",
-      isWebmention: true,
-      link: import.meta.env.SITE + "rss.xml",
-      name: "mdi:rss",
-    },
+		{
+			friendlyName: "rss",
+			isWebmention: true,
+			link: new URL("rss.xml", (() => {
+				const site = import.meta.env.SITE;
+				try {
+					return new URL(site).href;
+				} catch {
+					return new URL(`https://${site}`).href;
+				}
+			})()).href,
+			name: "mdi:rss",
+		},
 	{
 		friendlyName: "github",
 		link: "https://www.github.com/amar-jay/",

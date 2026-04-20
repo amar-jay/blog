@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { Card, CardContent } from "@/components/shadcn/ui/card";
 import {
 	Carousel,

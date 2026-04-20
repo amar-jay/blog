@@ -1,5 +1,9 @@
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
+
+export function entryIdToSlug(id: string) {
+	return id.replace(/\/index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
+}
 
 export function sortMDByDate(posts: Array<CollectionEntry<"post">>) {
 	return posts.sort((a, b) => {
@@ -27,9 +31,9 @@ export async function getAllProjectsClient() {
 		const projectColl = await getCollection("project");
 
 		for (let data of projectColl) {
-			const { Content } = await data?.render();
+			const { Content } = await render(data);
 			const project = {
-				slug: data?.slug,
+				slug: entryIdToSlug(data.id),
         data: data?.data,
 				Content: Content,
 			};

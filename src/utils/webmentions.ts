@@ -1,13 +1,23 @@
 import * as fs from "node:fs";
 import type { WebmentionsFeed, WebmentionsCache, WebmentionsChildren } from "@/types";
 
-const DOMAIN = import.meta.env.SITE;
+function normalizeSiteUrl(rawSite: string | undefined) {
+	if (!rawSite) return undefined;
+
+	try {
+		return new URL(rawSite).href;
+	} catch {
+		return new URL(`https://${rawSite}`).href;
+	}
+}
+
+const DOMAIN = normalizeSiteUrl(import.meta.env.SITE);
 const API_TOKEN = import.meta.env.WEBMENTION_API_KEY;
 const CACHE_DIR = ".data";
 const filePath = `${CACHE_DIR}/webmentions.json`;
 const validWebmentionTypes = ["like-of", "mention-of", "in-reply-to"];
 
-const hostName = new URL(DOMAIN).hostname;
+const hostName = DOMAIN ? new URL(DOMAIN).hostname : undefined;
 
 // Calls webmention.io api.
 async function fetchWebmentions(timeFrom: string | null, perPage = 1000) {
@@ -18,6 +28,11 @@ async function fetchWebmentions(timeFrom: string | null, perPage = 1000) {
 
 	if (!API_TOKEN) {
 		console.warn("No webmention api token specified in .env");
+		return null;
+	}
+
+	if (!hostName) {
+		console.warn("Unable to resolve hostname from SITE");
 		return null;
 	}
 

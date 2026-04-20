@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import createGlobe from "cobe";
 import { useSpring } from "react-spring";
-import {rootInDarkMode} from "../utils";
+import { rootInDarkMode } from "../utils";
 
 interface Marker {
 	location: [number, number];
@@ -10,27 +10,16 @@ interface Marker {
 
 interface GlobeProps {
 	className?: string;
-	phi: number;
+	phi?: number;
 	markers: Marker[];
 }
 
 
 
-function Globe({ className, phi, markers }: GlobeProps) {
+function Globe({ className, phi = 0, markers }: GlobeProps) {
 	const globeRef = useRef<HTMLCanvasElement>(null);
-	const pointerInteracting = useRef<any>(null);
+	const pointerInteracting = useRef<number | null>(null);
 	const pointerInteractionMovement = useRef(0);
-  /*
- const [theme,setTheme] = useState(0)
-
-function getUserPref() {
-		  const storedTheme = typeof localStorage !== "undefined" && localStorage.getItem("theme");
-	   const theme = storedTheme || (lightModePref.matches ? "light" : "dark");
-    return theme === “dark” ? 1: 0;
-	}
-  document.addEventListener("astro:after-swap", () => setTheme(getUserPref()));
-   document.removeEventListener("astro:after-swap", () => setTheme(getUserPref()));
-  */
 	const [{ r }, api] = useSpring(() => ({
 		r: 0,
 		config: {
@@ -43,7 +32,7 @@ function getUserPref() {
 
 
 	useEffect(() => {
-		let phi = 0;
+		let currentPhi = phi;
 		let width = 0;
 		const onResize = () => globeRef.current && (width = globeRef.current.offsetWidth);
 		window.addEventListener("resize", onResize);
@@ -55,9 +44,9 @@ function getUserPref() {
 			devicePixelRatio: 2,
 			width: width * 2,
 			height: width * 2,
-			phi: 0,
+			phi: currentPhi,
 			theta: 0.3,
-			dark: rootInDarkMode() ? 1: 0,
+			dark: rootInDarkMode() ? 1 : 0,
 			diffuse: 3,
 			mapSamples: 16000,
 			mapBrightness: 1.2,
@@ -65,24 +54,33 @@ function getUserPref() {
 			markerColor: [251 / 255, 100 / 255, 21 / 255],
 			glowColor: [1.2, 1.2, 1.2],
 			markers: markers,
-			onRender: (state) => {
-				// This prevents rotation while dragging
-				if (!pointerInteracting.current) {
-					// Called on every animation frame.
-					// `state` will be an empty object, return updated params.
-					phi += 0.005;
-				}
-				state.phi = phi + r.get();
-				state.width = width * 2;
-				state.height = width * 2;
-			},
 		});
+
+		let frame: number;
+		const update = () => {
+			if (!pointerInteracting.current) {
+				currentPhi += 0.005;
+			}
+
+			globe.update({
+				phi: currentPhi + r.get(),
+				width: width * 2,
+				height: width * 2,
+				dark: rootInDarkMode() ? 1 : 0,
+				markers,
+			});
+
+			frame = window.requestAnimationFrame(update);
+		};
+		update();
+
 		setTimeout(() => globeRef.current && (globeRef.current.style.opacity = "1"));
 		return () => {
+			window.cancelAnimationFrame(frame);
 			globe.destroy();
 			window.removeEventListener("resize", onResize);
 		};
-	}, [rootInDarkMode,markers]);
+	}, [markers, phi, r]);
 
 	return (
 		<div
