@@ -1,7 +1,7 @@
 ---
-title: Understanding the Text Corpus and Training Datasets of GPT-3
+title: Data Corpus of GPT-3 Training
 publishDate: "4 April 2024"
-description: "Exploring GPT-3's diverse training datasets for language model pretraining development."
+description: "Understanding the Text Corpus and Training Datasets of GPT-3"
 tags: ["ML-AI", "transformer"]
 ---
 

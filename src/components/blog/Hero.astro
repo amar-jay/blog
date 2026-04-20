@@ -35,22 +35,38 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 }
 {data.draft ? <span class="text-base text-red-500">(Draft)</span> : null}
 <h1 class="title mb-3 sm:mb-1">
-	{data.title}
+
+	<a class="text-accent sm:hover:underline" href="/posts/">Posts</a>
+		<span class="me-1 ms-1">→</span>
+		<span class="title">{data.title}</span>
 </h1>
-<div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-	<p class="font-semibold">
-		<FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} /> /{" "}
-		{remarkPluginFrontmatter.minutesRead}
-	</p>
-	{
+<div class="pb-2">
+	<span class="text-quote text-xs font-bold p-1">
+		Reading Time: {remarkPluginFrontmatter.minutesRead}
+	</span>
+	|
+	<span class="text-xs font-semibold p-1">
+		Created: <FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} />
+	</span> |
+		{
 		data.updatedDate && (
-			<span class="rounded-lg bg-quote/10 p-1 text-quote">
-				Last Updated:
+			<span class="text-xs font-semibold p-1">
+				Updated:
 				<FormattedDate class="ms-1" date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
 			</span>
 		)
 	}
 </div>
+	<div>
+
+	{
+		data.description && (
+			<p class="text-sm p-1 border-y text-wrap wrap-break-word max-w-[80%] opacity-65">
+				{data.description}
+			</p>
+		)
+	}
+	</div>
 {
 	!!data.tags?.length && (
 		<div class="mt-3">
