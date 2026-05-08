@@ -11,7 +11,7 @@ import { expressiveCodeOptions } from "./src/site-config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import react from "@astrojs/react";
-import db from "@astrojs/db";
+// import db from "@astrojs/db";
 import tailwindcss from "@tailwindcss/vite";
 //import vercel from '@astrojs/vercel/static';
 
@@ -66,7 +66,7 @@ export default defineConfig(
                 }),
                 mdx(),
                 react(),
-                db(),
+                // db(),
             ],
         image:
             {

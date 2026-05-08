@@ -13,6 +13,9 @@
 		"check": "astro check"
 	},
 	"packageManager": "bun@1.3.10",
+	"engines": {
+		"node": "22.12.0"
+	},
 	"dependencies": {
 		"@astrojs/db": "0.20.1",
 		"@astrojs/mdx": "5.0.3",
@@ -84,8 +87,5 @@
 		"reading-time": "^1.5.0",
 		"tailwindcss": "^4.2.2",
 		"typescript": "^6.0.3"
-	},
-  "engines": {
-    "node": ">=22.12.0"
-  }
+	}
 }

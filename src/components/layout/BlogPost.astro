@@ -17,19 +17,18 @@ const { post } = Astro.props;
 const {
 	data: { description, ogImage, publishDate, title, updatedDate },
 } = post;
-const slug = entryIdToSlug(post.id) //.replace(/\/index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
+const slug = entryIdToSlug(post.id); //.replace(/\/index\.(md|mdx)$/, "").replace(/\.(md|mdx)$/, "");
 const socialImage = ogImage ?? `/og-image/${slug}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings } = await render(post);
 ---
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
-	<div class="gap-x-1  lg:flex lg:items-start">
-		<article class="flex-growbreak-words" data-pagefind-body
-    >
-			<div id="blog-hero"><BlogHero content={post} /></div>
+	<div class='gap-x-1 lg:flex lg:items-start'>
+		<article class='flex-growbreak-words' data-pagefind-body>
+			<div id='blog-hero'><BlogHero content={post} /></div>
 			<div
-				class="prose prose-sm prose-blog max-w-[80ch] pr-20  mt-12 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute  prose-headings:before:text-accent prose-th:before:content-none prose-h2:before:content-['#'] prose-h3:before:content-['##']  prose-h4:before:content-['###']  prose-h2:before:-ms-5  prose-h3:before:-ms-7 prose-h4:before:-ms-8 prose-h1:before:-ms-0"
+				class="prose prose-sm prose-blog prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:text-accent prose-th:before:content-none prose-h2:before:content-['#'] prose-h3:before:content-['##'] prose-h4:before:content-['###'] prose-h2:before:-ms-5 prose-h3:before:-ms-7 prose-h4:before:-ms-8 prose-h1:before:-ms-0 mt-12 max-w-[80ch] pr-0 sm:pr-20"
 			>
 				<slot />
 				<WebMentions />
@@ -38,22 +37,22 @@ const { headings } = await render(post);
 		{!!headings.length && <TOC headings={headings} />}
 	</div>
 	<button
-		aria-label="Back to Top"
-		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-zinc-400 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 dark:bg-zinc-700 sm:end-8 sm:h-12 sm:w-12"
-		data-show="false"
-		id="to-top-btn"
-		>
+		aria-label='Back to Top'
+		class='fixed end-4 bottom-8 z-90 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-zinc-400 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12 dark:bg-zinc-700'
+		data-show='false'
+		id='to-top-btn'
+	>
 		<svg
-			aria-hidden="true"
-			class="h-6 w-6"
-			fill="none"
-			focusable="false"
-			stroke="currentColor"
-			stroke-width="2"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
+			aria-hidden='true'
+			class='h-6 w-6'
+			fill='none'
+			focusable='false'
+			stroke='currentColor'
+			stroke-width='2'
+			viewBox='0 0 24 24'
+			xmlns='http://www.w3.org/2000/svg'
 		>
-			<path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+			<path d='M4.5 15.75l7.5-7.5 7.5 7.5' stroke-linecap='round' stroke-linejoin='round'></path>
 		</svg>
 	</button>
 </BaseLayout>
@@ -63,7 +62,7 @@ const { headings } = await render(post);
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
 
 	function callback(entries: IntersectionObserverEntry[]) {
-		entries.forEach((entry) => {
+		entries.forEach(entry => {
 			// only show the scroll to top button when the heading is out of view
 			scrollBtn.dataset.show = (!entry.isIntersecting).toString();
 		});
