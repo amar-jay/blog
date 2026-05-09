@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export { getFormattedDate } from "./date";
-export { elementHasClass, rootInDarkMode } from "./domElement";
+export { elementHasClass, rootInDarkMode, isMobile } from "./domElement";
 export { generateToc } from "./generateToc";
 export type { TocItem } from "./generateToc";
+export { default as openLibraryFetch } from "./open-library";

@@ -76,6 +76,7 @@ export default defineConfig(
                         "manans-site.vercel.app",
                         "fonts.googleapis.com",
                         "avatars.githubusercontent.com",
+												"covers.openlibrary.org/"
                     ],
             },
         // https://docs.astro.build/en/guides/prefetch/

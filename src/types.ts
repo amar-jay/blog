@@ -82,3 +82,17 @@ export type Summary = {
 	"content-type": string;
 	value: string;
 };
+
+
+
+export interface Book {
+  title: string;
+  author: string;
+  date: string;
+  rating: number;
+  coverImage: string;
+  spineColor: string;
+  textColor: string;
+  slug: string;
+  summary: string;
+}

@@ -1,0 +1,92 @@
+---
+import type { HTMLTag, Polymorphic } from "astro/types";
+import type { CollectionEntry } from "astro:content";
+
+import FormattedDate from "../FormattedDate.astro";
+import { openLibraryFetch } from "@/utils";
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
+	post: CollectionEntry<"post">;
+	withDesc?: boolean;
+	olid: string;
+};
+
+const { as: Tag = "div", post, withDesc = false, olid } = Astro.props;
+const openlibraryId = olid ?? "OL26242482M";
+
+// Fetch info from openlibrary api using the openlibraryId
+// let publishDate = post.data.publishDate;
+let readDate = post.data.updatedDate;
+
+const {
+	title,
+	description,
+	author = "unknown author",
+	cover,
+	publishedDate,
+} = await openLibraryFetch(openlibraryId);
+
+const dateTimeOptions: Intl.DateTimeFormatOptions = {
+	month: "short",
+};
+---
+
+<Tag class='group mb-10 flex w-full flex-col flex-row gap-5'>
+	{
+		cover && (
+			<div class='w-32 shrink-0'>
+				<div class='border-accent/10 overflow-hidden rounded-md border shadow-sm transition-shadow sm:group-hover:shadow-md'>
+					<img
+						src={cover}
+						alt={`Cover of ${title} by ${author}`}
+						class='h-auto w-full object-cover'
+						loading='lazy'
+					/>
+				</div>
+			</div>
+		)
+	}
+
+	<div class='flex flex-1 flex-col'>
+		<h3 class='title mb-1 text-xl sm:text-2xl'>
+			<a
+				class='title transition-colors sm:hover:underline'
+				data-astro-prefetch
+				href={`/books/${openlibraryId}/`}
+			>
+				{title}
+			</a>
+		</h3>
+
+		<div
+			class='mb-3 flex flex-wrap items-center gap-1 border-b border-gray-200 pb-2 text-xs font-semibold sm:gap-2 dark:border-gray-800'
+		>
+			<span class='text-quote p-1 text-xs font-bold'>
+				Author: {author}
+			</span>
+			<span class='inline'>|</span>
+			<span class='p-1'>
+				Publish: {publishedDate}
+				<!-- Published: <FormattedDate date={publishedDate} dateTimeOptions={dateTimeOptions} /> -->
+			</span>
+			{
+				readDate && (
+					<>
+						<span class='inline'>|</span>
+						<span>
+							Read: <FormattedDate date={readDate} dateTimeOptions={dateTimeOptions} />
+						</span>
+					</>
+				)
+			}
+		</div>
+
+		{
+			withDesc && description && (
+				<p class='line-clamp-4 max-w-[90%] border-l-2 py-1 pl-3 text-sm leading-relaxed text-wrap wrap-break-word italic opacity-80'>
+					{description}
+				</p>
+			)
+		}
+	</div>
+</Tag>
