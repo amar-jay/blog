@@ -1,82 +1,23 @@
 ---
 import type { GetStaticPaths, Page } from "astro";
-import type { CollectionEntry } from "astro:content";
 
 import Pagination from "@/components/Paginator.astro";
 import BookPreview from "@/components/blog/BookPreview.astro";
 import BaseLayout from "@/components/layout/Base.astro";
 import Bookshelf from "@/components/bookshelf.astro";
-import { getAllPosts, getUniqueTags, sortMDByDate } from "@/utils/post";
-
-export const getStaticPaths = (async ({ paginate }) => {
-	const allPosts = await getAllPosts();
-	const allPostsByDate = sortMDByDate(allPosts);
-	const uniqueTags = getUniqueTags(allPosts);
-	return paginate(allPostsByDate, { pageSize: 10, props: { uniqueTags } });
-}) satisfies GetStaticPaths;
-
-interface Props {
-	page: Page<CollectionEntry<"post">>;
-	uniqueTags: string[];
-}
+import { getBooks, verboseDescriptionFetch } from "@/utils/open-library";
 
 const { page } = Astro.props;
 
-function fetchImage(olid: string) {
-	return `https://covers.openlibrary.org/b/olid/${olid}-M.jpg`;
+// Mock books data for the bookshelf
+interface Props {
+	page: Page<ReturnType<typeof getBooks>[number]>;
 }
 
-// Mock books data for the bookshelf
-const books = [
-	{
-		title: "Dune",
-		slug: "/books/dune",
-		spineColor: "#d97706",
-		textColor: "#ffffff",
-		olid: "OL26242482M",
-		coverImage: fetchImage("OL26242482M"),
-	},
-	{
-		title: "The Martian",
-		slug: "/books/the-martian",
-		spineColor: "#b91c1c",
-		textColor: "#ffffff",
-		olid: "OL32815550M",
-		coverImage: fetchImage("OL32815550M"),
-	},
-	{
-		title: "Neuromancer",
-		slug: "/books/neuromancer",
-		spineColor: "#228B22",
-		textColor: "#ffffff",
-		olid: "OL27444262M",
-		coverImage: fetchImage("OL27444262M"),
-	},
-	{
-		title: "Foundation",
-		slug: "/books/foundation",
-		spineColor: "#C5A596",
-		textColor: "#ffffff",
-		olid: "OL51566464M",
-		coverImage: fetchImage("OL51566464M"),
-	},
-	{
-		title: "1984",
-		slug: "/books/1984",
-		spineColor: "#0f172a",
-		textColor: "#ffffff",
-		olid: "OL3174961M",
-		coverImage: fetchImage("OL3174961M"),
-	},
-	{
-		title: "The Rosie Proect",
-		slug: "/books/rosie-project",
-		spineColor: "#1591EA",
-		textColor: "#ffffff",
-		olid: "OL40231981M",
-		coverImage: fetchImage("OL40231981M"),
-	},
-];
+export const getStaticPaths = (async ({ paginate }) => {
+	const data = getBooks();
+	return paginate(data, { pageSize: 10, props: { allBooks: data } });
+}) satisfies GetStaticPaths;
 
 const meta = {
 	title: "Books",
@@ -104,7 +45,7 @@ const paginationProps = {
 	<h1 class='title'>Books</h1>
 	<div>
 		<section class='relative mb-10 w-full' aria-label='Bookshelf'>
-			<Bookshelf books={[...books, ...books, ...books, ...books]} inView={16} />
+			<Bookshelf books={Array(4).fill(page.data).flat()} />
 		</section>
 	</div>
 	<div class='grid max-w-full gap-y-2 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
@@ -112,13 +53,70 @@ const paginationProps = {
 			<ul class='space-y-8 text-start'>
 				{
 					page.data.map(p => (
-						<li class='flex flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full'>
+						<li
+							class='book-item hidden flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full'
+							data-olid={p.olid}
+						>
 							<BookPreview as='h1' post={p} withDesc />
 						</li>
 					))
 				}
+				<!-- {
+					JSON.stringify(verboseDescriptionFetch(page.data[0]!.olid))
+				} -->
+				<li
+					id='book-not-found'
+					class='hidden flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full'
+				>
+					<h1 class='text-xl'>Book not found</h1>
+				</li>
 			</ul>
 			<Pagination {...paginationProps} />
 		</section>
 	</div>
 </BaseLayout>
+
+<script>
+	function updateBooksDisplay() {
+		const url = new URL(window.location.href);
+		let nameParam = url.searchParams.get("name");
+		const items = document.querySelectorAll(".book-item");
+		const notFound = document.getElementById("book-not-found");
+
+		if (!items.length) return;
+
+		// Default to first book if no "name" query param is present
+		if (!nameParam) {
+			nameParam = items[0]!.getAttribute("data-olid");
+			url.searchParams.set("name", nameParam || "");
+			window.history.replaceState({}, "", url);
+		}
+
+		let found = false;
+		items.forEach(item => {
+			if (item.getAttribute("data-olid") === nameParam) {
+				item.classList.remove("hidden");
+				item.classList.add("flex");
+				found = true;
+			} else {
+				item.classList.add("hidden");
+				item.classList.remove("flex");
+			}
+		});
+
+		if (notFound) {
+			if (!found) {
+				notFound.classList.remove("hidden");
+				notFound.classList.add("flex");
+			} else {
+				notFound.classList.add("hidden");
+				notFound.classList.remove("flex");
+			}
+		}
+	}
+
+	// Run on initial load
+	document.addEventListener("DOMContentLoaded", updateBooksDisplay);
+	// Support for Astro view transitions if enabled
+	document.addEventListener("astro:page-load", updateBooksDisplay);	// Support for book clicks
+	window.addEventListener('bookshelf-book-changed', updateBooksDisplay);</script>

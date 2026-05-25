@@ -13,11 +13,16 @@ import rehypeKatex from "rehype-katex";
 import react from "@astrojs/react";
 // import db from "@astrojs/db";
 import tailwindcss from "@tailwindcss/vite";
+import { env } from "node:process";
 //import vercel from '@astrojs/vercel/static';
 
 // https://astro.build/config
 export default defineConfig(
     {
+			// set up port as 3000 if dev
+				server: env.NODE_ENV === "development" ? {
+					port:  5173,
+				} : {},
         // ! Please remember to replace the following site property with your own domain
         site: "https://amarjay.com/",
         //output: 'static',

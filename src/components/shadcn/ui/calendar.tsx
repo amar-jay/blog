@@ -2,8 +2,8 @@ import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 
-import { cn } from "src/utils";
-import { buttonVariants } from "src/components/shadcn/ui/button";
+import { cn } from "@/utils";
+import { buttonVariants } from "@/components/shadcn/ui/button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 

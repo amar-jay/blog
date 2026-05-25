@@ -97,6 +97,10 @@ export const menuLinks: {
 			"Projects",
 		path: "/projects/",
 	},
+	{
+		title: "Books",
+		path: "/books/",
+	}
 ];
 
 // https://expressive-code.com/reference/configuration/

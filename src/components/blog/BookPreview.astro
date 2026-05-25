@@ -1,22 +1,19 @@
 ---
 import type { HTMLTag, Polymorphic } from "astro/types";
-import type { CollectionEntry } from "astro:content";
-
 import FormattedDate from "../FormattedDate.astro";
 import { openLibraryFetch } from "@/utils";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	post: CollectionEntry<"post">;
+	post: any;
 	withDesc?: boolean;
-	olid: string;
 };
 
-const { as: Tag = "div", post, withDesc = false, olid } = Astro.props;
-const openlibraryId = olid ?? "OL26242482M";
+const { as: Tag = "div", post, withDesc = false } = Astro.props;
+const openlibraryId = post?.olid ?? "unknown";
 
 // Fetch info from openlibrary api using the openlibraryId
 // let publishDate = post.data.publishDate;
-let readDate = post.data.updatedDate;
+let readDate = post?.data?.updatedDate;
 
 const {
 	title,
@@ -83,7 +80,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 		{
 			withDesc && description && (
-				<p class='line-clamp-4 max-w-[90%] border-l-2 py-1 pl-3 text-sm leading-relaxed text-wrap wrap-break-word italic opacity-80'>
+				<p class='line-clamp-4 max-w-[90%] border-l-2 py-1 pl-1 text-sm leading-relaxed text-wrap wrap-break-word italic opacity-80'>
 					{description}
 				</p>
 			)

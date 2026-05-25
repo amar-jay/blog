@@ -1,12 +1,4 @@
 ---
-export interface Book {
-  title: string;
-  slug: string;
-  spineColor: string;
-  textColor: string;
-  coverImage: string;
-}
-
 export interface Props {
   books: Book[];}
 
@@ -35,6 +27,7 @@ const bookHeight = `${height}px`;
           class="book-btn flex flex-row items-center justify-start outline-none shrink-0"
           data-index={index}
           data-slug={book.slug}
+          data-olid={book.olid}
           style={`
             width: ${spineWidth};
             perspective: 1000px;
@@ -261,6 +254,8 @@ bookshelf-widget {
       books.forEach((bookBtn, index) => {
         bookBtn.addEventListener('click', () => {
           const slug = bookBtn.dataset.slug || '#';
+          const olid = bookBtn.dataset.olid || '';
+
           if (bookIndex === index) {
             bookIndex = -1;
             window.location.href = slug; // Navigates on second click like the reference
@@ -269,6 +264,15 @@ bookshelf-widget {
             books.forEach(b => b.classList.remove('expanded'));
             bookBtn.classList.add('expanded');
             
+            // Update the URL with the book's olid
+            if (olid) {
+              const url = new URL(window.location.href);
+              url.searchParams.set("name", olid);
+              window.history.pushState({}, '', url);
+              // Dispatch a custom event to notify the page to update the description list
+              window.dispatchEvent(new CustomEvent('bookshelf-book-changed'));
+            }
+
             const targetScroll = (bookIndex - (booksInViewport - 4.5) / 2) * (width + 4);
             const { min, max } = getBounds();
             scrollX = Math.max(min, Math.min(targetScroll, max));

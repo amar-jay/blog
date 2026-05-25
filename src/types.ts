@@ -85,14 +85,14 @@ export type Summary = {
 
 
 
-export interface Book {
-  title: string;
-  author: string;
-  date: string;
-  rating: number;
-  coverImage: string;
-  spineColor: string;
-  textColor: string;
-  slug: string;
-  summary: string;
-}
+// export interface Book {
+//   title: string;
+//   author: string;
+//   date: string;
+//   rating: number;
+//   coverImage: string;
+//   spineColor: string;
+//   textColor: string;
+//   slug: string;
+//   summary: string;
+// }

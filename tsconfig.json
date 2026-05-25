@@ -1,15 +1,14 @@
 {
 	"extends": "astro/tsconfigs/strictest",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"lib": ["es2022", "dom", "dom.iterable"],
 		"paths": {
-			"@/assets/*": ["src/assets/*"],
-			"@/components/*": ["src/components/*"],
-			"@/layouts/*": ["src/layouts/*"],
-			"@/utils": ["src/utils/index.ts"],
-			"@/types": ["src/types.ts"],
-			"@/*": ["src/*"]
+			"@/assets/*": ["./src/assets/*"],
+			"@/components/*": ["./src/components/*"],
+			"@/layouts/*": ["./src/layouts/*"],
+			"@/utils": ["./src/utils/index.ts"],
+			"@/types": ["./src/types.ts"],
+			"@/*": ["./src/*"]
 		},
 		"jsx": "react-jsx",
 		"jsxImportSource": "react"

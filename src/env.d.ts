@@ -8,6 +8,14 @@ declare module "@pagefind/default-ui" {
 		constructor(arg: unknown);
 	}
 }
+interface Book {
+  title: string;
+  slug: string;
+  spineColor: string;
+  textColor: string;
+  coverImage: string;
+  olid: string;
+}
 
 interface ImportMetaEnv {
 	readonly WEBMENTION_API_KEY: string;
