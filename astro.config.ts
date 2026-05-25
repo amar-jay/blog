@@ -21,7 +21,7 @@ export default defineConfig(
     {
 			// set up port as 3000 if dev
 				server: env.NODE_ENV === "development" ? {
-					port:  5173,
+					port:  51733,
 				} : {},
         // ! Please remember to replace the following site property with your own domain
         site: "https://amarjay.com/",
