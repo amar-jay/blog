@@ -1,7 +1,7 @@
 ---
 title: "Flash Attention on Tenstorrent Hardware"
 description: "Trying to understand how Flash Attention works on Tenstorrent and how it compares to CUDA"
-tags: ["ml-ai", "transformer", "neural networks"]
+tags: ["ml-ai", "soc", "neural networks", "electronics"]
 publishDate: 23 February 2025
 updatedDate: 23 February 2025
 coverImage:

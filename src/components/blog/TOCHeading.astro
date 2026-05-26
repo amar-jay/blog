@@ -11,18 +11,44 @@ const {
 ---
 
 <li class={`${depth > 2 ? "ms-2" : ""}`}>
-	<a
-		aria-label={`Scroll to section: ${text}`}
-		class={`block line-clamp-2 hover:text-accent ${depth <= 2 ? "mt-3" : "mt-2 text-[0.6875rem]"}`}
-		href={`#${slug}`}><span class="me-0.5">#</span>{text}</a
-	>
 	{
-		!!subheadings.length && (
-			<ul>
-				{subheadings.map((subheading) => (
-					<Astro.self heading={subheading} />
-				))}
-			</ul>
+		!!subheadings.length ? (
+			<details open class="group">
+				<summary class="flex cursor-pointer list-none items-center justify-between text-muted-foreground hover:text-accent group-open:text-accent">
+					<a
+						aria-label={`Scroll to section: ${text}`}
+						class={`block line-clamp-2 hover:text-accent ${depth <= 2 ? "mt-3" : "mt-2 text-[0.6875rem]"}`}
+						href={`#${slug}`}
+					>
+						<span class="me-0.5">#</span>
+						{text}
+					</a>
+					<svg
+						aria-hidden="true"
+						class="h-3 w-3 transition-transform group-open:rotate-180"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="3"
+						viewBox="0 0 24 24"
+					>
+						<path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</summary>
+				<ul class="mt-1">
+					{subheadings.map((subheading) => (
+						<Astro.self heading={subheading} />
+					))}
+				</ul>
+			</details>
+		) : (
+			<a
+				aria-label={`Scroll to section: ${text}`}
+				class={`block line-clamp-2 hover:text-accent ${depth <= 2 ? "mt-3" : "mt-2 text-[0.6875rem]"}`}
+				href={`#${slug}`}
+			>
+				<span class="me-0.5">#</span>
+				{text}
+			</a>
 		)
 	}
 </li>

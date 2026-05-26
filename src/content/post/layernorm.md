@@ -2,7 +2,7 @@
 title: "Layernorm"
 description: "layer normalization of GPT by Andrej Karpathy"
 publishDate: "1 May 2024"
-tags: ["transformer", "neural networks", "ml-ai"]
+tags: ["neural networks", "ml-ai"]
 ---
 
 ## Intro

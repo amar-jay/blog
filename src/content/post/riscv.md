@@ -3,7 +3,7 @@ title: "Understanding RISC-V"
 description: "If you’ve ever looked into processors, you’ve probably heard of big names like Intel, AMD, or ARM. But let me introduce you to **RISC-V**, a bold and open alternative that’s changing how CPUs are designed, built, and used."
 publishDate: "28 Dec 2024"
 updatedDate: "28 Dec 2024"
-tags: ["SoC", "riscv"]
+tags: ["SoC", "electronics"]
 ---
 
 If you’ve ever looked into processors, you’ve probably heard of big names like Intel, AMD, or ARM. But let me introduce you to **RISC-V**, a bold and open alternative that’s changing how CPUs are designed, built, and used.

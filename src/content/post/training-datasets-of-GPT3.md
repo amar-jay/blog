@@ -2,7 +2,7 @@
 title: Data Corpus of GPT-3 Training
 publishDate: "4 April 2024"
 description: "Understanding the Text Corpus and Training Datasets of GPT-3"
-tags: ["ML-AI", "transformer"]
+tags: ["ml-ai", "neural networks"]
 ---
 
 ## Understanding the Text Corpus and Training Datasets of GPT-3
