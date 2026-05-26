@@ -1,5 +1,6 @@
 ---
 import type { TocItem } from "@/utils";
+import { ChevronDown } from "lucide-react";
 
 interface Props {
 	heading: TocItem;
@@ -11,44 +12,65 @@ const {
 ---
 
 <li class={`${depth > 2 ? "ms-2" : ""}`}>
+	<div class='flex items-start justify-between gap-1'>
+		<a
+			aria-label={`Scroll to section: ${text}`}
+			class={`hover:text-textColor/70 line-clamp-2 block flex-grow transition-colors ${depth <= 2 ? "mt-3" : "mt-2 text-[0.6875rem]"}`}
+			href={`#${slug}`}
+		>
+			<span class='me-0.5 text-[11px] font-extrabold'>#</span>{text}
+		</a>
+		{
+			!!subheadings.length && (
+				<button
+					aria-controls={`toc-sub-${slug}`}
+					class='toc-toggle mt-3 cursor-pointer p-1 transition-colors'
+					data-slug={slug}
+				>
+					<ChevronDown className='h-3 w-3 transition-transform duration-300' strokeWidth={2.5} />
+				</button>
+			)
+		}
+	</div>
 	{
-		!!subheadings.length ? (
-			<details open class='group'>
-				<summary class='text-muted-foreground hover:text-accent group-open:text-accent flex cursor-pointer list-none items-center justify-between'>
-					<a
-						aria-label={`Scroll to section: ${text}`}
-						class={`hover:text-accent line-clamp-2 block ${depth <= 2 ? "mt-3" : "mt-2 text-[0.6875rem]"}`}
-						href={`#${slug}`}
-					>
-						<span class='me-0.5'>#</span>
-						{text}
-					</a>
-					<svg
-						aria-hidden='true'
-						class='h-3 w-3 transition-transform group-open:rotate-180'
-						fill='none'
-						stroke='currentColor'
-						stroke-width='3'
-						viewBox='0 0 24 24'
-					>
-						<path d='m19.5 8.25-7.5 7.5-7.5-7.5' stroke-linecap='round' stroke-linejoin='round' />
-					</svg>
-				</summary>
-				<ul class='mt-1'>
-					{subheadings.map(subheading => (
-						<Astro.self heading={subheading} />
-					))}
-				</ul>
-			</details>
-		) : (
-			<a
-				aria-label={`Scroll to section: ${text}`}
-				class={`hover:text-accent line-clamp-2 block ${depth <= 2 ? "mt-3" : "mt-2 text-[0.6875rem]"}`}
-				href={`#${slug}`}
-			>
-				<span class='me-0.5'>#</span>
-				{text}
-			</a>
+		!!subheadings.length && (
+			<ul class='hidden' id={`toc-sub-${slug}`}>
+				{subheadings.map(subheading => (
+					<Astro.self heading={subheading} />
+				))}
+			</ul>
 		)
 	}
 </li>
+
+<script>
+	function setupToggles() {
+		const toggles = document.querySelectorAll(".toc-toggle");
+		toggles.forEach(btn => {
+			btn.addEventListener("click", e => {
+				e.preventDefault();
+				btn.previousElementSibling?.classList.toggle("font-bold");
+				const slug = btn.getAttribute("data-slug");
+				const sublist = document.getElementById(`toc-sub-${slug}`);
+				const icon = btn.querySelector("svg");
+
+				if (sublist && icon) {
+					const isHidden = sublist.classList.contains("hidden");
+					if (isHidden) {
+						sublist.classList.remove("hidden");
+						icon.style.transform = "rotate(180deg)";
+					} else {
+						sublist.classList.add("hidden");
+						icon.style.transform = "rotate(0deg)";
+					}
+				}
+			});
+		});
+	}
+
+	// Initial setup
+	setupToggles();
+
+	// View Transitions support
+	document.addEventListener("astro:after-swap", setupToggles);
+</script>

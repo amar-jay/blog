@@ -196,7 +196,7 @@ export const ComparisonDiagram = () => {
             <ArrowDown size={14} strokeWidth={1.5} />
           </div>
 
-          <div className="px-4 py-1.5 bg-accent/20 border border-accent/30 rounded-md font-semibold text-accent tracking-wide">
+          <div className="px-4 py-1.5 bg-accent/20 border border-accent/30 rounded-md font-semibold tracking-wide">
             DENSE 3D MESH
           </div>
         </div>
