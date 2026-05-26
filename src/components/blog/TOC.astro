@@ -13,9 +13,53 @@ const { headings } = Astro.props;
 const toc = generateToc(headings);
 ---
 
-<aside class='sticky top-20 order-2 -me-32 xl:-me-52  hidden basis-64 lg:block'>
-	<h2 class='font-semibold'>Table of Contents</h2>
-	<ul class='mt-4 text-xs'>
-		{toc.map(heading => <TOCHeading heading={heading} />)}
-	</ul>
+<aside
+	class='order-2 h-fit basis-64 lg:sticky lg:top-20 lg:order-2 lg:-me-32 lg:block lg:basis-64 xl:-me-52'
+>
+	<details
+		id='toc-details'
+		class='group rounded-lg border border-transparent bg-zinc-50 p-3 lg:bg-transparent lg:p-0 dark:bg-zinc-800/50 dark:lg:bg-transparent'
+	>
+		<summary
+			class='hover:text-accent flex cursor-pointer list-none items-center justify-between font-semibold'
+		>
+			<h2 class='text-sm lg:text-base'>Table of Contents</h2>
+			<svg
+				aria-hidden='true'
+				class='h-5 w-5 transition-transform group-open:rotate-180'
+				fill='none'
+				focusable='false'
+				stroke='currentColor'
+				stroke-width='2'
+				viewBox='0 0 24 24'
+				xmlns='http://www.w3.org/2000/svg'
+			>
+				<path d='m19.5 8.25-7.5 7.5-7.5-7.5' stroke-linecap='round' stroke-linejoin='round'></path>
+			</svg>
+		</summary>
+		<ul class='mt-4 text-xs'>
+			{toc.map(heading => <TOCHeading heading={heading} />)}
+		</ul>
+	</details>
 </aside>
+
+<script>
+	const details = document.getElementById("toc-details") as HTMLDetailsElement;
+	if (details) {
+		// Open by default on large screens, closed on small
+		if (window.innerWidth >= 1024) {
+			details.open = true;
+		} else {
+			details.open = false;
+		}
+
+		// Update on resize
+		window.addEventListener("resize", () => {
+			if (window.innerWidth >= 1024) {
+				details.open = true;
+			} else {
+				details.open = false;
+			}
+		});
+	}
+</script>

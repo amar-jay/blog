@@ -72,7 +72,7 @@
 }
 
 @layer base {
-	:root {
+	:root, :root[data-theme="light"]  {
 		--background: 0 0% 100%;
 		--foreground: 222.2 84% 4.9%;
 
@@ -104,7 +104,7 @@
 		--radius: 0.5rem;
 	}
 
-	.dark {
+	.dark, :root[data-theme="dark"] {
 		--background: 222.2 84% 4.9%;
 		--foreground: 210 40% 98%;
 
@@ -164,6 +164,8 @@
 		--theme-accent-2: 0 0% 93%;
 		--theme-quote: 351 66% 56%;
 		--theme-bg: 210 6% 12%;
+
+		--border: 214.3 31.8% 20%;
 	}
 
 	html {
