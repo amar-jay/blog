@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { z } from 'astro/zod'
 import { glob } from "astro/loaders"; // Required for Astro 6
+import { ArrowUpSquareIcon } from "lucide-react";
 
 function removeDupsAndLowerCase(array: string[]) {
     if (!array.length) return array;
@@ -27,6 +28,7 @@ const post = defineCollection({
             draft: z.boolean().default(false),
             tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
             ogImage: z.string().optional(),
+						author: z.string().optional(),
         }),
 });
 

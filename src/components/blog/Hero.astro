@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
+import { toTitleCase } from "@/utils";
 
 import { Image } from "astro:assets";
 
@@ -55,6 +56,13 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 					Updated:
 					<FormattedDate class='ms-1' date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
 				</span>
+			</>
+		)
+	}
+	{
+		data.author && (
+			<>
+				|<span class='p-1 text-xs font-semibold'>Author: {toTitleCase(data.author)}</span>
 			</>
 		)
 	}
