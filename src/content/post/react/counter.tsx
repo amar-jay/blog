@@ -12,16 +12,16 @@ function Counter() {
 	};
 
 	return (
-		<div className="flex items-center justify-center  text-2xl">
+		<div className="flex items-center justify-center text-2xl">
 			<button
-				className="rounded bg-accent/70 px-5 py-2 font-bold text-white hover:bg-accent"
+				className="bg-accent/70 hover:bg-accent rounded px-5 py-2 font-bold text-white"
 				onClick={decrement}
 			>
 				-
 			</button>
 			<span className="mx-4 text-2xl">{count}</span>
 			<button
-				className="rounded bg-accent/70 px-5 py-2 font-bold text-white hover:bg-accent"
+				className="bg-accent/70 hover:bg-accent rounded px-5 py-2 font-bold text-white"
 				onClick={increment}
 			>
 				+

@@ -5,7 +5,7 @@ publishDate: 10 Feb 2026
 tags: ["electronics", "networking"]
 ---
 
-Most explanations of networking start at the wrong altitude. They begin with protocols, diagrams, and acronyms, skipping over the deeper question: *what does it actually mean to move information through physical reality?*
+Most explanations of networking start at the wrong altitude. They begin with protocols, diagrams, and acronyms, skipping over the deeper question: _what does it actually mean to move information through physical reality?_
 
 ---
 

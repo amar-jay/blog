@@ -1,6 +1,7 @@
 ---
 export interface Props {
-  books: Book[];}
+	books: Book[];
+}
 
 // inview is max number of books currently in view
 const { books } = Astro.props;
@@ -13,22 +14,39 @@ const coverWidth = `${width * 4}px`;
 const bookHeight = `${height}px`;
 ---
 
-<bookshelf-widget class="relative block my-9 w-full max-w-full min-w-0 mx-auto" style={`max-width: calc(var(--in-view, 16) * ${width + 4}px);`} data-book-count={books.length} data-width={width} data-book-width={width * 5}>
-  <div class="relative w-full min-w-0">
-    <!-- Scroll Left -->
-    <div id="scroll-left" class="absolute left-[-28px] md:left-[-36px] h-full w-[28px] z-10 hidden items-center justify-center rounded-md md:rounded-r-none cursor-pointer">
-      <svg fill="currentColor" viewBox="0 0 16 16" width="12" height="12"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
-    </div>
+<bookshelf-widget
+	class="relative mx-auto my-9 block w-full max-w-full min-w-0"
+	style={`max-width: calc(var(--in-view, 16) * ${width + 4}px);`}
+	data-book-count={books.length}
+	data-width={width}
+	data-book-width={width * 5}
+>
+	<div class="relative w-full min-w-0">
+		<!-- Scroll Left -->
+		<div
+			id="scroll-left"
+			class="absolute left-[-28px] z-10 hidden h-full w-[28px] cursor-pointer items-center justify-center rounded-md md:left-[-36px] md:rounded-r-none"
+		>
+			<svg fill="currentColor" viewBox="0 0 16 16" width="12" height="12"
+				><path
+					d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+				></path></svg
+			>
+		</div>
 
-    <!-- Viewport Container -->
-    <div id="viewport" class="flex flex-row items-center gap-[4px] overflow-hidden cursor-grab w-full min-w-0">
-      {books.map((book, index) => (
-        <button
-          class="book-btn flex flex-row items-center justify-start outline-none shrink-0"
-          data-index={index}
-          data-slug={book.slug}
-          data-olid={book.olid}
-          style={`
+		<!-- Viewport Container -->
+		<div
+			id="viewport"
+			class="flex w-full min-w-0 cursor-grab flex-row items-center gap-[4px] overflow-hidden"
+		>
+			{
+				books.map((book, index) => (
+					<button
+						class="book-btn flex shrink-0 flex-row items-center justify-start outline-none"
+						data-index={index}
+						data-slug={book.slug}
+						data-olid={book.olid}
+						style={`
             width: ${spineWidth};
             perspective: 1000px;
             gap: 0px;
@@ -36,265 +54,289 @@ const bookHeight = `${height}px`;
             will-change: transform, width;
             transform: translateX(0px);
           `}
-        >
-          <div
-            class="spine flex items-start justify-center shrink-0 origin-right transition-all duration-500 ease-in-out relative brightness-90 contrast-125"
-					  style={`
+					>
+						<div
+							class="spine relative flex shrink-0 origin-right items-start justify-center brightness-90 contrast-125 transition-all duration-500 ease-in-out"
+							style={`
 					    width: ${spineWidth};
 					    height: ${bookHeight};
 					    background-color: ${book.spineColor};
 					    color: ${book.textColor};
 					  `}
-          >
-            <span class="pointer-events-none absolute inset-0 z-50 opacity-80 mix-blend-multiply"></span>
-            <span class="pointer-events-none absolute inset-0 z-40 opacity-30" style={`background-image: url('/textured-paper.png'); background-size: cover;`}></span>
-            <span class="pointer-events-none absolute inset-0 z-40" style={`background: linear-gradient(to right, rgba(255,255,255,0.25) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.4) 100%);`}></span>
-            <h2
-              class="mt-[12px] text-sm font-semibold font-sans whitespace-nowrap overflow-hidden text-ellipsis z-10 select-none drop-shadow-sm"
-              style={`writing-mode: vertical-rl; max-height: ${height - 24}px;`}
-            >
-              {book.title}
-            </h2>
-          </div>
+						>
+							<span class="pointer-events-none absolute inset-0 z-50 opacity-80 mix-blend-multiply" />
+							<span
+								class="pointer-events-none absolute inset-0 z-40 opacity-30"
+								style={`background-image: url('/textured-paper.png'); background-size: cover;`}
+							/>
+							<span
+								class="pointer-events-none absolute inset-0 z-40"
+								style={`background: linear-gradient(to right, rgba(255,255,255,0.25) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.4) 100%);`}
+							/>
+							<h2
+								class="z-10 mt-[12px] overflow-hidden font-sans text-sm font-semibold text-ellipsis whitespace-nowrap drop-shadow-sm select-none"
+								style={`writing-mode: vertical-rl; max-height: ${height - 24}px;`}
+							>
+								{book.title}
+							</h2>
+						</div>
 
-          <!-- Cover -->
-          <div
-            class="cover relative shrink-0 overflow-hidden origin-left transition-all duration-500 ease-in-out brightness-90 contrast-125"
-            style={`
+						<div
+							class="cover relative shrink-0 origin-left overflow-hidden brightness-90 contrast-125 transition-all duration-500 ease-in-out"
+							style={`
               width: ${coverWidth};
               height: ${bookHeight};
               transform: translate3d(0,0,0) scale3d(1,1,1) rotateY(88.8deg);
               transform-style: preserve-3d;
             `}
-          >
-            <span class="pointer-events-none absolute top-0 right-0 z-50 opacity-40 mix-blend-multiply" style={`height: ${bookHeight}; width: ${coverWidth}; background-image: url('/textured-paper.png'); background-size: cover;`}></span>
-            <span class="pointer-events-none absolute top-0 left-0 z-50" style={`height: ${bookHeight}; width: ${coverWidth}; background: linear-gradient(to right, rgba(255, 255, 255, 0) 2px, rgba(255, 255, 255, 0.5) 3px, rgba(255, 255, 255, 0.25) 4px, rgba(255, 255, 255, 0.25) 6px, transparent 7px, transparent 9px, rgba(255, 255, 255, 0.25) 9px, transparent 12px);`}></span>
-            <img src={book.coverImage} alt={book.title} class="w-full h-full object-cover transition-all duration-500 ease-in-out" />
-          </div>
-        </button>
-      ))}
-    </div>
+						>
+							<span
+								class="pointer-events-none absolute top-0 right-0 z-50 opacity-40 mix-blend-multiply"
+								style={`height: ${bookHeight}; width: ${coverWidth}; background-image: url('/textured-paper.png'); background-size: cover;`}
+							/>
+							<span
+								class="pointer-events-none absolute top-0 left-0 z-50"
+								style={`height: ${bookHeight}; width: ${coverWidth}; background: linear-gradient(to right, rgba(255, 255, 255, 0) 2px, rgba(255, 255, 255, 0.5) 3px, rgba(255, 255, 255, 0.25) 4px, rgba(255, 255, 255, 0.25) 6px, transparent 7px, transparent 9px, rgba(255, 255, 255, 0.25) 9px, transparent 12px);`}
+							/>
+							<img
+								src={`https://covers.openlibrary.org/b/olid/${book.olid}-M.jpg`}
+								alt={book.title}
+								class="h-full w-full object-cover transition-all duration-500 ease-in-out"
+							/>
+						</div>
+					</button>
+				))
+			}
+		</div>
 
-    <!-- Scroll Right -->
-    <div id="scroll-right" class="absolute right-[-28px] md:right-[-36px] h-full pl-[10px] w-[28px] z-10 flex items-center justify-center rounded-md md:rounded-l-none cursor-pointer top-0">
-      <svg fill="currentColor" viewBox="0 0 16 16" width="12" height="12"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
-    </div>
-  </div>
+		<!-- Scroll Right -->
+		<div
+			id="scroll-right"
+			class="absolute top-0 right-[-28px] z-10 flex h-full w-[28px] cursor-pointer items-center justify-center rounded-md pl-[10px] md:right-[-36px] md:rounded-l-none"
+		>
+			<svg fill="currentColor" viewBox="0 0 16 16" width="12" height="12"
+				><path
+					d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+				></path></svg
+			>
+		</div>
+	</div>
 </bookshelf-widget>
 
 <style>
-bookshelf-widget {
-  --in-view: 16;
-}
+	bookshelf-widget {
+		--in-view: 16;
+	}
 
-@media (max-width: 1024px) {
-  bookshelf-widget {
-    --in-view: 13;
-  }
-}
+	@media (max-width: 1024px) {
+		bookshelf-widget {
+			--in-view: 13;
+		}
+	}
 
-@media (max-width: 640px) {
-  bookshelf-widget {
-    --in-view: 10;
-  }
-}
+	@media (max-width: 640px) {
+		bookshelf-widget {
+			--in-view: 10;
+		}
+	}
 
-  .book-btn.expanded {
-    width: var(--expanded-width, 207.5px) !important;
-  }
-  .book-btn.expanded .spine {
-    transform: translate3d(0,0,0) scale3d(1,1,1) rotateY(-60deg) !important;
-  }
-  .book-btn.expanded .cover {
-    transform: translate3d(0,0,0) scale3d(1,1,1) rotateY(30deg) !important;
-  }
-  .book-scrolling {
-    transition: transform 100ms linear !important;
-  }
-
+	.book-btn.expanded {
+		width: var(--expanded-width, 207.5px) !important;
+	}
+	.book-btn.expanded .spine {
+		transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateY(-60deg) !important;
+	}
+	.book-btn.expanded .cover {
+		transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateY(30deg) !important;
+	}
+	.book-scrolling {
+		transition: transform 100ms linear !important;
+	}
 
 	.spine {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
 
-  transform: translate3d(0,0,0) rotateY(0deg);
-  transform-style: preserve-3d;
+		transform: translate3d(0, 0, 0) rotateY(0deg);
+		transform-style: preserve-3d;
 
-  filter: brightness(0.9) contrast(1.1);
-  overflow: hidden;
-}
+		filter: brightness(0.9) contrast(1.1);
+		overflow: hidden;
+	}
 
-/* 📄 TEXTURE LAYER (THIS FIXES YOUR ISSUE) */
-.spine::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+	/* 📄 TEXTURE LAYER (THIS FIXES YOUR ISSUE) */
+	.spine::before {
+		content: "";
+		position: absolute;
+		inset: 0;
 
-  background-image: url("/textured-paper.png");
-  background-size: cover;
-  background-position: center;
+		background-image: url("/textured-paper.png");
+		background-size: cover;
+		background-position: center;
 
-  opacity: 0.35; /* <-- adjust texture strength here */
-  pointer-events: none;
+		opacity: 0.35; /* <-- adjust texture strength here */
+		pointer-events: none;
 
-  mix-blend-mode: multiply;
-}
+		mix-blend-mode: multiply;
+	}
 
-/* 🌫 optional lighting depth (makes it feel real) */
-.spine::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+	/* 🌫 optional lighting depth (makes it feel real) */
+	.spine::after {
+		content: "";
+		position: absolute;
+		inset: 0;
 
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.08),
-    rgba(0, 0, 0, 0.2)
-  );
+		background: linear-gradient(to right, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.2));
 
-  pointer-events: none;
-}
+		pointer-events: none;
+	}
 
-.spine h2 {
-  position: relative;
-  margin-top: 12px;
-  font-size: 12px;
-  writing-mode: vertical-rl;
-  font-family: "DM Sans", sans-serif;
-  user-select: none;
-  z-index: 2;
-}
+	.spine h2 {
+		position: relative;
+		margin-top: 12px;
+		font-size: 12px;
+		writing-mode: vertical-rl;
+		font-family: "DM Sans", sans-serif;
+		user-select: none;
+		z-index: 2;
+	}
 </style>
 
 <script>
-  class BookshelfWidget extends HTMLElement {
-    connectedCallback() {
-      const width = parseFloat(this.dataset.width || '41.5');
+	class BookshelfWidget extends HTMLElement {
+		connectedCallback() {
+			const width = parseFloat(this.dataset.width || "41.5");
 			const expandedWidth = this.dataset.width ? parseFloat(this.dataset.width) * 5 : 207.5;
-      this.style.setProperty('--expanded-width', `${expandedWidth}px`);
+			this.style.setProperty("--expanded-width", `${expandedWidth}px`);
 
-      const viewport = this.querySelector('#viewport') as HTMLElement;
-      const leftBtn = this.querySelector('#scroll-left') as HTMLElement;
-      const rightBtn = this.querySelector('#scroll-right') as HTMLElement;
-      const books = Array.from(this.querySelectorAll('.book-btn')) as HTMLElement[];
-      const numBooks = parseInt(this.dataset.bookCount || '0', 10);
+			const viewport = this.querySelector("#viewport") as HTMLElement;
+			const leftBtn = this.querySelector("#scroll-left") as HTMLElement;
+			const rightBtn = this.querySelector("#scroll-right") as HTMLElement;
+			const books = Array.from(this.querySelectorAll(".book-btn")) as HTMLElement[];
+			const numBooks = parseInt(this.dataset.bookCount || "0", 10);
 
-      let scrollX = 0;
-      let bookIndex = -1;
-      let isScrolling = false;
-      let scrollInterval: ReturnType<typeof setInterval> | null = null;
-      let viewportWidth = viewport ? viewport.getBoundingClientRect().width : 0;
-      let booksInViewport = viewportWidth / (width + 4);
+			let scrollX = 0;
+			let bookIndex = -1;
+			let isScrolling = false;
+			let scrollInterval: ReturnType<typeof setInterval> | null = null;
+			let viewportWidth = viewport ? viewport.getBoundingClientRect().width : 0;
+			let booksInViewport = viewportWidth / (width + 4);
 
-      const getBounds = () => {
-        let totalWidth = numBooks * (width + 4) - 4; // all books width + gaps
-        if (bookIndex > -1) {
-          totalWidth += (width * 4); // extra width for expanded book
-        }
-        let max = totalWidth - viewportWidth;
-        return { min: 0, max: Math.max(0, max) };
-      };
+			const getBounds = () => {
+				let totalWidth = numBooks * (width + 4) - 4; // all books width + gaps
+				if (bookIndex > -1) {
+					totalWidth += width * 4; // extra width for expanded book
+				}
+				let max = totalWidth - viewportWidth;
+				return { min: 0, max: Math.max(0, max) };
+			};
 
-      const updateScrollVisibility = () => {
-        const { min, max } = getBounds();
-        if (leftBtn) leftBtn.style.display = scrollX > min ? 'flex' : 'none';
-        if (rightBtn) rightBtn.style.display = scrollX < max ? 'flex' : 'none';
-      };
+			const updateScrollVisibility = () => {
+				const { min, max } = getBounds();
+				if (leftBtn) leftBtn.style.display = scrollX > min ? "flex" : "none";
+				if (rightBtn) rightBtn.style.display = scrollX < max ? "flex" : "none";
+			};
 
-      const applyScroll = () => {
-        const { min, max } = getBounds();
-        scrollX = Math.max(min, Math.min(scrollX, max));
-        books.forEach(b => {
-          b.style.transform = `translateX(-${scrollX}px)`;
-          if (isScrolling) {
-            b.classList.add('book-scrolling');
-          } else {
-            b.classList.remove('book-scrolling');
-          }
-        });
-        updateScrollVisibility();
-      };
+			const applyScroll = () => {
+				const { min, max } = getBounds();
+				scrollX = Math.max(min, Math.min(scrollX, max));
+				books.forEach((b) => {
+					b.style.transform = `translateX(-${scrollX}px)`;
+					if (isScrolling) {
+						b.classList.add("book-scrolling");
+					} else {
+						b.classList.remove("book-scrolling");
+					}
+				});
+				updateScrollVisibility();
+			};
 
-      const setScrollRight = () => {
-        isScrolling = true;
-        scrollInterval = setInterval(() => { scrollX += 3; applyScroll(); }, 10);
-      };
+			const setScrollRight = () => {
+				isScrolling = true;
+				scrollInterval = setInterval(() => {
+					scrollX += 3;
+					applyScroll();
+				}, 10);
+			};
 
-      const setScrollLeft = () => {
-        isScrolling = true;
-        scrollInterval = setInterval(() => { scrollX -= 3; applyScroll(); }, 10);
-      };
+			const setScrollLeft = () => {
+				isScrolling = true;
+				scrollInterval = setInterval(() => {
+					scrollX -= 3;
+					applyScroll();
+				}, 10);
+			};
 
-      const stopScroll = () => {
-        isScrolling = false;
-        if (scrollInterval) clearInterval(scrollInterval);
-        applyScroll();
-      };
+			const stopScroll = () => {
+				isScrolling = false;
+				if (scrollInterval) clearInterval(scrollInterval);
+				applyScroll();
+			};
 
-      const startEvt = 'mouseenter'; 
-      const stopEvt = 'mouseleave';
-      const touchStartEvt = 'touchstart';
-      const touchEndEvt = 'touchend';
+			const startEvt = "mouseenter";
+			const stopEvt = "mouseleave";
+			const touchStartEvt = "touchstart";
+			const touchEndEvt = "touchend";
 
-      if(leftBtn) {
-        leftBtn.addEventListener(startEvt, setScrollLeft);
-        leftBtn.addEventListener(touchStartEvt, setScrollLeft);
-        leftBtn.addEventListener(stopEvt, stopScroll);
-        leftBtn.addEventListener(touchEndEvt, stopScroll);
-      }
-      if(rightBtn) {
-        rightBtn.addEventListener(startEvt, setScrollRight);
-        rightBtn.addEventListener(touchStartEvt, setScrollRight);
-        rightBtn.addEventListener(stopEvt, stopScroll);
-        rightBtn.addEventListener(touchEndEvt, stopScroll);
-      }
+			if (leftBtn) {
+				leftBtn.addEventListener(startEvt, setScrollLeft);
+				leftBtn.addEventListener(touchStartEvt, setScrollLeft);
+				leftBtn.addEventListener(stopEvt, stopScroll);
+				leftBtn.addEventListener(touchEndEvt, stopScroll);
+			}
+			if (rightBtn) {
+				rightBtn.addEventListener(startEvt, setScrollRight);
+				rightBtn.addEventListener(touchStartEvt, setScrollRight);
+				rightBtn.addEventListener(stopEvt, stopScroll);
+				rightBtn.addEventListener(touchEndEvt, stopScroll);
+			}
 
-      books.forEach((bookBtn, index) => {
-        bookBtn.addEventListener('click', () => {
-          const slug = bookBtn.dataset.slug || '#';
-          const olid = bookBtn.dataset.olid || '';
+			books.forEach((bookBtn, index) => {
+				bookBtn.addEventListener("click", () => {
+					const slug = bookBtn.dataset.slug || "#";
+					const olid = bookBtn.dataset.olid || "";
 
-          if (bookIndex === index) {
-            bookIndex = -1;
-            window.location.href = slug; // Navigates on second click like the reference
-          } else {
-            bookIndex = index;
-            books.forEach(b => b.classList.remove('expanded'));
-            bookBtn.classList.add('expanded');
-            
-            // Update the URL with the book's olid
-            if (olid) {
-              const url = new URL(window.location.href);
-              url.searchParams.set("name", olid);
-              window.history.pushState({}, '', url);
-              // Dispatch a custom event to notify the page to update the description list
-              window.dispatchEvent(new CustomEvent('bookshelf-book-changed'));
-            }
+					if (bookIndex === index) {
+						bookIndex = -1;
+						window.location.href = slug; // Navigates on second click like the reference
+					} else {
+						bookIndex = index;
+						books.forEach((b) => b.classList.remove("expanded"));
+						bookBtn.classList.add("expanded");
 
-            const targetScroll = (bookIndex - (booksInViewport - 4.5) / 2) * (width + 4);
-            const { min, max } = getBounds();
-            scrollX = Math.max(min, Math.min(targetScroll, max));
-            applyScroll();
-          }
-        });
-      });
+						// Update the URL with the book's olid
+						if (olid) {
+							const url = new URL(window.location.href);
+							url.searchParams.set("name", olid);
+							window.history.pushState({}, "", url);
+							// Dispatch a custom event to notify the page to update the description list
+							window.dispatchEvent(new CustomEvent("bookshelf-book-changed"));
+						}
 
-      if(window.ResizeObserver && viewport) {
-        const resizeObserver = new ResizeObserver((entries) => {
-          for (let entry of entries) {
-            viewportWidth = entry.contentRect.width;
-            booksInViewport = viewportWidth / (width + 4);
-            applyScroll();
-          }
-        });
-        resizeObserver.observe(viewport);
-      }
+						const targetScroll = (bookIndex - (booksInViewport - 4.5) / 2) * (width + 4);
+						const { min, max } = getBounds();
+						scrollX = Math.max(min, Math.min(targetScroll, max));
+						applyScroll();
+					}
+				});
+			});
 
-      applyScroll();
-    }
-  }
+			if (window.ResizeObserver && viewport) {
+				const resizeObserver = new ResizeObserver((entries) => {
+					for (let entry of entries) {
+						viewportWidth = entry.contentRect.width;
+						booksInViewport = viewportWidth / (width + 4);
+						applyScroll();
+					}
+				});
+				resizeObserver.observe(viewport);
+			}
 
-  customElements.define('bookshelf-widget', BookshelfWidget);
+			applyScroll();
+		}
+	}
+
+	customElements.define("bookshelf-widget", BookshelfWidget);
 </script>

@@ -11,20 +11,22 @@ const socialLinks: {
 	link: string;
 	name: string;
 }[] = [
-
-		{
-			friendlyName: "rss",
-			isWebmention: true,
-			link: new URL("rss.xml", (() => {
+	{
+		friendlyName: "rss",
+		isWebmention: true,
+		link: new URL(
+			"rss.xml",
+			(() => {
 				const site = import.meta.env.SITE;
 				try {
 					return new URL(site).href;
 				} catch {
 					return new URL(`https://${site}`).href;
 				}
-			})()).href,
-			name: "mdi:rss",
-		},
+			})(),
+		).href,
+		name: "mdi:rss",
+	},
 	{
 		friendlyName: "github",
 		link: "https://www.github.com/amar-jay/",
@@ -56,7 +58,7 @@ const socialLinks: {
 			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
 				<li class="flex">
 					<a
-						class="inline-block p-1 sm:hover:text-link"
+						class="sm:hover:text-link inline-block p-1"
 						href={link}
 						rel={`noopener noreferrer ${isWebmention ? "me authn" : ""}`}
 						target="_blank"

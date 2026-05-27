@@ -5,19 +5,30 @@ import Pagination from "@/components/Paginator.astro";
 import BookPreview from "@/components/blog/BookPreview.astro";
 import BaseLayout from "@/components/layout/Base.astro";
 import Bookshelf from "@/components/bookshelf.astro";
-import { getBooks } from "@/utils/open-library";
-
-const { page } = Astro.props;
+import { getBooks, openLibraryFetch } from "@/utils/open-library";
+import type { OpenLibraryResult } from "@/utils/open-library";
 
 // Mock books data for the bookshelf
 interface Props {
 	page: Page<ReturnType<typeof getBooks>[number]>;
+	allBooks: (ReturnType<typeof getBooks>[number] & { data: OpenLibraryResult })[];
 }
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const data = getBooks();
-	return paginate(data, { pageSize: 10, props: { allBooks: data } });
+	const updatedData: Props["allBooks"] = [];
+	for (const post of data) {
+		const metadata = await openLibraryFetch(post.olid);
+		updatedData.push({
+			...post,
+			data: metadata,
+		});
+	}
+
+	return paginate(data, { pageSize: 10, props: { allBooks: updatedData } });
 }) satisfies GetStaticPaths;
+
+const { page, allBooks } = Astro.props;
 
 const meta = {
 	title: "Books",
@@ -45,14 +56,14 @@ const paginationProps = {
 	<h1 class='title'>Books</h1>
 	<div>
 		<section class='relative mb-10 w-full' aria-label='Bookshelf'>
-			<Bookshelf books={Array(4).fill(page.data).flat()} />
+			<Bookshelf books={Array(4).fill(allBooks).flat()} />
 		</section>
 	</div>
 	<div class='grid max-w-full gap-y-2 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
 		<section aria-label='Blog post list'>
 			<ul class='space-y-8 text-start'>
 				{
-					page.data.map(p => (
+					allBooks.map(p => (
 						<li
 							class='book-item hidden flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full'
 							data-olid={p.olid}
@@ -118,5 +129,6 @@ const paginationProps = {
 	// Run on initial load
 	document.addEventListener("DOMContentLoaded", updateBooksDisplay);
 	// Support for Astro view transitions if enabled
-	document.addEventListener("astro:page-load", updateBooksDisplay);	// Support for book clicks
-	window.addEventListener('bookshelf-book-changed', updateBooksDisplay);</script>
+	document.addEventListener("astro:page-load", updateBooksDisplay); // Support for book clicks
+	window.addEventListener("bookshelf-book-changed", updateBooksDisplay);
+</script>

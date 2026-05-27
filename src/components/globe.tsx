@@ -14,8 +14,6 @@ interface GlobeProps {
 	markers: Marker[];
 }
 
-
-
 function Globe({ className, phi = 0, markers }: GlobeProps) {
 	const globeRef = useRef<HTMLCanvasElement>(null);
 	const pointerInteracting = useRef<number | null>(null);
@@ -30,14 +28,12 @@ function Globe({ className, phi = 0, markers }: GlobeProps) {
 		},
 	}));
 
-
 	useEffect(() => {
 		let currentPhi = phi;
 		let width = 0;
 		const onResize = () => globeRef.current && (width = globeRef.current.offsetWidth);
 		window.addEventListener("resize", onResize);
 		onResize();
-
 
 		if (!globeRef.current) return;
 		const globe = createGlobe(globeRef.current, {

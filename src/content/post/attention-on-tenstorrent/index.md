@@ -9,12 +9,11 @@ coverImage:
   alt: "Cover image of Flash Attention on Tenstorrent"
 ---
 
-
 $$
-attention = softmax(\frac{Q^TK} {\sqrt {d_k}})V 
+attention = softmax(\frac{Q^TK} {\sqrt {d_k}})V
 $$
 
-## Intro 
+## Intro
 
 Flash Attention was a paper written by Tri Dao et al. in 2022 as a better alternative for running attention mechanisms on NVIDIA GPUs. So far, there have been three iterations of Flash Attention:
 
@@ -34,7 +33,7 @@ Recently, I read a paper in the [Tenstorrent GitHub repository (tenstorrent/tt-m
 
 ## Understanding
 
-The architecture of Tenstorrent hardware differs from CUDA-based GPUs. At a high level, both approaches distribute computation across multiple simple CPU-like cores that perform arithmetic in parallel and later combine the results. However, CUDA hardware is structured such that each device is divided into blocks, which are further divided into threads. Each thread executes an arithmetic, recieving and sending tasks, and uses the CUDA programming model to efficiently manage these operations by leveraging various levels of  cache.
+The architecture of Tenstorrent hardware differs from CUDA-based GPUs. At a high level, both approaches distribute computation across multiple simple CPU-like cores that perform arithmetic in parallel and later combine the results. However, CUDA hardware is structured such that each device is divided into blocks, which are further divided into threads. Each thread executes an arithmetic, recieving and sending tasks, and uses the CUDA programming model to efficiently manage these operations by leveraging various levels of cache.
 
 ![Compact disc cover image](./cuda.png)
 
@@ -52,17 +51,15 @@ Thus, its programming execution model is quite different from CUDA's. Instead of
 
 As a result, its **Flash Attention mechanism** differs significantly from conventional implementations. However, as mentioned earlier, the fundamental approach remains the same: **chunking and tiling $Q, K, V$, then computing and caching intermediate results before performing softmax and summation.**
 
-> After reading all the technical report, I realized that the "flash attention" on the tenstorrent looks more like a asynchronous KV cache than flash-attention itself. 
+> After reading all the technical report, I realized that the "flash attention" on the tenstorrent looks more like a asynchronous KV cache than flash-attention itself.
 
-That's basically it there is nothing more to add after that.  Since KV cache is already known or you can research on it and asynchronous computation in the tenstorrent tensix was already explained. These were the comparisons to control:
+That's basically it there is nothing more to add after that. Since KV cache is already known or you can research on it and asynchronous computation in the tenstorrent tensix was already explained. These were the comparisons to control:
 
 ![Stats](https://github.com/tenstorrent/tt-metal/raw/main/tech_reports/FlashAttention/images/image3.png)
 
+## References
 
-## References 
-
-- [1]  [Flash Attention Paper (Tri Dao, 2022, arxiv)](https://arxiv.org/pdf/2205.14135)
-- [2]  [Flash Attention 2 Paper (Tri Dao, 2023, arxiv)](https://arxiv.org/pdf/2307.08691)
-- [3]  [Flash Attention 3 Paper (Tri Dao, 2024, arxiv)](https://arxiv.org/pdf/2407.08608)
-- [4]  [Flash Attention on Tenstorrent Report](https://github.com/tenstorrent/tt-metal/blob/main/tech_reports/FlashAttention/FlashAttention.md)
-
+- [1] [Flash Attention Paper (Tri Dao, 2022, arxiv)](https://arxiv.org/pdf/2205.14135)
+- [2] [Flash Attention 2 Paper (Tri Dao, 2023, arxiv)](https://arxiv.org/pdf/2307.08691)
+- [3] [Flash Attention 3 Paper (Tri Dao, 2024, arxiv)](https://arxiv.org/pdf/2407.08608)
+- [4] [Flash Attention on Tenstorrent Report](https://github.com/tenstorrent/tt-metal/blob/main/tech_reports/FlashAttention/FlashAttention.md)

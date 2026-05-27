@@ -14,17 +14,14 @@ Video encoding is the process of compressing and converting raw video data into 
 ## Fundamental Concepts
 
 1. **Compression**: Video compression reduces the amount of data needed to represent a video sequence. There are two main types:
-
    - Lossless compression: Preserves all original data, resulting in larger file sizes.
    - Lossy compression: Removes some data to achieve smaller file sizes, potentially reducing quality.
 
 2. **Color Space and Chroma Subsampling**
-
    - Color spaces like RGB and YUV represent colors in video.
    - Chroma subsampling (e.g., 4:2:0, 4:2:2) reduces color information to save bandwidth, exploiting the human eye's lower sensitivity to color details.
 
 3. **Frame Types**
-
    - I-frames (Intra-coded frames): Complete images, independent of other frames.
    - P-frames (Predicted frames): Contain only changes from previous frames.
    - B-frames (Bi-directional predicted frames): Can reference both past and future frames.
@@ -37,17 +34,14 @@ Video encoding is the process of compressing and converting raw video data into 
 ## Encoding Techniques
 
 1. **Motion Estimation and Compensation:** This technique predicts movement between frames to reduce redundant information:
-
    - Block matching: Divides frames into blocks and searches for matching blocks in reference frames.
    - Optical flow: Estimates motion vectors for each pixel.
 
 2. **Transform Coding:** Converts spatial domain data to frequency domain:
-
    - Discrete Cosine Transform (DCT): Commonly used in many codecs.
    - Wavelet Transform: Used in some modern codecs for better compression at low bitrates.
 
 3. **Quantization:** Reduces the precision of the transform coefficients:
-
    - Coarser quantization leads to more compression but lower quality.
    - Finer quantization preserves more detail but results in larger file sizes.
 
@@ -58,17 +52,14 @@ Video encoding is the process of compressing and converting raw video data into 
 ## Other Encoding Concepts
 
 1. **Rate Control:** Manages bitrate to meet target file size or streaming requirements:
-
    - One-pass encoding: Makes decisions in real-time.
    - Two-pass encoding: Analyzes the entire video in the first pass to optimize the second pass.
 
 2. **Adaptive Bitrate Streaming:** Adjusts video quality based on the viewer's network conditions:
-
    - Creates multiple versions of a video at different bitrates.
    - Client-side player switches between versions as needed.
 
 3. **Psychovisual Optimization:** Exploits characteristics of human visual perception:
-
    - Allocates more bits to areas where the human eye is more sensitive to distortion.
    - Reduces bits in areas where distortion is less noticeable.
 
@@ -114,7 +105,6 @@ From the early days of H.261 to the cutting-edge AV1, the evolution of video cod
    - Improved intra-prediction
    - Sample Adaptive Offset (SAO) filter
 6. VP9 (2013): Google's successor to VP8, used widely on YouTube.
-
    - Superblocks (up to 128x128 pixels)
    - Asymmetric Numeral Systems (ANS) entropy coding
    - Compound Inter-Prediction

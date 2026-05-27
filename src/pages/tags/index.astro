@@ -12,32 +12,32 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-	<h1 class='title mb-2'>Tags</h1>
-	<div class='overflow-hidden overflow-x-auto'>
-		<table class='w-full border dark:border-gray-600'>
+	<h1 class="title mb-2">Tags</h1>
+	<div class="overflow-hidden overflow-x-auto">
+		<table class="w-full border dark:border-gray-600">
 			<thead>
-				<tr class='bg-primary-50 border-b border-gray-400 bg-background'>
-					<th class='px-6 py-2 text-left text-sm font-semibold'>Tag</th>
-					<th class='px-6 py-2 text-left text-sm font-semibold'>Posts</th>
+				<tr class="bg-primary-50 bg-background border-b border-gray-400">
+					<th class="px-6 py-2 text-left text-sm font-semibold">Tag</th>
+					<th class="px-6 py-2 text-left text-sm font-semibold">Posts</th>
 				</tr>
 			</thead>
 			<tbody>
 				{
 					allTags.map(([tag, val]) => (
-						<tr class='border-b  dark:border-gray-600'>
-							<td class='px-3 py-1'>
+						<tr class="border-b dark:border-gray-600">
+							<td class="px-3 py-1">
 								<a
 									aria-label={`View all posts with the tag: ${tag}`}
 									data-astro-prefetch
 									title={`View posts with the tag: ${tag}`}
 									href={`/tags/${tag}/`}
-									class='blog-link p-1 hover:rounded-t-md hover:bg-accent/15'
+									class="blog-link hover:bg-accent/15 p-1 hover:rounded-t-md"
 								>
-									<span class='mr-1 text-gray-600 dark:text-gray-400'>&#35;</span>
+									<span class="mr-1 text-gray-600 dark:text-gray-400">&#35;</span>
 									{tag}
 								</a>
 							</td>
-							<td class='px-6 py-1 text-slate-600 dark:text-slate-400'>{val}</td>
+							<td class="px-6 py-1 text-slate-600 dark:text-slate-400">{val}</td>
 						</tr>
 					))
 				}

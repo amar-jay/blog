@@ -13,9 +13,7 @@ export function toTitleCase(str: string) {
 		.join(" ");
 }
 
-
 export { getFormattedDate } from "./date";
 export { elementHasClass, rootInDarkMode, isMobile } from "./domElement";
 export { generateToc } from "./generateToc";
 export type { TocItem } from "./generateToc";
-export { default as openLibraryFetch } from "./open-library";

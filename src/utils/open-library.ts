@@ -1,140 +1,112 @@
-type OpenLibraryResult = {
-	title: string | null;
-	description: string | null;
-	author: string | null;
-	cover: string | null;
+export type OpenLibraryResult = {
+	title: string;
+	description: string;
+	author: string;
+	cover: string;
 	publishedDate: string | null;
 };
 
-async function fetchJSON(url: string) {
-	const res = await fetch(url);
-	if (!res.ok) throw new Error(`Failed request: ${url}`);
-	return res.json();
-}
-
-export default async function openLibraryFetch(olid: string): Promise<OpenLibraryResult> {
+export async function openLibraryFetch(olid: string): Promise<OpenLibraryResult> {
 	if (!olid) {
-		return {
-			title: null,
-			description: null,
-			author: null,
-			cover: null,
-			publishedDate: null,
-		};
+		throw new Error("No OLID provided");
 	}
 
-	try {
-		const edition = await fetchJSON(
-			`https://openlibrary.org/books/${olid}.json`
-		);
+	const cover = `https://covers.openlibrary.org/b/olid/${olid}-M.jpg`;
+	const res = await fetch(`https://openlibrary.org/books/${olid}.json`, {
+		signal: AbortSignal.timeout(15000),
+	});
 
-		const title = edition?.title ?? null;
-		const publishedDate = edition?.publish_date ?? null;
+	if (!res.ok) throw new Error(`Failed to fetch book: ${olid}`);
+	const edition = await res.json();
 
-		const cover = `https://covers.openlibrary.org/b/olid/${olid}-M.jpg`;
-
-		const workKey = edition?.works?.[0]?.key;
-		if (!workKey) {
-			return {
-				title,
-				description: null,
-				author: null,
-				cover,
-				publishedDate,
-			};
-		}
-
-		const work = await fetchJSON(
-			`https://openlibrary.org${workKey}.json`
-		);
-
-		const description =
-			typeof work?.description === "string"
-				? work.description
-				: work?.description?.value ?? null;
-
-		const authorKey =
-			work?.authors?.[0]?.author?.key ||
-			edition?.authors?.[0]?.key;
-
-		let author: string | null = null;
-
-		if (authorKey) {
-			const authorData = await fetchJSON(
-				`https://openlibrary.org${authorKey}.json`
-			);
-			author = authorData?.name ?? null;
-		}
-
-		return {
-			title,
-			description,
-			author,
-			cover,
-			publishedDate,
-		};
-	} catch (err) {
-		console.error(err);
-
-		return {
-			title: null,
-			description: null,
-			author: null,
-			cover: `https://covers.openlibrary.org/b/olid/${olid}-M.jpg`,
-			publishedDate: null,
-		};
+	const title = edition?.title ?? null;
+	if (!title) {
+		throw new Error(`No title found for book: ${olid}`);
 	}
+	const publishedDate = edition?.publish_date ?? null;
+
+	const authorKey = edition?.authors?.[0]?.author?.key || edition?.authors?.[0]?.key;
+
+	let description =
+		typeof edition?.description === "string"
+			? edition.description
+			: (edition?.description?.value ?? null);
+	if (!description) {
+		const desc = await verboseDescriptionFetch(olid);
+		description = desc.description;
+		if (!description) {
+			throw new Error(`No description found for book: ${olid}`);
+		}
+	}
+
+	let author = "";
+	if (authorKey) {
+		const authRes = await fetch(`https://openlibrary.org${authorKey}.json`, {
+			signal: AbortSignal.timeout(10000),
+		});
+		if (!authRes.ok) {
+			throw new Error(`Failed to fetch author: ${authorKey}`);
+		}
+
+		const authorData = await authRes.json();
+		author = authorData?.name ?? "";
+		if (!author) {
+			throw new Error(`No author found for book: ${olid}`);
+		}
+	}
+
+	return {
+		title,
+		description: description,
+		author,
+		cover,
+		publishedDate,
+	};
 }
 
 export function getBooks() {
 	return [
 		{
-			title: "Dune",
 			slug: "/books/dune",
+			olid: "OL26242482M",
 			spineColor: "#d97706",
 			textColor: "#ffffff",
-			olid: "OL26242482M",
-			coverImage: fetchImage("OL26242482M"),
+			readDate: new Date("2023-08-15"),
 		},
 		{
-			title: "The Martian",
 			slug: "/books/the-martian",
+			olid: "OL32815550M",
 			spineColor: "#b91c1c",
 			textColor: "#ffffff",
-			olid: "OL32815550M",
-			coverImage: fetchImage("OL32815550M"),
+			readDate: new Date("2023-09-10"),
 		},
 		{
-			title: "Neuromancer",
 			slug: "/books/neuromancer",
+			olid: "OL27444262M",
 			spineColor: "#228B22",
 			textColor: "#ffffff",
-			olid: "OL27444262M",
-			coverImage: fetchImage("OL27444262M"),
+			readDate: new Date("2023-10-05"),
 		},
 		{
-			title: "Foundation",
 			slug: "/books/foundation",
+			olid: "OL51566464M",
 			spineColor: "#C5A596",
 			textColor: "#ffffff",
-			olid: "OL51566464M",
-			coverImage: fetchImage("OL51566464M"),
+			readDate: new Date("2023-11-20"),
 		},
 		{
-			title: "1984",
 			slug: "/books/1984",
+			olid: "OL3174961M",
 			spineColor: "#0f172a",
 			textColor: "#ffffff",
-			olid: "OL3174961M",
-			coverImage: fetchImage("OL3174961M"),
+			readDate: new Date("2021-02-15"),
 		},
 		{
-			title: "The Rosie Proect",
 			slug: "/books/rosie-project",
+			olid: "OL40231981M",
 			spineColor: "#1591EA",
 			textColor: "#ffffff",
-			olid: "OL40231981M",
-			coverImage: fetchImage("OL40231981M"),
+			readDate: new Date("2020-12-10"),
 		},
 	] as const;
 }
@@ -143,9 +115,7 @@ export function fetchImage(olid: string) {
 	return `https://covers.openlibrary.org/b/olid/${olid}-M.jpg`;
 }
 
-export async function verboseDescriptionFetch(
-	olid: string,
-): Promise<{
+export async function verboseDescriptionFetch(olid: string): Promise<{
 	description: string | null;
 	source: "openlibrary" | "generated" | null;
 }> {
@@ -155,9 +125,11 @@ export async function verboseDescriptionFetch(
 
 	try {
 		// 1. Edition
-		const edition = await fetchJSON(
-			`https://openlibrary.org/books/${olid}.json`,
-		);
+		const editionRes = await fetch(`https://openlibrary.org/books/${olid}.json`, {
+			signal: AbortSignal.timeout(10000),
+		});
+		if (!editionRes.ok) return { description: null, source: null };
+		const edition = await editionRes.json();
 
 		const workKey = edition?.works?.[0]?.key;
 		if (!workKey) {
@@ -165,15 +137,15 @@ export async function verboseDescriptionFetch(
 		}
 
 		// 2. Work
-		const work = await fetchJSON(
-			`https://openlibrary.org${workKey}.json`,
-		);
+		const workRes = await fetch(`https://openlibrary.org${workKey}.json`, {
+			signal: AbortSignal.timeout(10000),
+		});
+		if (!workRes.ok) return { description: null, source: null };
+		const work = await workRes.json();
 
 		// 3. Try real description first
 		const rawDescription =
-			typeof work?.description === "string"
-				? work.description
-				: work?.description?.value ?? null;
+			typeof work?.description === "string" ? work.description : (work?.description?.value ?? null);
 
 		if (rawDescription && rawDescription.length > 200) {
 			return {
@@ -183,34 +155,32 @@ export async function verboseDescriptionFetch(
 		}
 
 		// 4. Fallback: excerpts (sometimes more detailed)
-		const excerpt =
-			work?.excerpts?.[0]?.text ??
-			work?.excerpts?.[0]?.excerpt ??
-			null;
+		const excerpt = work?.excerpts?.[0]?.text ?? work?.excerpts?.[0]?.excerpt ?? null;
 
-		// 5. Subjects fallback (very useful)
+		// 5. Subjects fallback
 		const subjects: string[] = work?.subjects ?? [];
 
 		// 6. Authors
-		const authorName =
-			work?.authors?.[0]?.author?.key
-				? await (async () => {
-						try {
-							const a = await fetchJSON(
-								`https://openlibrary.org${work.authors[0].author.key}.json`,
-							);
-							return a?.name ?? null;
-						} catch {
-							return null;
-						}
-				  })()
-				: null;
+		const authorKey = work?.authors?.[0]?.author?.key;
+		let authorName: string | null = null;
+
+		if (authorKey) {
+			try {
+				const aRes = await fetch(`https://openlibrary.org${authorKey}.json`, {
+					signal: AbortSignal.timeout(5000),
+				});
+				if (aRes.ok) {
+					const a = await aRes.json();
+					authorName = a?.name ?? null;
+				}
+			} catch {}
+		}
 
 		// 7. Construct generated verbose description
 		const generatedParts: string[] = [];
 
 		if (work?.title) {
-			generatedParts.push(`${work.title} is a novel`);
+			generatedParts.push(`${work.title} is a book`);
 		}
 
 		if (authorName) {
@@ -218,15 +188,11 @@ export async function verboseDescriptionFetch(
 		}
 
 		if (subjects.length) {
-			generatedParts.push(
-				`It explores themes such as ${subjects
-					.slice(0, 8)
-					.join(", ")}`,
-			);
+			generatedParts.push(`It covers themes like ${subjects.slice(0, 5).join(", ")}`);
 		}
 
 		if (excerpt) {
-			generatedParts.push(`Excerpt context: ${excerpt}`);
+			generatedParts.push(`Excerpt: ${excerpt}`);
 		}
 
 		const generated = generatedParts.join(". ");
@@ -236,7 +202,6 @@ export async function verboseDescriptionFetch(
 			source: generated.length > 50 ? "generated" : null,
 		};
 	} catch (err) {
-		console.error(err);
 		return { description: null, source: null };
 	}
 }

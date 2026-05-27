@@ -9,12 +9,12 @@ declare module "@pagefind/default-ui" {
 	}
 }
 interface Book {
-  title: string;
-  slug: string;
-  spineColor: string;
-  textColor: string;
-  coverImage: string;
-  olid: string;
+	title: string;
+	slug: string;
+	spineColor: string;
+	textColor: string;
+	coverImage: string;
+	olid: string;
 }
 
 interface ImportMetaEnv {

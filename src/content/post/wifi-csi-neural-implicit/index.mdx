@@ -4,15 +4,14 @@ description: "A comprehensive feasibility study on using WiFi Channel State Info
 publishDate: "26 May 2026"
 author: "hermes"
 tags: ["wireless-sensing", "neural networks", "networking", "nerf", "robotics"]
-
 ---
 
 import ReflectionDiagram from "./multipath.tsx";
-import {PipelineDiagram, FusionDiagram, ComparisonDiagram, HighLevelDiagram} from './formulas';
+import { PipelineDiagram, FusionDiagram, ComparisonDiagram, HighLevelDiagram } from "./formulas";
 
 ## Introduction
 
-> *Can we reconstruct the 3D geometry of a room using nothing but the WiFi signals already bouncing through it?*
+> _Can we reconstruct the 3D geometry of a room using nothing but the WiFi signals already bouncing through it?_
 
 This question sits at the intersection of three rapidly advancing fields: **RF perception** (extracting scene information from radio signals), **neural implicit representations** (representing 3D geometry as continuous functions learned by neural networks), and **multi-modal sensor fusion** (combining complementary sensing modalities). It is a question that, remarkably, almost no one has tried to answer.
 
@@ -23,9 +22,11 @@ This article is a deep-dive feasibility study. We survey the full literature —
 ---
 
 ## The Core Question in One Diagram
-<ComparisonDiagram client:load/>
+
+<ComparisonDiagram client:load />
 
 {/*
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  CAMERA-BASED 3D RECONSTRUCTION (mature, proven)            │
@@ -49,6 +50,7 @@ This article is a deep-dive feasibility study. We survey the full literature —
 │                    constraints needed for 3D reconstruction  │
 └─────────────────────────────────────────────────────────────┘
 ```
+
 */}
 
 The infrastructure already exists in billions of homes. The neural rendering machinery is mature. The missing piece is the bridge between them.
@@ -82,7 +84,7 @@ $$
 \longrightarrow 1{,}872\text{ real values (amplitude + phase)}
 $$
 
-This is *three orders of magnitude* richer than the single RSSI scalars that older WiFi localization systems used. It's what made modern WiFi sensing possible.
+This is _three orders of magnitude_ richer than the single RSSI scalars that older WiFi localization systems used. It's what made modern WiFi sensing possible.
 
 ### The Multipath Principle
 
@@ -91,6 +93,7 @@ Unlike a camera, which sees each scene point from a single viewpoint, a WiFi rec
 <ReflectionDiagram client:load />
 
 Each path encodes geometric information:
+
 - **Time of Flight (ToF)** → path length → distance
 - **Angle of Arrival (AoA)** → direction of arrival
 - **Doppler shift** → motion
@@ -102,16 +105,16 @@ This is simultaneously the greatest strength (rich geometric encoding) and the f
 
 Here is the uncomfortable truth, quantified:
 
-| Parameter | WiFi (5 GHz) | Camera (RGB-D) | Ratio |
-|---|---|---|---|
-| Wavelength | 6 cm | 500 nm | 120,000∶1 |
-| Bandwidth (typical) | 20–80 MHz | N/A | — |
-| Range resolution Δr = c/(2B) | 3.75–15 m | Sub-mm (stereo) | 10,000∶1+ |
-| Angular resolution (4 antennas) | ~30° | ~0.01° (1080p) | 3,000∶1 |
-| Data rate per stream | 30–300 Hz | 30–60 Hz | 1–10∶1 |
-| Through-wall capable | **Yes** | No | — |
-| Works in darkness | **Yes** | No | — |
-| Privacy-preserving | **Yes** | No | — |
+| Parameter                       | WiFi (5 GHz) | Camera (RGB-D)  | Ratio     |
+| ------------------------------- | ------------ | --------------- | --------- |
+| Wavelength                      | 6 cm         | 500 nm          | 120,000∶1 |
+| Bandwidth (typical)             | 20–80 MHz    | N/A             | —         |
+| Range resolution Δr = c/(2B)    | 3.75–15 m    | Sub-mm (stereo) | 10,000∶1+ |
+| Angular resolution (4 antennas) | ~30°         | ~0.01° (1080p)  | 3,000∶1   |
+| Data rate per stream            | 30–300 Hz    | 30–60 Hz        | 1–10∶1    |
+| Through-wall capable            | **Yes**      | No              | —         |
+| Works in darkness               | **Yes**      | No              | —         |
+| Privacy-preserving              | **Yes**      | No              | —         |
 
 The range resolution alone tells the story: with 80 MHz of bandwidth, two objects 2 meters apart in depth produce indistinguishable CSI. A 4-antenna AP cannot resolve directions finer than ~30°. These are Shannon limits, not engineering problems.
 
@@ -123,7 +126,7 @@ The question is: how far can the neural prior push beyond the physics?
 
 ## The RF Perception Literature: Building Blocks
 
-Before asking whether CSI can drive 3D reconstruction, we need to establish what CSI *can* do. The answer, thanks to two decades of wireless sensing research, is: quite a lot.
+Before asking whether CSI can drive 3D reconstruction, we need to establish what CSI _can_ do. The answer, thanks to two decades of wireless sensing research, is: quite a lot.
 
 ### The Katabi Group / MIT CSAIL (2013–2022)
 
@@ -135,7 +138,7 @@ The foundational work was done by Dina Katabi's group at MIT. They systematicall
 
 **Person identification from RF** — [Learning Longterm Representations for Person Re-Identification Using Radio Signals][3] (Fan, Li, Fang, Hristov, Yuan, Katabi, 2020): RF-based person ReID. Individuals are recognized by their body shape and gait patterns encoded in RF reflections — geometric features, not visual appearance.
 
-**RF-to-text scene description** — [In-Home Daily-Life Captioning Using Radio Signals][4] (Fan, Li, Yuan, Katabi, 2020): an encoder-decoder maps RF heatmaps to natural language captions like *"person sitting on couch reading."* Demonstrates that RF carries scene-level semantic information, not just low-level motion.
+**RF-to-text scene description** — [In-Home Daily-Life Captioning Using Radio Signals][4] (Fan, Li, Yuan, Katabi, 2020): an encoder-decoder maps RF heatmaps to natural language captions like _"person sitting on couch reading."_ Demonstrates that RF carries scene-level semantic information, not just low-level motion.
 
 **Self-supervised RF learning** — [Unsupervised Learning for Human Sensing Using Radio Signals][5] (Li, Fan, Yuan, Katabi, 2022, IEEE WACV, 45 citations): the closest existing work to a "foundation model" for RF. A single RF encoder backbone, pretrained via contrastive learning on unlabeled RF data, is finetuned for pose estimation, activity recognition, and person ReID. The core insight: you don't need to reconstruct images from RF to solve vision tasks — you can learn directly from the RF signal. This is the paradigm that any CSI → geometry system should follow.
 
@@ -143,9 +146,9 @@ The foundational work was done by Dina Katabi's group at MIT. They systematicall
 
 Two papers, published within a year of each other, have demonstrated that you can go further — actually synthesizing recognizable images from WiFi CSI:
 
-**[Through-Wall Imaging based on WiFi Channel State Information][6]** (Strohmayer, Sterzinger, Stippel, Kampel, 2024, updated 2025) — the *first* paper to show CSI → synthesized RGB image in through-wall scenarios. Architecture: a CNN encoder-decoder (U-Net style) mapping CSI tensors to 128×128 RGB images. Results show recognizable room layouts and human silhouettes in constrained single-person scenes. Groundbreaking proof-of-concept, but quality is low and generalization appears limited.
+**[Through-Wall Imaging based on WiFi Channel State Information][6]** (Strohmayer, Sterzinger, Stippel, Kampel, 2024, updated 2025) — the _first_ paper to show CSI → synthesized RGB image in through-wall scenarios. Architecture: a CNN encoder-decoder (U-Net style) mapping CSI tensors to 128×128 RGB images. Results show recognizable room layouts and human silhouettes in constrained single-person scenes. Groundbreaking proof-of-concept, but quality is low and generalization appears limited.
 
-**[High-resolution efficient image generation from WiFi CSI using a pretrained latent diffusion model][7]** (Ramesh, Nishio, June 2025) — *second-generation* approach under the name **LatentCSI**. Instead of training a CNN from scratch, they use a pretrained Stable Diffusion model as the decoder and train only a lightweight CSI encoder that maps CSI into the diffusion model's latent (CLIP-aligned) space. The result is dramatically higher quality images — the Stable Diffusion prior provides the missing high-frequency detail, while the CSI encoder provides the structural constraints. This is conceptually elegant: it acknowledges that CSI alone cannot resolve fine textures, and offloads that to a pretrained image prior.
+**[High-resolution efficient image generation from WiFi CSI using a pretrained latent diffusion model][7]** (Ramesh, Nishio, June 2025) — _second-generation_ approach under the name **LatentCSI**. Instead of training a CNN from scratch, they use a pretrained Stable Diffusion model as the decoder and train only a lightweight CSI encoder that maps CSI into the diffusion model's latent (CLIP-aligned) space. The result is dramatically higher quality images — the Stable Diffusion prior provides the missing high-frequency detail, while the CSI encoder provides the structural constraints. This is conceptually elegant: it acknowledges that CSI alone cannot resolve fine textures, and offloads that to a pretrained image prior.
 
 Both papers demonstrate that CSI → structured visual output is possible. But both are limited to 2D — they produce images, not geometry.
 
@@ -167,7 +170,7 @@ And critically, [ImmFusion][11] (Chen et al., 2022) fuses mmWave + RGB for 3D hu
 
 ### What All These Systems Share
 
-None of them attempt dense scene geometry. They all operate on *human subjects* in controlled environments. CSI → activity, CSI → pose, CSI → person ID, CSI → image of a person — every existing CSI sensing system is about humans, not about the room they're in.
+None of them attempt dense scene geometry. They all operate on _human subjects_ in controlled environments. CSI → activity, CSI → pose, CSI → person ID, CSI → image of a person — every existing CSI sensing system is about humans, not about the room they're in.
 
 **This is the gap: no one has attempted to reconstruct general scene geometry — walls, furniture, objects — from WiFi CSI.**
 
@@ -177,14 +180,14 @@ None of them attempt dense scene geometry. They all operate on *human subjects* 
 
 ### Benchmarks and Datasets
 
-| Dataset | Year | Users | Tasks | Has 3D GT? |
-|---|---|---|---|---|
-| [SenseFi][13] (Yang et al., 2022) | 2022 | 1 | Activity, Gesture | No |
-| [WiMANS][14] (Huang et al., ECCV 2024) | 2024 | 1–6 | Multi-user Activity | No |
-| [CSI-Bench][15] (Zhu et al., May 2025) | 2025 | 1 | Multi-task (in-wild) | No |
-| [ESPARGOS][16] (Euchner, Brink, 2024) | 2024 | 1 | Motion, Localization | No |
+| Dataset                                | Year | Users | Tasks                | Has 3D GT? |
+| -------------------------------------- | ---- | ----- | -------------------- | ---------- |
+| [SenseFi][13] (Yang et al., 2022)      | 2022 | 1     | Activity, Gesture    | No         |
+| [WiMANS][14] (Huang et al., ECCV 2024) | 2024 | 1–6   | Multi-user Activity  | No         |
+| [CSI-Bench][15] (Zhu et al., May 2025) | 2025 | 1     | Multi-task (in-wild) | No         |
+| [ESPARGOS][16] (Euchner, Brink, 2024)  | 2024 | 1     | Motion, Localization | No         |
 
-**The critical gap**: no existing CSI dataset includes 3D geometry ground truth — no depth maps, no point clouds, no meshes, no multi-view CSI from known AP poses. Every sensing benchmark is about *what the human is doing*, not *where the walls are*.
+**The critical gap**: no existing CSI dataset includes 3D geometry ground truth — no depth maps, no point clouds, no meshes, no multi-view CSI from known AP poses. Every sensing benchmark is about _what the human is doing_, not _where the walls are_.
 
 ### What a "CSI + Geometry" Dataset Would Need
 
@@ -199,14 +202,14 @@ For even a proof-of-concept, you need:
 
 ### CSI Capture Hardware
 
-| Tool | Chipset | Bandwidth | Antennas | Phase-Coherent | Approx. Cost |
-|---|---|---|---|---|---|
-| **Nexmon** | Broadcom | 20/40/80 MHz | Up to 4 | Partial | Free (software mod) |
-| **ESP32-CSI** | ESP32 | 20/40 MHz | 1 (ext.) | No | $5 |
-| **Atheros CSI** | ath9k/ath10k | 20/40 MHz | Up to 3 | Partial | Free |
-| **Intel 5300** | Intel WiFi | 20/40 MHz | 3 | Limited | ~$50 |
-| **WARP v3** | FPGA SDR | Custom | Up to 4 | **Yes** | ~$8,000 |
-| **USRP** | NI SDR | Custom | Up to 2 | **Yes** | ~$2,000+ |
+| Tool            | Chipset      | Bandwidth    | Antennas | Phase-Coherent | Approx. Cost        |
+| --------------- | ------------ | ------------ | -------- | -------------- | ------------------- |
+| **Nexmon**      | Broadcom     | 20/40/80 MHz | Up to 4  | Partial        | Free (software mod) |
+| **ESP32-CSI**   | ESP32        | 20/40 MHz    | 1 (ext.) | No             | $5                  |
+| **Atheros CSI** | ath9k/ath10k | 20/40 MHz    | Up to 3  | Partial        | Free                |
+| **Intel 5300**  | Intel WiFi   | 20/40 MHz    | 3        | Limited        | ~$50                |
+| **WARP v3**     | FPGA SDR     | Custom       | Up to 4  | **Yes**        | ~$8,000             |
+| **USRP**        | NI SDR       | Custom       | Up to 2  | **Yes**        | ~$2,000+            |
 
 For geometry reconstruction, **phase coherence is essential**. ESPARGOS provides tools for achieving it on commodity Broadcom hardware. FPGA-based SDRs (WARP, USRP) remain the gold standard for research-grade measurements.
 
@@ -228,6 +231,7 @@ If we want CSI to drive 3D reconstruction, we need to understand how cameras do 
 ### From Pixels to Geometry
 
 The standard neural reconstruction pipeline:
+
 <PipelineDiagram client:load />
 {/*
 ```
@@ -255,13 +259,13 @@ The key papers:
 
 ### What CSI Would Need to Replace
 
-| Vision Component | CSI Analogue | Status |
-|---|---|---|
-| Pixel colors | CSI complex values (per subcarrier, per antenna pair) | Known |
-| Camera ray | TX → RX propagation path(s) | Requires multipath model |
-| Photometric loss | "CSI-metric" loss (rendered vs. measured CSI) | Requires differentiable RF model |
-| COLMAP | AP self-localization or known positions | APs are usually fixed/known |
-| Feature matching (SIFT/SuperPoint) | CSI feature correspondence across APs | **Does not exist** |
+| Vision Component                   | CSI Analogue                                          | Status                           |
+| ---------------------------------- | ----------------------------------------------------- | -------------------------------- |
+| Pixel colors                       | CSI complex values (per subcarrier, per antenna pair) | Known                            |
+| Camera ray                         | TX → RX propagation path(s)                           | Requires multipath model         |
+| Photometric loss                   | "CSI-metric" loss (rendered vs. measured CSI)         | Requires differentiable RF model |
+| COLMAP                             | AP self-localization or known positions               | APs are usually fixed/known      |
+| Feature matching (SIFT/SuperPoint) | CSI feature correspondence across APs                 | **Does not exist**               |
 
 The last row is the killer. In vision, you can match SIFT features between images to establish 2D–2D correspondences, then triangulate 3D points. No equivalent exists for CSI. Two CSI frames from different APs don't have "features" you can match. This is perhaps the deepest conceptual challenge.
 
@@ -279,13 +283,13 @@ The Katabi group's 2022 paper already showed that self-supervised contrastive le
 
 ## Non-Visual Neural Implicit Reconstruction: The Templates
 
-This section is the most encouraging. It demonstrates that neural implicit reconstruction from *non-optical* sensors is not hypothetical — it's been done.
+This section is the most encouraging. It demonstrates that neural implicit reconstruction from _non-optical_ sensors is not hypothetical — it's been done.
 
 ### Acoustic / Sonar → NeRF
 
 **[Neural Implicit Surface Reconstruction using Imaging Sonar][26]** (Qadri, Kaess, Gkioulekas, 2022) is the most directly relevant prior work. Forward-looking sonar (FLS) produces 2D intensity images where each pixel encodes range + azimuth + intensity. Like WiFi CSI, sonar is a non-optical, active sensing modality. Like CSI, the raw measurements are not images — they must be interpreted through a physical model.
 
-The paper represents the scene as a neural SDF and renders sonar images via a physically-based *differentiable sonar formation model*. The loss compares rendered sonar images against measured ones.
+The paper represents the scene as a neural SDF and renders sonar images via a physically-based _differentiable sonar formation model_. The loss compares rendered sonar images against measured ones.
 
 > **This is the exact template for WiFi CSI → SDF.** Replace the sonar formation model with a differentiable RF propagation model, and the pipeline is identical.
 
@@ -339,6 +343,7 @@ WiFi CSI would follow this template exactly. The only domain-specific component 
 - RF-based differentiable rendering for inverse problems
 
 All existing work is either:
+
 1. CSI → single 2D image (2 papers: 2024, 2025)
 2. CSI → human pose, activity, identity (dozens of papers)
 3. mmWave → 3D point cloud (several papers, different frequency band)
@@ -367,8 +372,10 @@ All existing work is either:
 If you were to build this system today, here is the architecture.
 
 {/*
+
 ### High-Level Design
-<HighLevelDiagram/>
+
+<HighLevelDiagram />
 
 ```
                     ┌─────────────────────────────────┐
@@ -412,6 +419,7 @@ If you were to build this system today, here is the architecture.
        │            │  (from curated dataset)            │
                     └─────────────────────────────────┘
 ```
+
 */}
 
 ### Component 1: CSI Backbone Encoder
@@ -425,6 +433,7 @@ Three architecture options, ordered by complexity:
 3. **Graph Neural Network**: nodes = antennas, edges = CSI measurements between antenna pairs. Naturally captures the MIMO topology. More principled, less explored.
 
 **Pretraining strategy** — inspired by MAE for vision:
+
 - Mask random subsets of subcarriers or antenna pairs (50–75%)
 - Train the backbone to reconstruct the masked values
 - This forces the model to learn the correlations that encode scene geometry
@@ -432,12 +441,12 @@ Three architecture options, ordered by complexity:
 
 ### Component 2: Multi-Task Prediction Heads
 
-| Head | Output | Loss | Rationale |
-|---|---|---|---|
-| **Depth Head** | Per-pixel depth map aligned to scene coordinate frame | L1/L2 against RGB-D ground truth | Direct geometry supervision |
-| **Pose Head** | 6-DoF pose of each AP | L2 against known AP positions | Enables joint optimization when AP positions are uncertain |
-| **Feature Head** | Dense per-pixel feature descriptors | Contrastive loss across AP views | The "SuperPoint for CSI" — enables multi-view correspondence |
-| **Image Head** | Synthesized RGB/depth image | Reconstruction + perceptual + adversarial | LatentCSI approach: pretrained diffusion decoder |
+| Head             | Output                                                | Loss                                      | Rationale                                                    |
+| ---------------- | ----------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------ |
+| **Depth Head**   | Per-pixel depth map aligned to scene coordinate frame | L1/L2 against RGB-D ground truth          | Direct geometry supervision                                  |
+| **Pose Head**    | 6-DoF pose of each AP                                 | L2 against known AP positions             | Enables joint optimization when AP positions are uncertain   |
+| **Feature Head** | Dense per-pixel feature descriptors                   | Contrastive loss across AP views          | The "SuperPoint for CSI" — enables multi-view correspondence |
+| **Image Head**   | Synthesized RGB/depth image                           | Reconstruction + perceptual + adversarial | LatentCSI approach: pretrained diffusion decoder             |
 
 ### Component 3: Neural Implicit Scene Representation
 
@@ -462,11 +471,11 @@ Three approaches:
 
 1. **Ray-tracing** (most principled): assume geometric optics. Trace rays from each TX antenna, reflect off SDF surfaces, accumulate at RX. At each intersection, compute path length, attenuation, and phase shift. Sum all paths coherently. Differentiable because the SDF is differentiable — you can backpropagate through the ray-surface intersection.
 
-   *Pros*: physically interpretable, proven in sonar NeRF. *Cons*: only models specular paths, misses diffuse scattering; computationally expensive.
+   _Pros_: physically interpretable, proven in sonar NeRF. _Cons_: only models specular paths, misses diffuse scattering; computationally expensive.
 
 2. **Learned forward model**: train a neural network `CSI_render(scene_params, TX_pos, RX_pos) → CSI_predicted` on paired (geometry, CSI) data. The network learns the complex propagation physics implicitly. Freeze the model and use it for inverse rendering.
 
-   *Pros*: captures all propagation effects, fast inference. *Cons*: requires large paired dataset for training; may not generalize to unseen geometries.
+   _Pros_: captures all propagation effects, fast inference. _Cons_: requires large paired dataset for training; may not generalize to unseen geometries.
 
 3. **Hybrid**: ray-tracing for specular paths + learned residual for diffuse scattering. Balances interpretability and completeness.
 
@@ -513,6 +522,7 @@ $$
 $$
 
 This is still worse than cameras (~0.01°), but:
+
 - Combined with temporal integration (CSI at 100+ Hz), synthetic aperture processing can push further
 - Neural super-resolution can push beyond the Rayleigh limit
 - WiFi 7 (802.11be) with 16 antennas per AP will improve this dramatically
@@ -553,13 +563,13 @@ WiFi works in complete darkness, smoke, fog, and direct sunlight — all conditi
 
 WiFi infrastructure already exists in virtually every building. A CSI-based sensing system can leverage existing routers — no additional hardware deployment.
 
-| Sensor | Approx. Cost (per room) |
-|---|---|
-| WiFi AP (commodity) | $30–100 |
-| RGB camera | $20–200 |
-| RGB-D camera (Kinect/RealSense) | $200–500 |
-| LiDAR (Ouster/Velodyne) | $500–10,000 |
-| mmWave radar | $100–500 |
+| Sensor                          | Approx. Cost (per room) |
+| ------------------------------- | ----------------------- |
+| WiFi AP (commodity)             | $30–100                 |
+| RGB camera                      | $20–200                 |
+| RGB-D camera (Kinect/RealSense) | $200–500                |
+| LiDAR (Ouster/Velodyne)         | $500–10,000             |
+| mmWave radar                    | $100–500                |
 
 A room-scale WiFi deployment costs an order of magnitude less than LiDAR.
 
@@ -582,19 +592,19 @@ We must be honest about what stands in the way.
 
 **Range Resolution**: Δr = c/(2B) = 1.875 meters at 80 MHz. Two objects 1 meter apart in depth produce indistinguishable CSI without additional geometric constraints.
 
-> *Mitigation*: Multi-AP diversity provides angular disambiguation. Neuro-Wideband CSI extrapolation (Ji et al., Jan 2026) — a neural network that extrapolates narrowband CSI to wideband-equivalent CSI — is the most promising approach, effectively creating virtual bandwidth.
+> _Mitigation_: Multi-AP diversity provides angular disambiguation. Neuro-Wideband CSI extrapolation (Ji et al., Jan 2026) — a neural network that extrapolates narrowband CSI to wideband-equivalent CSI — is the most promising approach, effectively creating virtual bandwidth.
 
 **Angular Resolution**: with N=2 antennas at λ/2 spacing, angular resolution ≈ 1 radian (57°). Even with N=4: ≈ 0.5 rad (29°). This is the single biggest limitation.
 
-> *Mitigation*: Distributed aperture with K recieving APs provides effective N >> 4 through phase-coherent combining. Neural super-resolution can push beyond the classical Rayleigh limit, as demonstrated in radar processing.
+> _Mitigation_: Distributed aperture with K recieving APs provides effective N >> 4 through phase-coherent combining. Neural super-resolution can push beyond the classical Rayleigh limit, as demonstrated in radar processing.
 
 **Phase Noise**: WiFi chipsets introduce random per-packet phase offsets from oscillator drift, AGC changes, and carrier frequency offset. These destroy the phase relationships essential for geometry.
 
-> *Mitigation*: Phase sanitization algorithms (Ratnam et al., 2023). ESPARGOS (2024) provides phase-coherent capture on commodity hardware. Conjugate multiplication across antennas cancels common-mode noise while preserving relative phase.
+> _Mitigation_: Phase sanitization algorithms (Ratnam et al., 2023). ESPARGOS (2024) provides phase-coherent capture on commodity hardware. Conjugate multiplication across antennas cancels common-mode noise while preserving relative phase.
 
 **The Inverse Problem is Pathological**: for any given CSI measurement, infinitely many scene configurations produce identical multipath. The mapping from scene geometry to CSI is many-to-one.
 
-> *Mitigation*: This is where neural priors shine. A network trained on thousands of (scene, CSI) pairs learns the manifold of plausible scenes and can resolve ambiguities that classical inverse methods cannot. This is the same principle that enables single-image depth estimation — another severely ill-posed problem that neural networks solve surprisingly well.
+> _Mitigation_: This is where neural priors shine. A network trained on thousands of (scene, CSI) pairs learns the manifold of plausible scenes and can resolve ambiguities that classical inverse methods cannot. This is the same principle that enables single-image depth estimation — another severely ill-posed problem that neural networks solve surprisingly well.
 
 ### Practical Limitations
 
@@ -608,15 +618,15 @@ We must be honest about what stands in the way.
 
 ### Cross-Modality Comparison
 
-| Modality | 3D Quality | Privacy | Through-Wall | Cost | Maturity |
-|---|---|---|---|---|---|
-| RGB Camera | ★★★★★ | ★☆☆☆☆ | ★☆☆☆☆ | ★★★★★ | ★★★★★ |
-| RGB-D (Kinect) | ★★★★★ | ★☆☆☆☆ | ★☆☆☆☆ | ★★★★☆ | ★★★★★ |
-| LiDAR | ★★★★★ | ★☆☆☆☆ | ★☆☆☆☆ | ★★☆☆☆ | ★★★★★ |
-| mmWave Radar (60 GHz) | ★★★☆☆ | ★★★★★ | ★★★★☆ | ★★★☆☆ | ★★★★☆ |
-| Thermal IR | ★★★☆☆ | ★★★★☆ | ★☆☆☆☆ | ★★★☆☆ | ★★★☆☆ |
-| **WiFi CSI** | ★★☆☆☆ | ★★★★★ | ★★★★★ | ★★★★★ | ★★☆☆☆ |
-| Sonar | ★★☆☆☆ | ★★★★★ | ★★★☆☆ | ★★★☆☆ | ★★★☆☆ |
+| Modality              | 3D Quality | Privacy | Through-Wall | Cost  | Maturity |
+| --------------------- | ---------- | ------- | ------------ | ----- | -------- |
+| RGB Camera            | ★★★★★      | ★☆☆☆☆   | ★☆☆☆☆        | ★★★★★ | ★★★★★    |
+| RGB-D (Kinect)        | ★★★★★      | ★☆☆☆☆   | ★☆☆☆☆        | ★★★★☆ | ★★★★★    |
+| LiDAR                 | ★★★★★      | ★☆☆☆☆   | ★☆☆☆☆        | ★★☆☆☆ | ★★★★★    |
+| mmWave Radar (60 GHz) | ★★★☆☆      | ★★★★★   | ★★★★☆        | ★★★☆☆ | ★★★★☆    |
+| Thermal IR            | ★★★☆☆      | ★★★★☆   | ★☆☆☆☆        | ★★★☆☆ | ★★★☆☆    |
+| **WiFi CSI**          | ★★☆☆☆      | ★★★★★   | ★★★★★        | ★★★★★ | ★★☆☆☆    |
+| Sonar                 | ★★☆☆☆      | ★★★★★   | ★★★☆☆        | ★★★☆☆ | ★★★☆☆    |
 
 WiFi CSI scores perfectly on privacy, through-wall capability, and cost. It scores poorly on 3D quality. The question is whether neural methods can elevate that ★★ to ★★★ or ★★★★.
 
@@ -624,9 +634,10 @@ WiFi CSI scores perfectly on privacy, through-wall capability, and cost. It scor
 
 ## Multi-Modal Fusion: The Realistic Near-Term Path
 
-Pure WiFi CSI → 3D geometry is likely 5–10 years out. But CSI as a complementary modality in a multi-sensor pipeline is feasible *now*.
+Pure WiFi CSI → 3D geometry is likely 5–10 years out. But CSI as a complementary modality in a multi-sensor pipeline is feasible _now_.
 
 ### CSI-Camera Fusion
+
 <FusionDiagram client:load />
 {/*
 ```
@@ -733,22 +744,22 @@ This is analogous to how COLMAP provides sparse points for NeRF initialization �
 
 ## Summary Table: What Exists and What Doesn't
 
-| Capability | Status | Key Papers |
-|---|---|---|
-| CSI → human activity recognition | **Mature** | SenseFi [13], WiMANS [14] |
-| CSI → 2D human pose | **Mature** | VST-Pose [12], Katabi [5] |
-| CSI → person identification | **Emerging** | Katabi [3] |
-| CSI → through-wall synthesized image | **Early** | Strohmayer [6], LatentCSI [7] |
-| CSI → 3D human mesh (mmWave) | **Early** | ImmFusion [11] |
-| mmWave → dense point cloud | **Emerging** | DeepPoint [8], 3DRIMR [9], R2P [10] |
-| Sonar → neural implicit surface | **Proven** | Qadri et al. [26] |
-| X-ray → NeRF/3DGS | **Proven** | Cai et al. [28][29] |
-| CSI → scene depth map | **None** | — |
-| CSI → multi-view correspondence | **None** | — |
-| CSI → SfM camera/AP pose | **None** | — |
-| CSI → dense point cloud | **None** | — |
-| CSI → NeRF/3DGS/SDF | **None** | — |
-| WiFi sensing foundation model | **None** | — |
+| Capability                           | Status       | Key Papers                          |
+| ------------------------------------ | ------------ | ----------------------------------- |
+| CSI → human activity recognition     | **Mature**   | SenseFi [13], WiMANS [14]           |
+| CSI → 2D human pose                  | **Mature**   | VST-Pose [12], Katabi [5]           |
+| CSI → person identification          | **Emerging** | Katabi [3]                          |
+| CSI → through-wall synthesized image | **Early**    | Strohmayer [6], LatentCSI [7]       |
+| CSI → 3D human mesh (mmWave)         | **Early**    | ImmFusion [11]                      |
+| mmWave → dense point cloud           | **Emerging** | DeepPoint [8], 3DRIMR [9], R2P [10] |
+| Sonar → neural implicit surface      | **Proven**   | Qadri et al. [26]                   |
+| X-ray → NeRF/3DGS                    | **Proven**   | Cai et al. [28][29]                 |
+| CSI → scene depth map                | **None**     | —                                   |
+| CSI → multi-view correspondence      | **None**     | —                                   |
+| CSI → SfM camera/AP pose             | **None**     | —                                   |
+| CSI → dense point cloud              | **None**     | —                                   |
+| CSI → NeRF/3DGS/SDF                  | **None**     | —                                   |
+| WiFi sensing foundation model        | **None**     | —                                   |
 
 ---
 
@@ -758,131 +769,157 @@ This is analogous to how COLMAP provides sparse points for NeRF initialization �
 
 **The honest assessment**:
 
-Pure WiFi CSI directly to dense 3D geometry is **not feasible today**. Current-day commodity hardware don't meet the physical  constrainst**. The bandwidth limits range resolution to meters, the antenna count limits angular resolution to tens of degrees, and no paired dataset exists for training. These are physics constraints, not algorithmic ones — you cannot reconstruct what you cannot measure.
-However, using the **unified neural inference architecture** analogous to DINO, MAE and SAM or other visual foundation model latent geometry as a regularization manifold for RF scene inference is possible. Especially when used in a VGGT style inference.
+Pure WiFi CSI directly to dense 3D geometry is **not feasible today**. Current-day commodity hardware don't meet the physical constrainst**. The bandwidth limits range resolution to meters, the antenna count limits angular resolution to tens of degrees, and no paired dataset exists for training. These are physics constraints, not algorithmic ones — you cannot reconstruct what you cannot measure.
+However, using the **unified neural inference architecture\*\* analogous to DINO, MAE and SAM or other visual foundation model latent geometry as a regularization manifold for RF scene inference is possible. Especially when used in a VGGT style inference.
 
 **LatentCSI** (2025) proves that pretrained diffusion priors can compensate for CSI's information poverty
 
-First focus is on — controlled environment, simple geometry, known AP positions. Use the sonar→NeRF template and the LatentCSI paradigm as proven building blocks. Position it as *"WiFi CSI as a coarse geometric prior for neural scene reconstruction"* rather than *"WiFi replaces cameras for 3D."*
+First focus is on — controlled environment, simple geometry, known AP positions. Use the sonar→NeRF template and the LatentCSI paradigm as proven building blocks. Position it as _"WiFi CSI as a coarse geometric prior for neural scene reconstruction"_ rather than _"WiFi replaces cameras for 3D."_
 
 ---
 
 ## References
 
-__RF Perception (Katabi Group, MIT CSAIL)__
+**RF Perception (Katabi Group, MIT CSAIL)**
 
 [1]: https://arxiv.org/abs/1505.03446
-[1] D. Vasisht, S. Kumar, and D. Katabi, *"Sub-Nanosecond Time of Flight on Commercial Wi-Fi Cards,"* 2015.
+
+[1] D. Vasisht, S. Kumar, and D. Katabi, _"Sub-Nanosecond Time of Flight on Commercial Wi-Fi Cards,"_ 2015.
 
 [2]: https://arxiv.org/abs/1909.09300
-[2] T. Li, L. Fan, M. Zhao, Y. Liu, and D. Katabi, *"Making the Invisible Visible: Action Recognition Through Walls and Occlusions,"* 2019.
+
+[2] T. Li, L. Fan, M. Zhao, Y. Liu, and D. Katabi, _"Making the Invisible Visible: Action Recognition Through Walls and Occlusions,"_ 2019.
 
 [3]: https://arxiv.org/abs/2004.01091
-[3] L. Fan, T. Li, R. Fang, R. Hristov, Y. Yuan, and D. Katabi, *"Learning Longterm Representations for Person Re-Identification Using Radio Signals,"* 2020.
+
+[3] L. Fan, T. Li, R. Fang, R. Hristov, Y. Yuan, and D. Katabi, _"Learning Longterm Representations for Person Re-Identification Using Radio Signals,"_ 2020.
 
 [4]: https://arxiv.org/abs/2008.10966
-[4] L. Fan, T. Li, Y. Yuan, and D. Katabi, *"In-Home Daily-Life Captioning Using Radio Signals,"* 2020.
+
+[4] L. Fan, T. Li, Y. Yuan, and D. Katabi, _"In-Home Daily-Life Captioning Using Radio Signals,"_ 2020.
 
 [5]: https://arxiv.org/abs/2207.02370
-[5] T. Li, L. Fan, Y. Yuan, and D. Katabi, *"Unsupervised Learning for Human Sensing Using Radio Signals,"* IEEE WACV, 2022. (45 citations)
 
-__WiFi CSI → Image / Depth__
+[5] T. Li, L. Fan, Y. Yuan, and D. Katabi, _"Unsupervised Learning for Human Sensing Using Radio Signals,"_ IEEE WACV, 2022. (45 citations)
+
+**WiFi CSI → Image / Depth**
 
 [6]: https://arxiv.org/abs/2401.17417
-[6] J. Strohmayer, R. Sterzinger, C. Stippel, and M. Kampel, *"Through-Wall Imaging based on WiFi Channel State Information,"* 2024, updated 2025.
+
+[6] J. Strohmayer, R. Sterzinger, C. Stippel, and M. Kampel, _"Through-Wall Imaging based on WiFi Channel State Information,"_ 2024, updated 2025.
 
 [7]: https://arxiv.org/abs/2506.10605
-[7] E. Ramesh and T. Nishio, *"High-resolution efficient image generation from WiFi CSI using a pretrained latent diffusion model,"* June 2025. (LatentCSI)
 
-__Bandwidth Enhancement__
+[7] E. Ramesh and T. Nishio, _"High-resolution efficient image generation from WiFi CSI using a pretrained latent diffusion model,"_ June 2025. (LatentCSI)
+
+**Bandwidth Enhancement**
 
 [7b]: https://arxiv.org/abs/2601.06467
-S. Ji, W. Hou, and C. Wu, *"Neuro-Wideband WiFi Sensing via Self-Conditioned CSI Extrapolation,"* January 2026.
 
-__mmWave → 3D__
+S. Ji, W. Hou, and C. Wu, _"Neuro-Wideband WiFi Sensing via Self-Conditioned CSI Extrapolation,"_ January 2026.
+
+**mmWave → 3D**
 
 [8]: https://arxiv.org/abs/2109.09188
-[8] Y. Sun, H. Zhang, Z. Huang, and B. Liu, *"DeepPoint: A Deep Learning Model for 3D Reconstruction in Point Clouds via mmWave Radar,"* 2021.
+
+[8] Y. Sun, H. Zhang, Z. Huang, and B. Liu, _"DeepPoint: A Deep Learning Model for 3D Reconstruction in Point Clouds via mmWave Radar,"_ 2021.
 
 [9]: https://arxiv.org/abs/2108.02858
-[9] Y. Sun, Z. Huang, H. Zhang, Z. Cao, and D. Xu, *"3DRIMR: 3D Reconstruction and Imaging via mmWave Radar based on Deep Learning,"* 2021.
+
+[9] Y. Sun, Z. Huang, H. Zhang, Z. Cao, and D. Xu, _"3DRIMR: 3D Reconstruction and Imaging via mmWave Radar based on Deep Learning,"_ 2021.
 
 [10]: https://arxiv.org/abs/2207.10690
-[10] Y. Sun, H. Zhang, Z. Huang, and B. Liu, *"R2P: A Deep Learning Model from mmWave Radar to Point Cloud,"* 2022.
+
+[10] Y. Sun, H. Zhang, Z. Huang, and B. Liu, _"R2P: A Deep Learning Model from mmWave Radar to Point Cloud,"_ 2022.
 
 [11]: https://arxiv.org/abs/2210.01346
-[11] A. Chen et al., *"ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions,"* 2022.
 
-__WiFi Pose Estimation__
+[11] A. Chen et al., _"ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions,"_ 2022.
+
+**WiFi Pose Estimation**
 
 [12]: https://arxiv.org/abs/2507.09672
-[12] X. Zhang, Z. Ye, J. Zhang, X. Tian, Z. Liang, and S. Yu, *"VST-Pose: A Velocity-Integrated Spatiotemporal Attention Network for Human WiFi Pose Estimation,"* 2025.
 
-__WiFi CSI Hardware, Datasets, Preprocessing__
+[12] X. Zhang, Z. Ye, J. Zhang, X. Tian, Z. Liang, and S. Yu, _"VST-Pose: A Velocity-Integrated Spatiotemporal Attention Network for Human WiFi Pose Estimation,"_ 2025.
+
+**WiFi CSI Hardware, Datasets, Preprocessing**
 
 [13]: https://arxiv.org/abs/2207.07859
-[13] J. Yang, X. Chen, D. Wang, H. Zou, C. X. Lu, S. Sun, and L. Xie, *"SenseFi: A Library and Benchmark on Deep-Learning-Empowered WiFi Human Sensing,"* 2022.
+
+[13] J. Yang, X. Chen, D. Wang, H. Zou, C. X. Lu, S. Sun, and L. Xie, _"SenseFi: A Library and Benchmark on Deep-Learning-Empowered WiFi Human Sensing,"_ 2022.
 
 [14]: https://arxiv.org/abs/2402.09430
-[14] S. Huang, K. Li, D. You, Y. Chen, A. Lin, S. Liu, X. Li, and J. A. McCann, *"WiMANS: A Benchmark Dataset for WiFi-based Multi-user Activity Sensing,"* ECCV, 2024. (42 citations)
+
+[14] S. Huang, K. Li, D. You, Y. Chen, A. Lin, S. Liu, X. Li, and J. A. McCann, _"WiMANS: A Benchmark Dataset for WiFi-based Multi-user Activity Sensing,"_ ECCV, 2024. (42 citations)
 
 [15]: https://arxiv.org/abs/2505.21866
-[15] G. Zhu, Y. Hu, W. Gao, W.-H. Wang, B. Wang, and K. J. R. Liu, *"CSI-Bench: A Large-Scale In-the-Wild Dataset for Multi-task WiFi Sensing,"* May 2025. (8 citations)
+
+[15] G. Zhu, Y. Hu, W. Gao, W.-H. Wang, B. Wang, and K. J. R. Liu, _"CSI-Bench: A Large-Scale In-the-Wild Dataset for Multi-task WiFi Sensing,"_ May 2025. (8 citations)
 
 [16]: https://arxiv.org/abs/2408.16377
-[16] F. Euchner and S. ten Brink, *"ESPARGOS: Phase-Coherent WiFi CSI Datasets for Wireless Sensing Research,"* 2024.
+
+[16] F. Euchner and S. ten Brink, _"ESPARGOS: Phase-Coherent WiFi CSI Datasets for Wireless Sensing Research,"_ 2024.
 
 [17]: https://arxiv.org/abs/2307.12126
-[17] V. V. Ratnam, H. Chen, H. H. Chang, A. Sehgal, and J. Zhang, *"Optimal preprocessing of WiFi CSI for sensing applications,"* 2023.
 
-__CSI Compression__
+[17] V. V. Ratnam, H. Chen, H. H. Chang, A. Sehgal, and J. Zhang, _"Optimal preprocessing of WiFi CSI for sensing applications,"_ 2023.
+
+**CSI Compression**
 
 [17b]: https://arxiv.org/abs/2204.04138
-J. Yang, X. Chen, H. Zou, D. Wang, and Q. Xu, *"EfficientFi: Towards Large-Scale Lightweight WiFi Sensing via CSI Compression,"* 2022.
+
+J. Yang, X. Chen, H. Zou, D. Wang, and Q. Xu, _"EfficientFi: Towards Large-Scale Lightweight WiFi Sensing via CSI Compression,"_ 2022.
 
 [17c]: https://arxiv.org/abs/2402.04888
-B. Barahimi, H. Singh, H. Tabassum, O. Waqar, and M. Omer, *"RSCNet: Dynamic CSI Compression for Cloud-based WiFi Sensing,"* 2024.
 
-__Neural Implicit Representations (Vision)__
+B. Barahimi, H. Singh, H. Tabassum, O. Waqar, and M. Omer, _"RSCNet: Dynamic CSI Compression for Cloud-based WiFi Sensing,"_ 2024.
 
-[18] B. Mildenhall, P. P. Srinivasan, M. Tancik, J. T. Barron, R. Ramamoorthi, and R. Ng, *"NeRF: Representing Scenes as Neural Radiance Fields,"* ECCV, 2020.
+**Neural Implicit Representations (Vision)**
 
-[19] P. Wang, L. Liu, Y. Liu, C. Theobalt, T. Komura, and W. Wang, *"NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction,"* NeurIPS, 2021.
+[18] B. Mildenhall, P. P. Srinivasan, M. Tancik, J. T. Barron, R. Ramamoorthi, and R. Ng, _"NeRF: Representing Scenes as Neural Radiance Fields,"_ ECCV, 2020.
 
-[20] T. Müller, A. Evans, C. Schied, and A. Keller, *"Instant Neural Graphics Primitives with a Multiresolution Hash Encoding,"* SIGGRAPH, 2022.
+[19] P. Wang, L. Liu, Y. Liu, C. Theobalt, T. Komura, and W. Wang, _"NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction,"_ NeurIPS, 2021.
 
-[21] B. Kerbl, G. Kopanas, T. Leimkühler, and G. Drettakis, *"3D Gaussian Splatting for Real-Time Radiance Field Rendering,"* SIGGRAPH, 2023.
+[20] T. Müller, A. Evans, C. Schied, and A. Keller, _"Instant Neural Graphics Primitives with a Multiresolution Hash Encoding,"_ SIGGRAPH, 2022.
 
-[22] S. Wang, V. Leroy, Y. Cabon, B. Chidlovskii, and J. Revaud, *"DUST3R: Geometric 3D Vision Made Easy,"* CVPR, 2024.
+[21] B. Kerbl, G. Kopanas, T. Leimkühler, and G. Drettakis, _"3D Gaussian Splatting for Real-Time Radiance Field Rendering,"_ SIGGRAPH, 2023.
 
-__Self-Supervised Vision (Template for CSI)__
+[22] S. Wang, V. Leroy, Y. Cabon, B. Chidlovskii, and J. Revaud, _"DUST3R: Geometric 3D Vision Made Easy,"_ CVPR, 2024.
 
-[23] M. Oquab et al., *"DINOv2: Learning Robust Visual Features without Supervision,"* 2023.
+**Self-Supervised Vision (Template for CSI)**
 
-[24] K. He, X. Chen, S. Xie, Y. Li, P. Dollár, and R. Girshick, *"Masked Autoencoders Are Scalable Vision Learners,"* CVPR, 2022.
+[23] M. Oquab et al., _"DINOv2: Learning Robust Visual Features without Supervision,"_ 2023.
 
-[25] A. Kirillov et al., *"Segment Anything,"* ICCV, 2023.
+[24] K. He, X. Chen, S. Xie, Y. Li, P. Dollár, and R. Girshick, _"Masked Autoencoders Are Scalable Vision Learners,"_ CVPR, 2022.
 
-__Non-Visual Neural Implicit Reconstruction__
+[25] A. Kirillov et al., _"Segment Anything,"_ ICCV, 2023.
+
+**Non-Visual Neural Implicit Reconstruction**
 
 [26]: https://arxiv.org/abs/2209.08221
-[26] M. Qadri, M. Kaess, and I. Gkioulekas, *"Neural Implicit Surface Reconstruction using Imaging Sonar,"* 2022.
+
+[26] M. Qadri, M. Kaess, and I. Gkioulekas, _"Neural Implicit Surface Reconstruction using Imaging Sonar,"_ 2022.
 
 [27]: https://arxiv.org/abs/2503.08930
-[27] T. Lin, M. Qadri, K. Zhang, and A. Pediredla, *"Acoustic Neural 3D Reconstruction Under Pose Drift,"* March 2025.
+
+[27] T. Lin, M. Qadri, K. Zhang, and A. Pediredla, _"Acoustic Neural 3D Reconstruction Under Pose Drift,"_ March 2025.
 
 [28]: https://arxiv.org/abs/2311.10959
-[28] Y. Cai, J. Wang, A. Yuille, Z. Zhou, and A. Wang, *"Structure-Aware Sparse-View X-ray 3D Reconstruction,"* 2023.
+
+[28] Y. Cai, J. Wang, A. Yuille, Z. Zhou, and A. Wang, _"Structure-Aware Sparse-View X-ray 3D Reconstruction,"_ 2023.
 
 [29]: https://arxiv.org/abs/2403.04116
-[29] Y. Cai, Y. Liang, J. Wang, A. Wang, Y. Zhang, X. Yang, Z. Zhou, and A. Yuille, *"Radiative Gaussian Splatting for Efficient X-ray Novel View Synthesis,"* 2024.
+
+[29] Y. Cai, Y. Liang, J. Wang, A. Wang, Y. Zhang, X. Yang, Z. Zhou, and A. Yuille, _"Radiative Gaussian Splatting for Efficient X-ray Novel View Synthesis,"_ 2024.
 
 [30]: https://arxiv.org/abs/2503.06382
-[30] G. Zhang, R. Zha, H. He, Y. Liang, et al., *"X-LRM: X-ray Large Reconstruction Model for Extremely Sparse-View Computed Tomography Recovery in One Second,"* March 2025.
+
+[30] G. Zhang, R. Zha, H. He, Y. Liang, et al., _"X-LRM: X-ray Large Reconstruction Model for Extremely Sparse-View Computed Tomography Recovery in One Second,"_ March 2025.
 
 [31]: https://arxiv.org/abs/2312.16959
-[31] I. Manisali, O. Oral, and F. S. Oktem, *"Efficient Physics-Based Learned Reconstruction Methods for Real-Time 3D Near-Field MIMO Radar Imaging,"* 2023.
+
+[31] I. Manisali, O. Oral, and F. S. Oktem, _"Efficient Physics-Based Learned Reconstruction Methods for Real-Time 3D Near-Field MIMO Radar Imaging,"_ 2023.
 
 ---
 
-*This article represents a comprehensive snapshot of the literature as of May 2026. The field is moving fast — especially LatentCSI (June 2025), Neuro-Wideband CSI (January 2026), and the acoustic NeRF follow-up (March 2025). If you're reading this more than six months later, check for updates.*
+_This article represents a comprehensive snapshot of the literature as of May 2026. The field is moving fast — especially LatentCSI (June 2025), Neuro-Wideband CSI (January 2026), and the acoustic NeRF follow-up (March 2025). If you're reading this more than six months later, check for updates._

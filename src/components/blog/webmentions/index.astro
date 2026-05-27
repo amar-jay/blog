@@ -10,23 +10,23 @@ const webMentions = await getWebmentionsForUrl(`${url}`);
 if (!webMentions.length) return;
 ---
 
-		<>
-			<hr class="border-solid border-accent" />
-			<h4 class="text-xl mb-8 before:hidden underline">Webmentions</h4>
-			<div class="space-y-10">
-      {
-        (webMentions.length > 0) ? (
-          <>
-              <Likes mentions={webMentions} />
-              <Comments mentions={webMentions} />
-          </>
-        ): <span class="ml-5">No webmentions yet. Be the first!</span>
-      }
-			</div>
-			<p class="mt-8 opacity-50 text-xs">
-				Responses powered by{" "}
-				<a href="https://webmention.io" rel="noopener noreferrer" target="_blank">
-					Webmentions
-				</a>
-			</p>
-		</>
+<>
+	<hr class="border-accent border-solid" />
+	<h4 class="mb-8 text-xl underline before:hidden">Webmentions</h4>
+	<div class="space-y-10">
+		{
+			webMentions.length > 0 ? (
+				<>
+					<Likes mentions={webMentions} />
+					<Comments mentions={webMentions} />
+				</>
+			) : (
+				<span class="ml-5">No webmentions yet. Be the first!</span>
+			)
+		}
+	</div>
+	<p class="mt-8 text-xs opacity-50">
+		Responses powered by{" "}
+		<a href="https://webmention.io" rel="noopener noreferrer" target="_blank"> Webmentions </a>
+	</p>
+</>

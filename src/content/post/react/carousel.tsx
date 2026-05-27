@@ -15,7 +15,7 @@ function CarouselComponent() {
 					<CarouselItem key={index}>
 						<div className="p-1">
 							<Card className="bg-secondary-foreground/90 text-textColor hover:bg-secondary-foreground">
-								<CardContent className="aspect-square flex items-center justify-center p-32">
+								<CardContent className="flex aspect-square items-center justify-center p-32">
 									<span className="text-4xl font-semibold">{index + 1}</span>
 								</CardContent>
 							</Card>

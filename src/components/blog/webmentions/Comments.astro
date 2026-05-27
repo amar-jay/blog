@@ -25,16 +25,16 @@ const comments = mentions.filter(
 {
 	!!comments.length && (
 		<div>
-			<p class="mb-0 text-accent-2">
+			<p class="text-accent-2 mb-0">
 				<strong>{comments.length}</strong> Mention{comments.length > 1 ? "s" : ""}
 			</p>
-			<ul class="mt-0 divide-y divide-textColor/20 ps-0" role="list">
+			<ul class="divide-textColor/20 mt-0 divide-y ps-0" role="list">
 				{comments.map((mention) => (
 					<li class="my-0 flex items-start gap-x-5 py-5">
 						{mention.author?.photo && mention.author.photo !== "" ? (
 							mention.author.url && mention.author.url !== "" ? (
 								<a
-									class="not-prose shrink-0 overflow-hidden rounded-full outline-none ring-2 ring-textColor hover:ring-4 hover:ring-link focus-visible:ring-4 focus-visible:ring-link"
+									class="not-prose ring-textColor hover:ring-link focus-visible:ring-link shrink-0 overflow-hidden rounded-full ring-2 outline-none hover:ring-4 focus-visible:ring-4"
 									href={mention.author.url}
 									rel="noopener noreferrer"
 									target="_blank"
@@ -60,7 +60,7 @@ const comments = mentions.filter(
 						) : null}
 						<div class="flex-auto">
 							<div class="flex items-center justify-between gap-x-2">
-								<p class="my-0 line-clamp-1 font-semibold text-accent-2">{mention.author?.name}</p>
+								<p class="text-accent-2 my-0 line-clamp-1 font-semibold">{mention.author?.name}</p>
 								<a
 									aria-labelledby="cmt-source"
 									class="not-prose hover:text-link"
@@ -79,7 +79,7 @@ const comments = mentions.filter(
 									/>
 								</a>
 							</div>
-							<p class="mb-0 mt-1 break-words [word-break:break-word]">{mention.content?.text}</p>
+							<p class="mt-1 mb-0 break-words [word-break:break-word]">{mention.content?.text}</p>
 						</div>
 					</li>
 				))}

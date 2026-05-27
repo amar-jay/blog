@@ -72,7 +72,8 @@
 }
 
 @layer base {
-	:root, :root[data-theme="light"]  {
+	:root,
+	:root[data-theme="light"] {
 		--background: 0 0% 100%;
 		--foreground: 222.2 84% 4.9%;
 
@@ -104,7 +105,8 @@
 		--radius: 0.5rem;
 	}
 
-	.dark, :root[data-theme="dark"] {
+	.dark,
+	:root[data-theme="dark"] {
 		--background: 222.2 84% 4.9%;
 		--foreground: 210 40% 98%;
 
@@ -177,6 +179,6 @@
 	}
 
 	body {
-		@apply mx-auto flex min-h-screen max-w-4xl flex-col bg-background px-8 pt-16 font-sans text-sm font-normal text-textColor antialiased;
+		@apply bg-background text-textColor mx-auto flex min-h-screen max-w-4xl flex-col px-8 pt-16 font-sans text-sm font-normal antialiased;
 	}
 }

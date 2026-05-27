@@ -59,7 +59,6 @@ The core idea behind AdaNorm is to condition the normalization parameters on add
    The external **conditioning input** (e.g., a text embedding, time-series signal, or any contextual information) is passed through a linear transformation (or another neural network layer) to compute the adaptive parameters for scaling and shifting.
 
    The conditioning input $c$ is used to compute two important components:
-
    - **Adaptive Scaling Factor** $\gamma_{\text{adaptive}}$
    - **Adaptive Shifting Factor** $\beta_{\text{adaptive}}$
 

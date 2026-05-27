@@ -1,34 +1,35 @@
 ---
 import type { HTMLTag, Polymorphic } from "astro/types";
 import FormattedDate from "../FormattedDate.astro";
-import { openLibraryFetch } from "@/utils";
+import { openLibraryFetch } from "@/utils/open-library";
+import type { getBooks } from "@/utils/open-library";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	post: any;
+	post: ReturnType<typeof getBooks>[number] & {
+		data: Awaited<ReturnType<typeof openLibraryFetch>>;
+	};
 	withDesc?: boolean;
 };
 
-const { as: Tag = "div", post, withDesc = false } = Astro.props;
-const openlibraryId = post?.olid ?? "unknown";
+const props: Props<HTMLTag> = Astro.props;
+const post = props.post;
+const withDesc: Props<"div">["withDesc"] = props.withDesc ?? false;
+const Tag = props.as ?? "div";
 
-// Fetch info from openlibrary api using the openlibraryId
-// let publishDate = post.data.publishDate;
-let readDate = post?.data?.updatedDate;
+if (!post?.olid) {
+	throw new Error("No OLID found for this book");
+}
 
-const {
-	title,
-	description,
-	author = "unknown author",
-	cover,
-	publishedDate,
-} = await openLibraryFetch(openlibraryId);
+const { title, description, cover, author: olAuthor, publishedDate } = post.data;
+
+const author = olAuthor ?? "unknown author";
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	month: "short",
 };
 ---
 
-<Tag class='group mb-10 flex w-full flex-col flex-row gap-5'>
+<Tag class='group mb-10 flex w-full flex-col gap-5 sm:flex-row'>
 	{
 		cover && (
 			<div class='w-32 shrink-0'>
@@ -49,7 +50,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 			<a
 				class='title transition-colors sm:hover:underline'
 				data-astro-prefetch
-				href={`/books/${openlibraryId}/`}
+				href={`/books/${post.olid}/`}
 			>
 				{title}
 			</a>
@@ -61,17 +62,25 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 			<span class='text-quote p-1 text-xs font-bold'>
 				Author: {author}
 			</span>
-			<span class='inline'>|</span>
-			<span class='p-1'>
-				Publish: {publishedDate}
-				<!-- Published: <FormattedDate date={publishedDate} dateTimeOptions={dateTimeOptions} /> -->
-			</span>
 			{
-				readDate && (
+				publishedDate && (
+					<>
+						<span class='inline'>|</span>
+						<span class='p-1'>
+							Publish: {publishedDate}
+							{/*
+							<!-- Published: <FormattedDate date={publishedDate} dateTimeOptions={dateTimeOptions} /> -->
+							 */}
+						</span>
+					</>
+				)
+			}
+			{
+				post.readDate && (
 					<>
 						<span class='inline'>|</span>
 						<span>
-							Read: <FormattedDate date={readDate} dateTimeOptions={dateTimeOptions} />
+							Read: <FormattedDate date={post.readDate} dateTimeOptions={dateTimeOptions} />
 						</span>
 					</>
 				)

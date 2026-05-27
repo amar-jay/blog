@@ -13,8 +13,6 @@ export function sortMDByDate(posts: Array<CollectionEntry<"post">>) {
 	});
 }
 
-
-
 /** Note: this function filters out draft posts based on the environment */
 export async function getAllPosts() {
 	return await getCollection("post", ({ data }) => {
@@ -34,7 +32,7 @@ export async function getAllProjectsClient() {
 			const { Content } = await render(data);
 			const project = {
 				slug: entryIdToSlug(data.id),
-        data: data?.data,
+				data: data?.data,
 				Content: Content,
 			};
 			projects.push(project);

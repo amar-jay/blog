@@ -23,38 +23,38 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 {
 	data.coverImage && (
-		<div class='aspect-h-9 aspect-w-16 mb-6'>
+		<div class="aspect-h-9 aspect-w-16 mb-6">
 			<Image
 				alt={data.coverImage.alt}
-				class='object-cover'
-				fetchpriority='high'
-				loading='eager'
+				class="object-cover"
+				fetchpriority="high"
+				loading="eager"
 				src={data.coverImage.src}
 			/>
 		</div>
 	)
 }
-{data.draft ? <span class='text-base text-red-500'>(Draft)</span> : null}
-<h1 class='title mb-3 sm:mb-1'>
-	<a class='text-accent sm:hover:underline' href='/posts/'>Posts</a>
-	<span class='ms-1 me-1'>→</span>
-	<span class='title'>{data.title}</span>
+{data.draft ? <span class="text-base text-red-500">(Draft)</span> : null}
+<h1 class="title mb-3 sm:mb-1">
+	<a class="text-accent sm:hover:underline" href="/posts/">Posts</a>
+	<span class="ms-1 me-1">→</span>
+	<span class="title">{data.title}</span>
 </h1>
-<div class='pb-2'>
-	<span class='text-quote p-1 text-xs font-bold'>
+<div class="pb-2">
+	<span class="text-quote p-1 text-xs font-bold">
 		Reading Time: {remarkPluginFrontmatter.minutesRead}
 	</span>
 	|
-	<span class='p-1 text-xs font-semibold'>
+	<span class="p-1 text-xs font-semibold">
 		Created: <FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} />
 	</span>
 	{
 		data.updatedDate && (
 			<>
 				|
-				<span class='p-1 text-xs font-semibold'>
+				<span class="p-1 text-xs font-semibold">
 					Updated:
-					<FormattedDate class='ms-1' date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
+					<FormattedDate class="ms-1" date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
 				</span>
 			</>
 		)
@@ -62,7 +62,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	{
 		data.author && (
 			<>
-				|<span class='p-1 text-xs font-semibold'>Author: {toTitleCase(data.author)}</span>
+				|<span class="p-1 text-xs font-semibold">Author: {toTitleCase(data.author)}</span>
 			</>
 		)
 	}
@@ -70,7 +70,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 <div>
 	{
 		data.description && (
-			<p class='max-w-[80%] border-y p-1 text-sm text-wrap wrap-break-word opacity-65'>
+			<p class="max-w-[80%] border-y p-1 text-sm text-wrap wrap-break-word opacity-65">
 				{data.description}
 			</p>
 		)
@@ -78,30 +78,30 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 </div>
 {
 	!!data.tags?.length && (
-		<div class='mt-3'>
+		<div class="mt-3">
 			<svg
-				aria-hidden='true'
-				class='me-1 inline-block h-6 w-6'
-				fill='none'
-				focusable='false'
-				stroke='currentColor'
-				stroke-linecap='round'
-				stroke-linejoin='round'
-				stroke-width='1.5'
-				viewBox='0 0 24 24'
-				xmlns='http://www.w3.org/2000/svg'
+				aria-hidden="true"
+				class="me-1 inline-block h-6 w-6"
+				fill="none"
+				focusable="false"
+				stroke="currentColor"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="1.5"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
 			>
-				<path d='M0 0h24v24H0z' fill='none' stroke='none' />
-				<path d='M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z' />
-				<path d='M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116' />
-				<path d='M6 9h-.01' />
+				<path d="M0 0h24v24H0z" fill="none" stroke="none" />
+				<path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
+				<path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
+				<path d="M6 9h-.01" />
 			</svg>
 			{data.tags.map((tag, i) => (
 				<>
 					<a
 						aria-label={`View more blogs with the tag ${tag}`}
 						class="blog-link inline-block before:content-['#']"
-						data-pagefind-filter='tag'
+						data-pagefind-filter="tag"
 						href={`/tags/${tag}/`}
 					>
 						{tag}

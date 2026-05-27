@@ -13,13 +13,13 @@ export default {
 		ringOffsetColor: false,
 		ringOffsetWidth: false,
 		scrollSnapType: false,
-	//	textOpacity: false,
+		//	textOpacity: false,
 		// disable some core plugins as they are included in the css, even when unused
 		touchAction: false,
 	},
 	darkMode: ["class", '[data-theme="dark"]'],
 	plugins: [
-    require("tailwindcss-animate"),
+		require("tailwindcss-animate"),
 		require("@tailwindcss/typography"),
 		require("@tailwindcss/aspect-ratio"),
 		plugin(function ({ addComponents }) {
@@ -42,9 +42,9 @@ export default {
 	theme: {
 		extend: {
 			animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
+				"accordion-down": "accordion-down 0.2s ease-out",
+				"accordion-up": "accordion-up 0.2s ease-out",
+			},
 			colors: {
 				accent: "hsl(var(--theme-accent) / <alpha-value>)",
 				"accent-2": "hsl(var(--theme-accent-2) / <alpha-value>)",
@@ -102,7 +102,7 @@ export default {
 			// transitionProperty: {
 			// 	height: "height",
 			// },
-      // Remove above once tailwindcss exposes theme type
+			// Remove above once tailwindcss exposes theme type
 			typography: (theme) => ({
 				DEFAULT: {
 					css: {
@@ -180,6 +180,5 @@ export default {
 				},
 			}),
 		},
-
 	},
 };

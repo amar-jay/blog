@@ -6,13 +6,12 @@ const {
 	title,
 } = Astro.props;
 
-
 const links = (sources ? Object.entries(sources) : []) as Array<[string, string]>;
 const contentTags = (tags ?? []) as string[];
 const tagLinks: Record<string, string> = {};
 ---
 
-<div class="my-8 w-full rounded-sm bg-accent/10 p-4 shadow-sm sm:px-8 md:p-8 md:px-16">
+<div class="bg-accent/10 my-8 w-full rounded-sm p-4 shadow-sm sm:px-8 md:p-8 md:px-16">
 	<!-- Section Title -->
 	<h2 class="font-serif text-2xl font-medium text-black dark:text-gray-300">
 		<a href={links?.[0]?.[1] ?? "#"}>
@@ -31,23 +30,23 @@ const tagLinks: Record<string, string> = {};
 	<!-- Section Title -->
 
 	<!-- Separator -->
-	<span class="mb-8 mt-2 block h-0.5 w-24 bg-black dark:bg-gray-300"></span>
+	<span class="mt-2 mb-8 block h-0.5 w-24 bg-black dark:bg-gray-300"></span>
 	<!-- Separator -->
 
 	<!-- Main Content -->
 
-  <div class="prose-underscore prose prose-sm text-black dark:text-white">
-	<slot />
-  </div>
+	<div class="prose-underscore prose prose-sm text-black dark:text-white">
+		<slot />
+	</div>
 
 	<!-- Main Content -->
-	<div class="mt-5 flex justify-center gap-3 text-textColor/50">
+	<div class="text-textColor/50 mt-5 flex justify-center gap-3">
 		{
 			contentTags.map((tag) => (
-					<span>
-						<a href={tagLinks[tag] ?? "/#"}>{tag}</a>
-					</span>
-				))
+				<span>
+					<a href={tagLinks[tag] ?? "/#"}>{tag}</a>
+				</span>
+			))
 		}
 	</div>
 </div>

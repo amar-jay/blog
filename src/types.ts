@@ -83,8 +83,6 @@ export type Summary = {
 	value: string;
 };
 
-
-
 // export interface Book {
 //   title: string;
 //   author: string;
