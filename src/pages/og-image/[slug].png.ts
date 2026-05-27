@@ -7,22 +7,21 @@ import { siteConfig } from "@/site-config.ts";
 import { getFormattedDate } from "@/utils";
 import { entryIdToSlug, getAllPosts } from "@/utils/post";
 
-import RobotoMono from "@/assets/roboto-mono-regular.ttf";
-import RobotoMonoBold from "@/assets/roboto-mono-700.ttf";
+import Lora from "@/assets/Lora-regular.ttf";
+
 const ogOptions: SatoriOptions = {
 	width: 1200,
 	height: 630,
-	// debug: true,
 	fonts: [
 		{
-			name: "Roboto Mono",
-			data: Buffer.from(RobotoMono),
+			name: "Lora",
+			data: Buffer.from(Lora),
 			weight: 400,
 			style: "normal",
 		},
 		{
-			name: "Roboto Mono",
-			data: Buffer.from(RobotoMonoBold),
+			name: "Lora",
+			data: Buffer.from(Lora),
 			weight: 700,
 			style: "normal",
 		},
@@ -30,17 +29,21 @@ const ogOptions: SatoriOptions = {
 };
 
 const markup = (title: string, description: string, pubDate: string) =>
-	html`<div tw="flex flex-col w-full h-full bg-[#1d1f21] text-[#c9cacc]">
-		<div tw="flex flex-col flex-1 w-full p-10 justify-center flex-wrap">
-			<p tw="text-2xl mb-6">${pubDate}</p>
-			<h1 tw="text-6xl font-bold leading-snug text-white">${title}</h1>
-			<p tw="text-2xl leading-snug text-wrap">${description}</p>
-		</div>
-		<div tw="flex items-center justify-between w-full p-5 border-t border-[#2bbc89] text-xl">
-			<div tw="flex items-center">
-				<p tw="ml-3 font-semibold">${siteConfig.title}</p>
+	html`<div style="display: flex; flex-direction: column; width: 100%; height: 100%; padding: 16px; background-color: hsl(210, 6%, 12%);">
+		<div style="display: flex; flex-direction: column; width: 100%; height: 100%; border: 1px solid hsl(210, 6%, 25%); padding: 64px; justify-content: space-between; border-radius: 20px; overflow: hidden; position: relative;">
+			
+			<div style="display: flex; flex-direction: column; justify-content: center; flex: 1; position: relative;">
+				<div style="display: flex; align-items: center; margin-bottom: 32px;">
+					<div style="display: flex; height: 48px; width: 8px; margin-right: 24px; background-color: hsl(20, 100%, 60%);"></div>
+					<p style="display: flex; font-size: 30px; font-family: 'Lora', serif; color: hsl(203, 11%, 90%); opacity: 0.8; letter-spacing: 2px;">${pubDate.toUpperCase()}</p>
+				</div>
+				<h1 style="display: flex; font-size: 70px; font-weight: 700; line-height: 1.1; font-family: 'Lora', serif; color: white;">${title}</h1>
+				<p style="display: flex; font-size: 30px; margin-top: 32px; line-height: 1.6; max-width: 85%; font-family: 'Lora', serif; color: hsl(203, 11%, 95%); opacity: 0.75;">${description}</p>
 			</div>
-			<h4>by ${siteConfig.author}</h4>
+			
+			<div style="display: flex; align-items: center; justify-content: flex-end; border-top: 1px solid hsl(210, 6%, 25%); padding-top: 40px; position: relative;">
+				<p style="display: flex; font-size: 32px; font-weight: 500; font-family: 'Lora', serif; color: white;">${siteConfig.author}</p>
+			</div>
 		</div>
 	</div>`;
 
