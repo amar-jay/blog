@@ -1,25 +1,132 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 
-import BookLayout from "@/components/layout/BlogPost.astro";
-import { entryIdToSlug, getAllPosts } from "@/utils/post";
+import BaseLayout from "@/components/layout/Base.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import { getBooks, loadOpenLibraryCache } from "@/utils/open-library";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 export const getStaticPaths = (async () => {
-	const blogEntries = await getAllPosts();
-	return blogEntries.map((entry) => ({
-		params: { slug: entryIdToSlug(entry.id) },
-		props: { entry },
-	}));
+	const books = getBooks();
+	const cache = loadOpenLibraryCache();
+
+	return books.map(book => {
+		const metadata = cache[book.olid];
+		if (!metadata) {
+			throw new Error(`Missing cached OpenLibrary data for ${book.olid}`);
+		}
+
+		return {
+			params: { slug: book.olid },
+			props: {
+				book: {
+					...book,
+					data: metadata,
+				},
+			},
+		};
+	});
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { entry } = Astro.props;
-// const { Content } = await render(entry);
-// redirect to /books
-return Astro.redirect("/books");
+const { book } = Astro.props;
+const { data } = book;
+
+const meta = {
+	title: data.title,
+	description: data.description,
+	ogImage: data.cover,
+};
+
+const readDate = book.readDate
+	? new Intl.DateTimeFormat("en-GB", {
+			day: "numeric",
+			month: "short",
+			year: "numeric",
+		}).format(new Date(book.readDate))
+	: null;
+
+const placeholder = data.blurDataURL ?? null;
+
+const coverSrc = data.cover;
+
+// Load book note from src/content/books/<olid>.md if present
+let noteContent: string | null = null;
+const notePath = resolve(process.cwd(), `src/content/books/${book.olid}.md`);
+if (existsSync(notePath)) {
+	const raw = readFileSync(notePath, "utf8");
+	// strip YAML frontmatter if present
+	noteContent = raw.replace(/^---[\s\S]*?---\s*/i, "").trim();
+} else {
+	noteContent = "didn't write notes for this book";
+}
 ---
 
-<BookLayout post={entry}>
-	{/* <Content /> */}
-</BookLayout>
+<BaseLayout meta={meta}>
+	<div class='mx-auto w-full max-w-5xl'>
+		<section class='mt-1 grid gap-8 md:grid-cols-[200px_minmax(0,1fr)] md:items-start'>
+			<div class='sticky top-24 self-start'>
+				<div
+					class='book-cover hidden md:block'
+					style={placeholder
+						? `background-image: url('${placeholder}'); background-size: cover; background-position: center; filter: blur(18px) saturate(1.05);`
+						: undefined}
+				>
+					<img
+						src={coverSrc}
+						alt={`Cover of ${data.title}`}
+						class='aspect-2/3 h-auto w-full object-cover opacity-0 transition-opacity duration-500 ease-out'
+						loading='eager'
+						onload={"(function(){this.style.opacity='1'; const p=this.closest('.book-cover'); if(p) p.style.filter='none';}).call(this)"}
+					/>
+				</div>
+				<a class='text-accent text-sm font-semibold hover:underline' href='/books/'>
+					← Back to Books
+				</a>
+			</div>
+
+			<div class='space-y-6'>
+				<header class='space-y-4'>
+					<h1 class='title mb-3 sm:mb-1'>{data.title}</h1>
+					<div class='pb-2'>
+						<span class='text-quote p-1 text-xs font-bold'>Author: {data.author || "Unknown"}</span>
+						|
+						<span class='p-1 text-xs font-semibold'
+							>Published: {data.publishedDate ?? "Unknown"}</span
+						>
+						|
+						<span class='p-1 text-xs font-semibold'>Read: {readDate ?? "Not recorded"}</span>
+						<p class='p-1 text-xs font-semibold'>
+							<a
+								class='text-accent hover:underline'
+								href={`https://openlibrary.org/books/${book.olid}`}
+								rel='noreferrer'
+								target='_blank'
+							>
+								OpenLibrary
+							</a>
+						</p>
+					</div>
+					<div>
+						<p class='max-w-[80%] border-y p-1 text-sm text-wrap wrap-break-word opacity-65'>
+							{data.description}
+						</p>
+					</div>
+				</header>
+
+				<section class='space-y-3'>
+					<h2 class='title text-2xl'>My Notes</h2>
+					<div class='max-w-3xl leading-7 text-zinc-700 dark:text-zinc-300'>
+						{
+							noteContent && noteContent.split(/\n\s*\n/).map(p => (
+								<p>{p}</p>
+							))
+						}
+					</div>
+				</section>
+			</div>
+		</section>
+	</div>
+</BaseLayout>

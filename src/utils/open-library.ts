@@ -7,6 +7,8 @@ export type OpenLibraryResult = {
 	author: string;
 	cover: string;
 	publishedDate: string | null;
+	// Small base64-encoded blurred placeholder (data URL) to be used as a blur-up background
+	blurDataURL?: string | null;
 };
 
 export type OpenLibraryCache = Record<string, OpenLibraryResult>;

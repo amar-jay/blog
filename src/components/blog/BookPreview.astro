@@ -20,9 +20,22 @@ if (!post?.olid) {
 	throw new Error("No OLID found for this book");
 }
 
-const { title, description, cover, author: olAuthor, publishedDate } = post.data;
+const {
+	title,
+	description,
+	cover,
+	author: olAuthor,
+	publishedDate,
+	blurDataURL,
+} = post.data as any;
 
 const author = olAuthor ?? "unknown author";
+
+// Use the cached `cover` URL directly. Vercel proxy was causing issues, so
+// prefer the original cover URL saved in the cache.
+const finalCover = cover ?? null;
+
+const placeholder = blurDataURL ?? null;
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	month: "short",
@@ -31,14 +44,25 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 <Tag class='group mb-10 flex w-full flex-col gap-5 sm:flex-row'>
 	{
-		cover && (
+		finalCover && (
 			<div class='w-32 shrink-0'>
-				<div class='border-accent/10 overflow-hidden rounded-md border shadow-sm transition-shadow sm:group-hover:shadow-md'>
+				<div
+					class='ol-cover border-accent/10 overflow-hidden rounded-md border shadow-sm transition-shadow sm:group-hover:shadow-md'
+					style={
+						placeholder
+							? `background-image: url('${placeholder}'); background-size: cover; background-position: center; filter: blur(20px) scale(1.05);`
+							: undefined
+					}
+				>
 					<img
-						src={cover}
+						src={finalCover}
 						alt={`Cover of ${title} by ${author}`}
-						class='h-auto w-full object-cover'
+						class='h-auto w-full object-cover transition-opacity duration-500 ease-out'
 						loading='lazy'
+						style={{ opacity: 0 }}
+						onload={
+							"(function(){this.style.opacity='1'; const p=this.closest('.ol-cover'); if(p) p.style.filter='none';}).call(this)"
+						}
 					/>
 				</div>
 			</div>

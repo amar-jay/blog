@@ -297,12 +297,12 @@ const bookHeight = `${height}px`;
 
 			books.forEach((bookBtn, index) => {
 				bookBtn.addEventListener("click", () => {
-					const slug = bookBtn.dataset.slug || "#";
+					// const slug = bookBtn.dataset.slug || "#";
 					const olid = bookBtn.dataset.olid || "";
 
 					if (bookIndex === index) {
 						bookIndex = -1;
-						window.location.href = slug; // Navigates on second click like the reference
+						// window.location.href = slug; // Navigates on second click like the reference
 					} else {
 						bookIndex = index;
 						books.forEach((b) => b.classList.remove("expanded"));
