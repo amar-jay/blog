@@ -1,6 +1,8 @@
 ---
+import type { getBooks, OpenLibraryResult } from '@/utils/open-library';
+
 export interface Props {
-	books: Book[];
+	books: (ReturnType<typeof getBooks>[number] & { data: OpenLibraryResult })[];
 }
 
 // inview is max number of books currently in view
@@ -25,7 +27,7 @@ const bookHeight = `${height}px`;
 		<!-- Scroll Left -->
 		<div
 			id="scroll-left"
-			class="absolute left-[-28px] z-10 hidden h-full w-[28px] cursor-pointer items-center justify-center rounded-md md:left-[-36px] md:rounded-r-none"
+			class="absolute -left-7 z-10 hidden h-full w-7 cursor-pointer items-center justify-center rounded-md md:-left-9 md:rounded-r-none"
 		>
 			<svg fill="currentColor" viewBox="0 0 16 16" width="12" height="12"
 				><path
@@ -37,7 +39,7 @@ const bookHeight = `${height}px`;
 		<!-- Viewport Container -->
 		<div
 			id="viewport"
-			class="flex w-full min-w-0 cursor-grab flex-row items-center gap-[4px] overflow-hidden"
+			class="flex w-full min-w-0 cursor-grab flex-row items-center gap-1 overflow-hidden"
 		>
 			{
 				books.map((book, index) => (
@@ -74,10 +76,10 @@ const bookHeight = `${height}px`;
 								style={`background: linear-gradient(to right, rgba(255,255,255,0.25) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.4) 100%);`}
 							/>
 							<h2
-								class="z-10 mt-[12px] overflow-hidden font-sans text-sm font-semibold text-ellipsis whitespace-nowrap drop-shadow-sm select-none"
+								class="z-10 mt-3 overflow-hidden font-sans text-sm font-semibold text-ellipsis whitespace-nowrap drop-shadow-sm select-none"
 								style={`writing-mode: vertical-rl; max-height: ${height - 24}px;`}
 							>
-								{book.title}
+								{book.data.title}
 							</h2>
 						</div>
 
@@ -100,7 +102,7 @@ const bookHeight = `${height}px`;
 							/>
 							<img
 								src={`https://covers.openlibrary.org/b/olid/${book.olid}-M.jpg`}
-								alt={book.title}
+								alt={book.data.title}
 								class="h-full w-full object-cover transition-all duration-500 ease-in-out"
 							/>
 						</div>
@@ -112,7 +114,7 @@ const bookHeight = `${height}px`;
 		<!-- Scroll Right -->
 		<div
 			id="scroll-right"
-			class="absolute top-0 right-[-28px] z-10 flex h-full w-[28px] cursor-pointer items-center justify-center rounded-md pl-[10px] md:right-[-36px] md:rounded-l-none"
+			class="absolute top-0 -right-7 z-10 flex h-full w-7 cursor-pointer items-center justify-center rounded-md pl-2.5 md:-right-9 md:rounded-l-none"
 		>
 			<svg fill="currentColor" viewBox="0 0 16 16" width="12" height="12"
 				><path

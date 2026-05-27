@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 export type OpenLibraryResult = {
 	title: string;
 	description: string;
@@ -5,6 +8,14 @@ export type OpenLibraryResult = {
 	cover: string;
 	publishedDate: string | null;
 };
+
+export type OpenLibraryCache = Record<string, OpenLibraryResult>;
+
+export function loadOpenLibraryCache(cachePath = ".openlibrary-cache.json"): OpenLibraryCache {
+	const filePath = resolve(process.cwd(), cachePath);
+	const raw = readFileSync(filePath, "utf8");
+	return JSON.parse(raw) as OpenLibraryCache;
+}
 
 export async function openLibraryFetch(olid: string): Promise<OpenLibraryResult> {
 	if (!olid) {

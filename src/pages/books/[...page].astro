@@ -5,7 +5,7 @@ import Pagination from "@/components/Paginator.astro";
 import BookPreview from "@/components/blog/BookPreview.astro";
 import BaseLayout from "@/components/layout/Base.astro";
 import Bookshelf from "@/components/bookshelf.astro";
-import { getBooks, openLibraryFetch } from "@/utils/open-library";
+import { getBooks, loadOpenLibraryCache } from "@/utils/open-library";
 import type { OpenLibraryResult } from "@/utils/open-library";
 
 // Mock books data for the bookshelf
@@ -16,14 +16,18 @@ interface Props {
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const data = getBooks();
-	const updatedData: Props["allBooks"] = [];
-	for (const post of data) {
-		const metadata = await openLibraryFetch(post.olid);
-		updatedData.push({
+	const cache = loadOpenLibraryCache();
+	const updatedData = data.map(post => {
+		const metadata = cache[post.olid];
+		if (!metadata) {
+			throw new Error(`Missing cached OpenLibrary data for ${post.olid}`);
+		}
+		return {
 			...post,
+			title: metadata.title,
 			data: metadata,
-		});
-	}
+		};
+	}) as Props["allBooks"];
 
 	return paginate(data, { pageSize: 10, props: { allBooks: updatedData } });
 }) satisfies GetStaticPaths;
