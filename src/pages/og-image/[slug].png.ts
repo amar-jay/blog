@@ -28,24 +28,36 @@ const ogOptions: SatoriOptions = {
 	],
 };
 
-const markup = (title: string, description: string, pubDate: string) =>
-	html`<div style="display: flex; flex-direction: column; width: 100%; height: 100%; padding: 16px; background-color: hsl(210, 6%, 12%);">
-		<div style="display: flex; flex-direction: column; width: 100%; height: 100%; border: 1px solid hsl(210, 6%, 25%); padding: 64px; justify-content: space-between; border-radius: 20px; overflow: hidden; position: relative;">
+const markup = (title: string, description: string, pubDate: string) => {
+	const truncatedDescription =
+		description.length > 180 ? `${description.substring(0, 177)}...` : description;
+
+	// Aggressive font scaling for the title
+	const titleFontSize = title.length > 50 ? (title.length > 70 ? "48px" : "56px") : "64px";
+	
+	// Aggressive font scaling for the description
+	const descriptionFontSize = description.length > 120 ? (description.length > 160 ? "24px" : "28px") : "32px";
+
+	return html`<div style="display: flex; flex-direction: column; width: 100%; height: 100%; padding: 20px; background-color: hsl(210, 6%, 12%); font-family: 'Lora', serif;">
+		<div style="display: flex; flex-direction: column; width: 100%; height: 100%; border: 1px solid hsl(210, 6%, 25%); padding: 60px; border-radius: 12px; overflow: hidden; position: relative; justify-content: space-between;">
 			
-			<div style="display: flex; flex-direction: column; justify-content: center; flex: 1; position: relative;">
-				<div style="display: flex; align-items: center; margin-bottom: 32px;">
-					<div style="display: flex; height: 48px; width: 8px; margin-right: 24px; background-color: hsl(20, 100%, 60%);"></div>
-					<p style="display: flex; font-size: 30px; font-family: 'Lora', serif; color: hsl(203, 11%, 90%); opacity: 0.8; letter-spacing: 2px;">${pubDate.toUpperCase()}</p>
+			<div style="display: flex; flex-direction: column; flex: 1; justify-content: center;">
+				<div style="display: flex; align-items: center; margin-bottom: 24px;">
+					<div style="display: flex; height: 40px; width: 6px; margin-right: 20px; background-color: hsl(20, 100%, 60%);"></div>
+					<p style="display: flex; font-size: 24px; color: hsl(203, 11%, 80%); opacity: 0.9; letter-spacing: 0.1em; margin: 0;">${pubDate.toUpperCase()}</p>
 				</div>
-				<h1 style="display: flex; font-size: 70px; font-weight: 700; line-height: 1.1; font-family: 'Lora', serif; color: white;">${title}</h1>
-				<p style="display: flex; font-size: 30px; margin-top: 32px; line-height: 1.6; max-width: 85%; font-family: 'Lora', serif; color: hsl(203, 11%, 95%); opacity: 0.75;">${description}</p>
+				
+				<h1 style="display: flex; font-size: ${titleFontSize}; font-weight: 700; line-height: 1.2; color: white; margin: 0;">${title}</h1>
+				
+				<p style="display: flex; font-size: ${descriptionFontSize}; margin-top: 24px; line-height: 1.5; max-width: 95%; color: hsl(203, 11%, 90%); opacity: 0.8; margin-bottom: 0;">${truncatedDescription}</p>
 			</div>
 			
-			<div style="display: flex; align-items: center; justify-content: flex-end; border-top: 1px solid hsl(210, 6%, 25%); padding-top: 40px; position: relative;">
-				<p style="display: flex; font-size: 32px; font-weight: 500; font-family: 'Lora', serif; color: white;">${siteConfig.author}</p>
+			<div style="display: flex; align-items: center; justify-content: flex-end; border-top: 1px solid hsl(210, 6%, 20%); padding-top: 32px; margin-top: 20px;">
+				<p style="display: flex; font-size: 28px; font-weight: 500; color: white; margin: 0;">${siteConfig.author}</p>
 			</div>
 		</div>
 	</div>`;
+};
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
