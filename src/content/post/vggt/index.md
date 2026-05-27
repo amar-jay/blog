@@ -2,7 +2,7 @@
 title: "VGGT"
 description: "Visual Geometry Grounded Transformer - CVPR2025"
 publishDate: "16 Sep 2025"
-tags: ["ml-ai", "robotics"]
+tags: ["nerf", "neural networks"]
 ---
 
 ## VGGT Paper | [Paper](https://github.com/facebookresearch/vggt)
