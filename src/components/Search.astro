@@ -4,49 +4,65 @@
 import "@pagefind/default-ui/css/ui.css";
 ---
 
-<site-search class="ms-auto" id="search">
+<site-search class='ms-auto' id='search'>
 	<button
-		class="flex h-9 w-9 items-center justify-center rounded-md ring-zinc-400 transition-all hover:ring-2"
+		class='flex h-9 w-9 cursor-pointer items-center justify-center'
 		data-open-modal
 		disabled
 	>
 		<svg
-			aria-label="search"
-			class="h-7 w-7"
-			fill="none"
-			height="16"
-			stroke="currentColor"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			stroke-width="1.5"
-			viewBox="0 0 24 24"
-			width="16"
-			xmlns="http://www.w3.org/2000/svg"
+			xmlns='http://www.w3.org/2000/svg'
+			width='24'
+			height='24'
+			viewBox='0 0 24 24'
+			fill='none'
+			stroke='currentColor'
+			stroke-width='2'
+			stroke-linecap='round'
+			stroke-linejoin='round'
+			class='h-6 w-6'
+			aria-label='search'
 		>
-			<path d="M0 0h24v24H0z" stroke="none"></path>
-			<path d="M3 10a7 7 0 1 0 14 0 7 7 0 1 0-14 0M21 21l-6-6"></path>
+			<circle cx='11' cy='11' r='8'></circle>
+			<path d='m21 21-4.3-4.3'></path>
 		</svg>
 	</button>
 	<dialog
-		aria-label="search"
-		class="bg-backgroundund h-full max-h-full w-full max-w-full border border-zinc-400 shadow backdrop:backdrop-blur sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md"
+		aria-label='search'
+		class='bg-background border-border h-full max-h-full w-full max-w-full border shadow backdrop:backdrop-blur sm:mx-auto sm:mt-16 sm:mb-auto sm:h-max sm:max-h-[calc(100%-8rem)] sm:min-h-[15rem] sm:w-5/6 sm:max-w-[48rem] sm:rounded-md'
 	>
-		<div class="dialog-frame flex flex-col gap-4 p-6 pt-12 sm:pt-6">
+		<div class='dialog-frame flex flex-col gap-4 p-6 pt-12 sm:pt-6'>
 			<button
-				class="ms-auto cursor-pointer rounded-md bg-zinc-200 p-2 font-semibold dark:bg-zinc-700"
-				data-close-modal>Close</button
+				data-close-modal
+				class='hover:bg-primary/10 ms-auto cursor-pointer rounded-md p-1 transition-colors'
 			>
+				<svg
+					xmlns='http://www.w3.org/2000/svg'
+					width='24'
+					height='24'
+					viewBox='0 0 24 24'
+					fill='none'
+					stroke='currentColor'
+					stroke-width='2'
+					stroke-linecap='round'
+					stroke-linejoin='round'
+					class='h-6 w-6'
+				>
+					<path d='M18 6 6 18'></path>
+					<path d='m6 6 12 12'></path>
+				</svg>
+			</button>
 			{
 				import.meta.env.DEV ? (
-					<div class="mx-auto text-center">
+					<div class='mx-auto text-center'>
 						<p>
 							Search is only available in production builds. <br />
 							Try building and previewing the site to test it out locally.
 						</p>
 					</div>
 				) : (
-					<div class="search-container">
-						<div id="blog__search" />
+					<div class='search-container'>
+						<div id='blog__search' />
 					</div>
 				)
 			}
@@ -113,7 +129,7 @@ import "@pagefind/default-ui/css/ui.css";
 
 			// only add pagefind in production
 			if (import.meta.env.DEV) return;
-			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+			const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
 			onIdle(async () => {
 				const { PagefindUI } = await import("@pagefind/default-ui");
 				new PagefindUI({
