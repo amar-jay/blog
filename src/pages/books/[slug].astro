@@ -64,17 +64,23 @@ if (existsSync(notePath)) {
 ---
 
 <BaseLayout meta={meta}>
-	<h1 class='title mb-3 sm:mb-1'>
-		<a class='text-accent sm:hover:underline' href='/books/'>Books</a>
-		<span class='ms-1 me-1'>→</span>
-		<span class='title'>{data.title}</span>
-	</h1>
+	<div data-pagefind-body>
+		<h1 class='title mb-3 sm:mb-1'>
+			<a class='text-accent sm:hover:underline' href='/books/'>Books</a>
+			<span class='ms-1 me-1'>→</span>
+			<span class='title'>{data.title}</span>
+		</h1>
 		<section class='mt-1 grid gap-8 md:grid-cols-[minmax(0,1fr)_200px] md:items-start'>
 			<div class='space-y-6'>
 				<header class='space-y-4'>
 					<div class='pb-2'>
 						{
-							data.author && <> <span class='text-quote p-1 text-xs font-bold'>Author: {data.author}</span> | </>
+							data.author && (
+								<>
+									{" "}
+									<span class='text-quote p-1 text-xs font-bold'>Author: {data.author}</span> |{" "}
+								</>
+							)
 						}
 						<span class='p-1 text-xs font-semibold'
 							>Published: {data.publishedDate ?? "Unknown"}</span
@@ -93,7 +99,9 @@ if (existsSync(notePath)) {
 						</p>
 					</div>
 					<div>
-						<p class='max-w-[90%] border-y p-1 text-sm text-wrap wrap-break-word opacity-65 text-justify'>
+						<p
+							class='max-w-[90%] border-y p-1 text-justify text-sm text-wrap wrap-break-word opacity-65'
+						>
 							{data.description}
 						</p>
 					</div>
@@ -124,4 +132,5 @@ if (existsSync(notePath)) {
 				</div>
 			</div>
 		</section>
+	</div>
 </BaseLayout>

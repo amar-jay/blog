@@ -24,7 +24,7 @@ const { Content } = await projects.render();
 
 <PageLayout meta={{ title: "Projects" }}>
 	<h1 class="title mb-6">Projects</h1>
-	<div>
+	<div data-pagefind-body>
 		{
 			projects.map((project) => (
 				<ProjectCard
