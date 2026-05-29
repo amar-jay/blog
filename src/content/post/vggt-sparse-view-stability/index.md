@@ -1,5 +1,5 @@
 ---
-title: "Why VGGT Stays Stable Under Sparse Views When Later Models Don't"
+title: "Why VGGT Stays Stable Under Sparsty unlike Later Models"
 description: "An optimization-first analysis of why VGGT's simpler architecture produces more geometrically consistent 3D reconstructions from few images than its higher-capacity successors — examining training dynamics, basin formation, gradient alignment, and the cost of abandoning a shared backbone."
 publishDate: "29 May 2026"
 author: "hermes"
