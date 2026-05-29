@@ -10,7 +10,7 @@ tags: ["neural networks", "nerf", "ml-ai"]
 
 > _Why does a 1.2-billion-parameter transformer from early 2025 produce more geometrically consistent 3D from two images than its architecturally richer successors?_
 
-This question has quietly emerged in the feed-forward 3D reconstruction community over the past year. VGGT — the Visual Geometry Grounded Transformer [1] that won Best Paper at CVPR 2025 — was trained to predict cameras, depth maps, point maps, and 3D point tracks from _one, a few, or hundreds_ of views in a single forward pass. It works. It works especially well with few views. And, by multiple accounts from practitioners and evaluation benchmarks [2], it remains _more_ stable under sparse-view conditions than many models that came after it — models with equal or greater capacity, trained on similar or larger datasets, and explicitly designed to extend VGGT's capabilities.
+This question has quietly emerged in the feed-forward 3D reconstruction community over the past year. VGGT — the Visual Geometry Grounded Transformer [^1] that won Best Paper at CVPR 2025 — was trained to predict cameras, depth maps, point maps, and 3D point tracks from _one, a few, or hundreds_ of views in a single forward pass. It works. It works especially well with few views. And, by multiple accounts from practitioners and evaluation benchmarks [^2], it remains _more_ stable under sparse-view conditions than many models that came after it — models with equal or greater capacity, trained on similar or larger datasets, and explicitly designed to extend VGGT's capabilities.
 
 This is counterintuitive. In deep learning, we expect later models to be better. We expect more capacity to help, not hurt. And we certainly don't expect a model from March 2025 to outlast its own successors on their home turf.
 
@@ -22,19 +22,19 @@ This article offers an explanation. Not an architectural one — architecture al
 
 Before analyzing _why_, we need to establish _what_. The feed-forward 3D reconstruction paradigm — models that map images directly to 3D geometry without iterative optimization — evolved rapidly across three generations:
 
-**Generation 1: Pairwise regression.** DUSt3R [3] (CVPR 2024) introduced the core idea: cast stereo reconstruction as pointmap regression. Given two images, a ViT-based encoder-decoder predicts a dense 3D pointmap for each, expressed in the coordinate frame of the first image. This sidesteps the classical SfM pipeline — no feature matching, no triangulation, no bundle adjustment. MASt3R [4] augmented this with a dense feature matching head, achieving state-of-the-art correspondence accuracy.
+**Generation 1: Pairwise regression.** DUSt3R [^3] (CVPR 2024) introduced the core idea: cast stereo reconstruction as pointmap regression. Given two images, a ViT-based encoder-decoder predicts a dense 3D pointmap for each, expressed in the coordinate frame of the first image. This sidesteps the classical SfM pipeline — no feature matching, no triangulation, no bundle adjustment. MASt3R [^4] augmented this with a dense feature matching head, achieving state-of-the-art correspondence accuracy.
 
-But DUSt3R and MASt3R are fundamentally _pairwise_. To reconstruct N > 2 images, you run the model on all pairs (or a subset), then fuse the results via a global alignment optimization like Align3R [5] or Pow3R [6]. The alignment step is non-trivial and becomes a bottleneck — both computationally and in terms of error propagation.
+But DUSt3R and MASt3R are fundamentally _pairwise_. To reconstruct N > 2 images, you run the model on all pairs (or a subset), then fuse the results via a global alignment optimization like Align3R [^5] or Pow3R [^6]. The alignment step is non-trivial and becomes a bottleneck — both computationally and in terms of error propagation.
 
-**Generation 2: Truly feed-forward multi-view.** VGGT [1] (CVPR 2025) solved the pairwise limitation. Instead of processing image pairs, it processes an entire sequence of N images simultaneously through a single transformer. The key architectural move: _alternating attention_ — frame-wise self-attention (tokens attend within the same image) interleaved with global self-attention (tokens attend across all images). This allows the model to fuse multi-view information directly in the feature space, predicting all 3D attributes in one shot with no post-processing.
+**Generation 2: Truly feed-forward multi-view.** VGGT [^1] (CVPR 2025) solved the pairwise limitation. Instead of processing image pairs, it processes an entire sequence of N images simultaneously through a single transformer. The key architectural move: _alternating attention_ — frame-wise self-attention (tokens attend within the same image) interleaved with global self-attention (tokens attend across all images). This allows the model to fuse multi-view information directly in the feature space, predicting all 3D attributes in one shot with no post-processing.
 
 **Generation 3: Extensions and augmentations.** The months following VGGT saw a proliferation of extensions:
-- **Spann3R** [7] added an external spatial memory to predict per-image pointmaps in a global coordinate system, eliminating pairwise alignment.
-- **MonST3R** [8] extended DUSt3R to dynamic scenes by estimating per-timestep geometry.
-- **HD-VGGT** [9] introduced a dual-branch architecture (low-res global + high-res detail) for high-resolution reconstruction.
-- **Mamba-VGGT** [10] replaced global attention with a state-space memory module for long sequences.
-- **VGGT-World** [11] repurposed frozen VGGT features for autoregressive geometry forecasting.
-- **Fast3R** [12] and **CUT3R** [13] explored efficiency-focused variants.
+- **Spann3R** [^7] added an external spatial memory to predict per-image pointmaps in a global coordinate system, eliminating pairwise alignment.
+- **MonST3R** [^8] extended DUSt3R to dynamic scenes by estimating per-timestep geometry.
+- **HD-VGGT** [^9] introduced a dual-branch architecture (low-res global + high-res detail) for high-resolution reconstruction.
+- **Mamba-VGGT** [^10] replaced global attention with a state-space memory module for long sequences.
+- **VGGT-World** [^11] repurposed frozen VGGT features for autoregressive geometry forecasting.
+- **Fast3R** [^12] and **CUT3R** [^13] explored efficiency-focused variants.
 
 Each of these adds _something_: memory, dynamics, resolution, sequence length, temporal prediction. And each, arguably, loses something in return — particularly under sparse-view conditions.
 
@@ -54,7 +54,7 @@ With 2–4 input views, a 3D reconstruction system must solve a severely underco
 
 4. **Texture-baked artifacts.** High-frequency detail from one view bleeds into the geometry prediction, creating surface deformations that look plausible from the training view but break from any other angle.
 
-These failure modes are well-documented in evaluation benchmarks [2]. The striking observation is that VGGT — despite being the _earliest_ multi-view feed-forward model — exhibits these failures _less_ than its successors. Why?
+These failure modes are well-documented in evaluation benchmarks [^2]. The striking observation is that VGGT — despite being the _earliest_ multi-view feed-forward model — exhibits these failures _less_ than its successors. Why?
 
 ---
 
@@ -62,13 +62,13 @@ These failure modes are well-documented in evaluation benchmarks [2]. The striki
 
 ### 1. The Shared Backbone as Implicit Geometric Regularizer
 
-VGGT uses a _single_ transformer backbone to predict all 3D quantities: camera parameters, depth maps, point maps, and tracking features. There is one DPT [14] head that decodes all dense outputs from the same feature tokens. The only task-specific component is a small camera head operating on dedicated camera tokens.
+VGGT uses a _single_ transformer backbone to predict all 3D quantities: camera parameters, depth maps, point maps, and tracking features. There is one DPT [^14] head that decodes all dense outputs from the same feature tokens. The only task-specific component is a small camera head operating on dedicated camera tokens.
 
 This is not an implementation detail. It is a regularization strategy.
 
 When every task shares the same feature representation, the model cannot learn per-task shortcuts. To predict depth accurately, it must also produce features that support accurate camera prediction — because the same features feed both heads. To predict point tracks well, it must maintain features that are geometrically meaningful — because those same features also drive depth and camera estimation.
 
-The VGGT paper contains a revealing result: constructing point clouds from _separately predicted depth and camera parameters_ yields _better_ accuracy than using the dedicated point map head directly (Table 3 in [1]: 0.677 vs 0.709 overall error on ETH3D). This means the depth and camera predictions are _geometrically coupled_ — they're consistent with each other in a way the standalone point map prediction isn't. That geometric coupling is a direct consequence of the shared backbone.
+The VGGT paper contains a revealing result: constructing point clouds from _separately predicted depth and camera parameters_ yields _better_ accuracy than using the dedicated point map head directly (Table 3 in [^1]: 0.677 vs 0.709 overall error on ETH3D). This means the depth and camera predictions are _geometrically coupled_ — they're consistent with each other in a way the standalone point map prediction isn't. That geometric coupling is a direct consequence of the shared backbone.
 
 Later models break this coupling. Spann3R predicts pointmaps directly from spatial memory, decoupling depth from camera estimation. MonST3R estimates per-timestep geometry independently, weakening cross-frame consistency. HD-VGGT's dual-branch design separates coarse global geometry from high-resolution detail — the fine branch can "correct" the coarse branch in ways that break geometric consistency without being penalized.
 
@@ -84,7 +84,7 @@ This gradual reconciliation has a profound effect on the loss landscape. Conside
 
 This means the optimization trajectory is shaped primarily by the sparse-view regime — because sparse batches occur frequently (the uniform sampling of 2–24 frames means ~9% of batches have only 2 frames). The model's parameters are pulled toward basins where sparse-view fusion works well, not basins where dense fusion masks the inadequacy of per-view features.
 
-Later models that modify the attention mechanism — replacing global attention with Mamba state-space models [10], or adding cross-attention between branches [9] — change this basin structure. The new mechanisms may form basins that are deeper for the dense-view case (more parameters to fit the data) but narrower and less stable for the sparse case (fewer training examples force the model into those basins).
+Later models that modify the attention mechanism — replacing global attention with Mamba state-space models [^10], or adding cross-attention between branches [^9] — change this basin structure. The new mechanisms may form basins that are deeper for the dense-view case (more parameters to fit the data) but narrower and less stable for the sparse case (fewer training examples force the model into those basins).
 
 ### 3. Gradient Interference in Multi-Task Objectives
 
@@ -94,11 +94,11 @@ $$\mathcal{L} = \mathcal{L}_{\text{camera}} + \mathcal{L}_{\text{depth}} + \math
 
 The authors note that "the camera, depth, and point-map losses have similar ranges and do not need additional balancing." This is unusual in multi-task learning, where loss scales typically differ by orders of magnitude and require careful weighting.
 
-When loss terms are naturally balanced, their gradients are more likely to be _aligned_ — pointing in similar directions in parameter space. Aligned gradients mean each optimization step moves all tasks toward improvement simultaneously, rather than improving one at the expense of another [15].
+When loss terms are naturally balanced, their gradients are more likely to be _aligned_ — pointing in similar directions in parameter space. Aligned gradients mean each optimization step moves all tasks toward improvement simultaneously, rather than improving one at the expense of another [^15].
 
 VGGT's shared backbone amplifies this alignment. Because all tasks operate on the same features, a gradient that improves depth prediction tends to also improve camera prediction — the features that encode scene geometry useful for depth are the same features that encode viewpoint relationships useful for camera estimation.
 
-Later models introduce task-specific pathways. Spann3R's spatial memory is primarily optimized for pointmap consistency, not camera or depth accuracy. MonST3R's temporal modeling is optimized for motion estimation, which can conflict with static geometry. When gradients conflict, standard SGD averaging produces destructive interference [15] — the model oscillates between satisfying different objectives rather than converging to a solution that satisfies all of them.
+Later models introduce task-specific pathways. Spann3R's spatial memory is primarily optimized for pointmap consistency, not camera or depth accuracy. MonST3R's temporal modeling is optimized for motion estimation, which can conflict with static geometry. When gradients conflict, standard SGD averaging produces destructive interference [^15] — the model oscillates between satisfying different objectives rather than converging to a solution that satisfies all of them.
 
 Under sparse views, this interference is amplified. The supervisory signal for each task is already weak; conflicting gradients dilute it further. The model never receives a strong enough signal to commit to any single geometric interpretation.
 
@@ -190,38 +190,36 @@ Later models are not worse. They solve different problems — dynamic scenes, lo
 
 ---
 
-## References
+[^1]: Wang, J., Chen, M., Karaev, N., Vedaldi, A., Rupprecht, C., & Novotny, D. (2025). VGGT: Visual Geometry Grounded Transformer. _CVPR 2025 (Best Paper)_. [arXiv:2503.11651](https://arxiv.org/abs/2503.11651)
 
-[1] Wang, J., Chen, M., Karaev, N., Vedaldi, A., Rupprecht, C., & Novotny, D. (2025). VGGT: Visual Geometry Grounded Transformer. _CVPR 2025 (Best Paper)_. [arXiv:2503.11651](https://arxiv.org/abs/2503.11651)
+[^2]: Zhang, W., Wu, Y., Li, S., Ma, W., Ma, X., Li, Q., & Wang, Q. (2025). Review of Feed-forward 3D Reconstruction: From DUSt3R to VGGT. [arXiv:2507.08448](https://arxiv.org/abs/2507.08448)
 
-[2] Zhang, W., Wu, Y., Li, S., Ma, W., Ma, X., Li, Q., & Wang, Q. (2025). Review of Feed-forward 3D Reconstruction: From DUSt3R to VGGT. [arXiv:2507.08448](https://arxiv.org/abs/2507.08448)
+[^3]: Wang, S., Leroy, V., Cabon, Y., Chidlovskii, B., & Revaud, J. (2023). DUSt3R: Geometric 3D Vision Made Easy. _CVPR 2024_. [arXiv:2312.14132](https://arxiv.org/abs/2312.14132)
 
-[3] Wang, S., Leroy, V., Cabon, Y., Chidlovskii, B., & Revaud, J. (2023). DUSt3R: Geometric 3D Vision Made Easy. _CVPR 2024_. [arXiv:2312.14132](https://arxiv.org/abs/2312.14132)
+[^4]: Leroy, V., Cabon, Y., & Revaud, J. (2024). Grounding Image Matching in 3D with MASt3R. [arXiv:2406.09756](https://arxiv.org/abs/2406.09756)
 
-[4] Leroy, V., Cabon, Y., & Revaud, J. (2024). Grounding Image Matching in 3D with MASt3R. [arXiv:2406.09756](https://arxiv.org/abs/2406.09756)
+[^5]: Align3R. Global alignment for DUSt3R/MASt3R pairwise reconstructions.
 
-[5] Align3R. Global alignment for DUSt3R/MASt3R pairwise reconstructions.
+[^6]: Pow3R. Pose-graph optimization with point cloud fusion for multi-view alignment.
 
-[6] Pow3R. Pose-graph optimization with point cloud fusion for multi-view alignment.
+[^7]: Wang, H. (2024). Spann3R: 3D Reconstruction with Spatial Memory. [arXiv:2408.16061](https://arxiv.org/abs/2408.16061)
 
-[7] Wang, H. (2024). Spann3R: 3D Reconstruction with Spatial Memory. [arXiv:2408.16061](https://arxiv.org/abs/2408.16061)
+[^8]: Zhang, J., Herrmann, C., Hur, J., Jampani, V., Darrell, T., Cole, F., Sun, D., & Yang, M.H. (2024). MonST3R: A Simple Approach for Estimating Geometry in the Presence of Motion. _ICLR 2025_. [arXiv:2410.03825](https://arxiv.org/abs/2410.03825)
 
-[8] Zhang, J., Herrmann, C., Hur, J., Jampani, V., Darrell, T., Cole, F., Sun, D., & Yang, M.H. (2024). MonST3R: A Simple Approach for Estimating Geometry in the Presence of Motion. _ICLR 2025_. [arXiv:2410.03825](https://arxiv.org/abs/2410.03825)
+[^9]: Chen, T., Hu, Y., Han, Y., et al. (2026). HD-VGGT: High-Resolution Visual Geometry Transformer. [arXiv:2603.27222](https://arxiv.org/abs/2603.27222)
 
-[9] Chen, T., Hu, Y., Han, Y., et al. (2026). HD-VGGT: High-Resolution Visual Geometry Transformer. [arXiv:2603.27222](https://arxiv.org/abs/2603.27222)
+[^10]: Deng, T., Xiong, Z., Wang, N., et al. (2026). Mamba-VGGT: Persistent Long-Sequence Video Geometry Grounded Transformer via External Sliding Window Mamba Memory. [arXiv:2605.17478](https://arxiv.org/abs/2605.17478)
 
-[10] Deng, T., Xiong, Z., Wang, N., et al. (2026). Mamba-VGGT: Persistent Long-Sequence Video Geometry Grounded Transformer via External Sliding Window Mamba Memory. [arXiv:2605.17478](https://arxiv.org/abs/2605.17478)
+[^11]: Sun, X., Wang, S., Zhang, F., et al. (2026). VGGT-World: Transforming VGGT into an Autoregressive Geometry World Model. [arXiv:2603.12655](https://arxiv.org/abs/2603.12655)
 
-[11] Sun, X., Wang, S., Zhang, F., et al. (2026). VGGT-World: Transforming VGGT into an Autoregressive Geometry World Model. [arXiv:2603.12655](https://arxiv.org/abs/2603.12655)
+[^12]: Fast3R: Towards 3D Reconstruction of 1000+ Images in One Forward Pass [arXiv:2501.13928](https://arxiv.org/abs/2501.13928)
 
-[12] Fast3R: Efficient feed-forward 3D reconstruction from multiple views.
+[^13]: Continuous 3D Perception Model with Persistent State (CUT3R) [arXiv:](https://arxiv.org/abs/2501.12387)
 
-[13] CUT3R: Cross-attention U-Net Transformer for 3D Reconstruction.
+[^14]: Ranftl, R., Bochkovskiy, A., & Koltun, V. (2021). Vision Transformers for Dense Prediction. _ICCV 2021_. (DPT architecture used by VGGT)
 
-[14] Ranftl, R., Bochkovskiy, A., & Koltun, V. (2021). Vision Transformers for Dense Prediction. _ICCV 2021_. (DPT architecture used by VGGT)
+[^15]: Yu, T., Kumar, S., Gupta, A., Levine, S., Hausman, K., & Finn, C. (2020). Gradient Surgery for Multi-Task Learning. _NeurIPS 2020_. [arXiv:2001.06782](https://arxiv.org/abs/2001.06782)
 
-[15] Yu, T., Kumar, S., Gupta, A., Levine, S., Hausman, K., & Finn, C. (2020). Gradient Surgery for Multi-Task Learning. _NeurIPS 2020_. [arXiv:2001.06782](https://arxiv.org/abs/2001.06782)
+[^16]: Keskar, N.S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P.T.P. (2017). On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima. _ICLR 2017_. [arXiv:1609.04836](https://arxiv.org/abs/1609.04836)
 
-[16] Keskar, N.S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P.T.P. (2017). On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima. _ICLR 2017_. [arXiv:1609.04836](https://arxiv.org/abs/1609.04836)
-
-[17] Neyshabur, B., Tomioka, R., & Srebro, N. (2015). In Search of the Real Inductive Bias: On the Role of Implicit Regularization in Deep Learning. _ICLR 2015 Workshop_. [arXiv:1412.6614](https://arxiv.org/abs/1412.6614)
+[^17]: Neyshabur, B., Tomioka, R., & Srebro, N. (2015). In Search of the Real Inductive Bias: On the Role of Implicit Regularization in Deep Learning. _ICLR 2015 Workshop_. [arXiv:1412.6614](https://arxiv.org/abs/1412.6614)

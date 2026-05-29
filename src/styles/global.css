@@ -182,3 +182,28 @@
 		@apply bg-background text-textColor mx-auto flex min-h-screen max-w-4xl flex-col px-8 pt-16 font-sans text-sm font-normal antialiased;
 	}
 }
+
+/* References/Footnotes Styling */
+.prose .footnotes {
+	@apply mt-12 border-t border-border pt-8 text-sm opacity-90;
+}
+
+/* Hide the screen reader header if necessary */
+.prose .footnotes h2 {
+    @apply text-xl font-bold mb-4;
+}
+
+/* Backref formatting */
+.prose .data-footnote-backref {
+    @apply ms-1 inline-flex h-4 w-4 items-center justify-center rounded-sm bg-accent/20 text-[10px] font-bold text-accent no-underline transition-colors hover:bg-accent hover:text-white align-middle;
+    font-size: 0; /* Hide the emoji/back arrow */
+}
+
+.prose .data-footnote-backref::before {
+    content: "↑";
+    font-size: 10px;
+}
+
+/* Handle multiple backrefs (1, 2, 3...) */
+.prose .data-footnote-backref[aria-label*="Back to content 2"]::before { content: "2↑"; }
+.prose .data-footnote-backref[aria-label*="Back to content 3"]::before { content: "3↑"; }
