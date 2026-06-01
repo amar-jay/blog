@@ -4,6 +4,8 @@ import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
 export const siteConfig: SiteConfig = {
 	// Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
 	author: "Amar Jay",
+	// The site URL
+	site: "https://amarjay.com",
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
 	title: "amar-jay",
 	// Meta property used as the default description meta property
@@ -31,7 +33,7 @@ export const structuredData = {
 	"@context": "https://schema.org",
 	"@type": "WebSite",
 	name: "amar jay",
-	url: "amarjay.com",
+	url: "https://amarjay.com",
 	potentialAction: {
 		"@type": "SearchAction",
 		target: "https://amarjay.com/?s={search_term_string}",

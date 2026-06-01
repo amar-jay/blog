@@ -27,12 +27,14 @@ const socialImageURL = new URL(ogImage || "/social-card.png", Astro.url).href;
 />
 <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
 <link href="/manifest.webmanifest" rel="manifest" />
-<!-- <link href={siteURL} rel="canonical" /> -->
+<link href={siteURL} rel="canonical" />
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
 <meta content={description} name="description" />
 <meta content={siteConfig.author} name="author" />
+<meta content="index, follow" name="robots" />
+<meta content="index, follow" name="googlebot" />
 
 {/* Theme Colour */}
 <meta content="" name="theme-color" />
@@ -69,55 +71,50 @@ const socialImageURL = new URL(ogImage || "/social-card.png", Astro.url).href;
 <meta content={title} property="twitter:title" />
 <meta content={description} property="twitter:description" />
 <meta content={socialImageURL} property="twitter:image" />
+<meta content="@_amarjay" property="twitter:site" />
+<meta content="@_amarjay" property="twitter:creator" />
 
 {/* Structured Data */}
-<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "WebSite",
-		"name": "amar jay",
-		"url": "https://amarjay.com",
-		"description": "Amar Jay's blog | One Love ☝️️",
-		"image": "https://amarjay.com/_astro/64834413_1cC5Qn.webp",
-		"author": {
-			"@type": "Person",
-			"name": "Amar Jay",
-			"url": "/about"
-		},
-		"potentialAction": {
-			"@type": "SearchAction",
-			"target": "https://amarjay.com/?q={query}",
-			"query": "required"
-		},
-		"inLanguage": "en",
-		"hasPart": [
-			{
-				"@type": "SiteNavigationElement",
-				"name": "Home",
-				"url": "/"
-			},
-			{
-				"@type": "SiteNavigationElement",
-				"name": "Projects",
-				"url": "/projects"
-			},
-			{
-				"@type": "SiteNavigationElement",
-				"name": "Blog",
-				"url": "/blog"
-			},
-			{
-				"@type": "SiteNavigationElement",
-				"name": "About",
-				"url": "/about"
-			}
-		],
-		"sameAs": ["https://github.com/amar-jay", "https://twitter.com/_amarjay"]
-	}
-</script>
+{
+	articleDate ? (
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "BlogPosting",
+				headline: title,
+				description: description,
+				image: socialImageURL,
+				datePublished: articleDate,
+				author: [
+					{
+						"@type": "Person",
+						name: siteConfig.author,
+						url: new URL("/about", siteURL.origin).href,
+					},
+				],
+			})}
+		/>
+	) : (
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				name: siteConfig.title,
+				url: siteURL.origin,
+				description: siteConfig.description,
+				author: {
+					"@type": "Person",
+					name: siteConfig.author,
+				},
+			})}
+		/>
+	)
+}
 
 {/* Sitemap */}
-<link href="/sitemap-0.xml" rel="sitemap" />
+<link href="/sitemap-index.xml" rel="sitemap" />
 
 {/* RSS auto-discovery */}
 <link href="/rss.xml" rel="alternate" title={siteConfig.title} type="application/rss+xml" />
