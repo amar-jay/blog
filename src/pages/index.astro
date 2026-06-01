@@ -39,28 +39,31 @@ const work: { desc: string; href?: string; title: string }[] = [
 ---
 
 <!-- // do not change the description properties in the meta objects, used for SEO. -->
-<BaseLayout meta={{ title: "Home", description: "孤独" }} transition:animate={fade({ duration: "0.4s" })}>
+<BaseLayout
+	meta={{ title: "Home", description: "孤独" }}
+	transition:animate={fade({ duration: "0.4s" })}
+>
 	<section>
-		<div class="mb-6 inline-flex items-end gap-x-2">
-			<div class="mb-auto">
+		<div class='mb-6 inline-flex items-end gap-x-2'>
+			<div class='mb-auto'>
 				<Image
-					alt="profile"
-					class="rounded-full"
+					alt='profile'
+					class='rounded-full'
 					height={100}
-					loading="eager"
-					src="https://avatars.githubusercontent.com/u/64834413"
+					loading='eager'
+					src='https://avatars.githubusercontent.com/u/64834413'
 					width={100}
 				/>
 			</div>
 			<div>
-				<h1 class="title">Hi,</h1>
-				<p class="mb-4">I'm Abdel-manan A.R. Junior (amar-jay).</p>
+				<p class='title'>Hi,</p>
+				<h1 class='mb-4'>I'm Abdel-manan A.R. Junior (amar-jay).</h1>
 				<SocialList />
 			</div>
 		</div>
 	</section>
-	<section class="mt-3">
-		<dl class="space-y-4">
+	<section class='mt-3'>
+		<dl class='space-y-4'>
 			<p>
 				My name is <b>Abdel Manan (a.k.a. Manan / amar jay)</b>. I'm an amateur engineer,
 				self-proclaimed researcher, and almost-retired student. I'm curious and love tinkering with
@@ -135,15 +138,15 @@ const work: { desc: string; href?: string; title: string }[] = [
 		</dl>
 	</section>
 
-	<section class="mt-8">
-		<Title>Work</Title>
-		<dl class="space-y-4">
+	<section class='mt-8'>
+		<Title as='p'>Work</Title>
+		<dl class='space-y-4'>
 			{
 				work.map(({ desc, title, href }) => (
-					<div class="flex flex-col gap-2 md:flex-row">
+					<div class='flex flex-col gap-2 md:flex-row'>
 						<dt>
-							<span class="flex font-bold">
-								<a class="blog-link" href={href}>
+							<span class='flex font-bold'>
+								<a class='blog-link' href={href}>
 									{title}
 								</a>
 								:
