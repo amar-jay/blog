@@ -1,7 +1,7 @@
 ---
 import type { SiteMeta } from "@/types";
 
-import { siteConfig } from "@/site-config";
+import { siteConfig, structuredData } from "@/site-config";
 
 import "../styles/global.css";
 
@@ -12,6 +12,27 @@ const { articleDate, description, ogImage = "/social-card.png", title } = Astro.
 const siteTitle = title + " | " + siteConfig.title;
 const siteURL = new URL(Astro.url?.pathname || "/", Astro.site);
 const socialImageURL = new URL(ogImage || "/social-card.png", Astro.url).href;
+
+// Breadcrumbs logic
+const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbList = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "Home",
+			item: Astro.site?.href,
+		},
+		...pathSegments.map((segment, index) => ({
+			"@type": "ListItem",
+			position: index + 2,
+			name: segment.charAt(0).toUpperCase() + segment.slice(1),
+			item: new URL(pathSegments.slice(0, index + 1).join("/"), Astro.site).href,
+		})),
+	],
+};
 ---
 
 <meta charset='utf-8' />
@@ -51,7 +72,9 @@ const socialImageURL = new URL(ogImage || "/social-card.png", Astro.url).href;
 <meta content='index, follow' name='googlebot' />
 
 {/* Theme Colour */}
-<meta content='' name='theme-color' />
+<meta content='#1d1f21' name='theme-color' />
+<meta content='#1d1f21' name='msapplication-TileColor' />
+<meta content='#1d1f21' name='apple-mobile-web-app-status-bar-style' />
 
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? "article" : "website"} property='og:type' />
@@ -61,6 +84,7 @@ const socialImageURL = new URL(ogImage || "/social-card.png", Astro.url).href;
 <meta content={siteConfig.title} property='og:site_name' />
 <meta content={siteConfig.ogLocale} property='og:locale' />
 <meta content={socialImageURL} property='og:image' />
+<meta content={title} property='og:image:alt' />
 <meta content='1200' property='og:image:width' />
 <meta content='630' property='og:image:height' />
 {
@@ -85,10 +109,12 @@ const socialImageURL = new URL(ogImage || "/social-card.png", Astro.url).href;
 <meta content={title} property='twitter:title' />
 <meta content={description} property='twitter:description' />
 <meta content={socialImageURL} property='twitter:image' />
+<meta content={title} property='twitter:image:alt' />
 <meta content='@_amarjay' property='twitter:site' />
 <meta content='@_amarjay' property='twitter:creator' />
 
 {/* Structured Data */}
+<script type='application/ld+json' set:html={JSON.stringify(breadcrumbList)} />
 {
 	articleDate ? (
 		<script
@@ -107,23 +133,22 @@ const socialImageURL = new URL(ogImage || "/social-card.png", Astro.url).href;
 						url: new URL("/about", siteURL.origin).href,
 					},
 				],
-			})}
-		/>
-	) : (
-		<script
-			type='application/ld+json'
-			set:html={JSON.stringify({
-				"@context": "https://schema.org",
-				"@type": "WebSite",
-				name: siteConfig.title,
-				url: siteURL.origin,
-				description: siteConfig.description,
-				author: {
-					"@type": "Person",
-					name: siteConfig.author,
+				publisher: {
+					"@type": "Organization",
+					name: siteConfig.title,
+					logo: {
+						"@type": "ImageObject",
+						url: new URL("/icon.svg", siteURL.origin).href,
+					},
+				},
+				mainEntityOfPage: {
+					"@type": "WebPage",
+					"@id": siteURL.href,
 				},
 			})}
 		/>
+	) : (
+		<script type='application/ld+json' set:html={JSON.stringify(structuredData)} />
 	)
 }
 
