@@ -53,7 +53,46 @@ export default defineConfig({
 		expressiveCode(expressiveCodeOptions),
 		icon(),
 		sitemap({
-			priority: 0.7,
+			serialize(item) {
+				const url = new URL(item.url);
+				const segments = url.pathname.split("/").filter(Boolean);
+
+				// Remove paginated URLs (e.g., /posts/2/)
+				if (segments.some((segment) => !isNaN(Number(segment)))) {
+					return undefined as any;
+				}
+
+				if (item.url.includes("/posts/")) {
+					const slug = segments.pop();
+					if (slug && slug !== "posts") {
+						const possibleFiles = [
+							`src/content/post/${slug}.md`,
+							`src/content/post/${slug}.mdx`,
+							`src/content/post/${slug}/index.md`,
+							`src/content/post/${slug}/index.mdx`,
+						];
+						for (const file of possibleFiles) {
+							if (fs.existsSync(file)) {
+								const content = fs.readFileSync(file, "utf-8");
+								const match = content.match(/(?:updatedDate|publishDate):\s*["']?([^"'\n]+)["']?/);
+								if (match) {
+									try {
+										item.lastmod = new Date(match[1] as string).toISOString();
+									} catch {
+										item.lastmod = fs.statSync(file).mtime.toISOString();
+									}
+								} else {
+									item.lastmod = fs.statSync(file).mtime.toISOString();
+								}
+								break;
+							}
+						}
+					}
+				}
+				
+				delete item.priority;
+				return item;
+			},
 		}),
 		mdx(),
 		react(),
