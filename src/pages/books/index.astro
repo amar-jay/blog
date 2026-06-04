@@ -1,38 +1,30 @@
 ---
-import type { GetStaticPaths, Page } from "astro";
-
-import Pagination from "@/components/Paginator.astro";
 import BookPreview from "@/components/blog/BookPreview.astro";
 import BaseLayout from "@/components/layout/Base.astro";
 import Bookshelf from "@/components/bookshelf.astro";
+import Pagination from "@/components/Paginator.astro";
 import { getBooks, loadOpenLibraryCache } from "@/utils/open-library";
 import type { OpenLibraryResult } from "@/utils/open-library";
 
-// Mock books data for the bookshelf
-interface Props {
-	page: Page<ReturnType<typeof getBooks>[number]>;
-	allBooks: (ReturnType<typeof getBooks>[number] & { data: OpenLibraryResult })[];
-}
+type Book = ReturnType<typeof getBooks>[number] & { data: OpenLibraryResult } & {
+	navigation: { prev: string; next: string };
+};
+const data = getBooks();
+const cache = loadOpenLibraryCache();
+const allBooks = data.map((post, index) => {
+	const metadata = cache[post.olid];
+	if (!metadata) {
+		throw new Error(`Missing cached OpenLibrary data for ${post.olid}`);
+	}
 
-export const getStaticPaths = (async ({ paginate }) => {
-	const data = getBooks();
-	const cache = loadOpenLibraryCache();
-	const updatedData = data.map(post => {
-		const metadata = cache[post.olid];
-		if (!metadata) {
-			throw new Error(`Missing cached OpenLibrary data for ${post.olid}`);
-		}
-		return {
-			...post,
-			title: metadata.title,
-			data: metadata,
-		};
-	}) as Props["allBooks"];
-
-	return paginate(data, { pageSize: 10, props: { allBooks: updatedData } });
-}) satisfies GetStaticPaths;
-
-const { page, allBooks } = Astro.props;
+	const prev = index > 0 ? `/books?name=${data[index - 1]!.olid}` : null;
+	const next = index < data.length - 1 ? `/books?name=${data[index + 1]!.olid}` : null;
+	return {
+		...post,
+		data: metadata,
+		navigation: { prev, next },
+	} as Book;
+});
 
 const meta = {
 	title: "Books",
@@ -40,19 +32,16 @@ const meta = {
 		"A personal archive of books I’ve read, am reading, or hope to read someday. I don’t read as often anymore, but I still like keeping track of the ones that stay with me.",
 };
 
+const nameParam = allBooks[0]!.olid;
 const paginationProps = {
-	...(page.url.prev && {
-		prevUrl: {
-			text: `← Previous Books`,
-			url: page.url.prev,
-		},
-	}),
-	...(page.url.next && {
-		nextUrl: {
-			text: `Next Books →`,
-			url: page.url.next,
-		},
-	}),
+	prevUrl: {
+		text: `← Previous Books`,
+		url: allBooks.find(b => b.olid === nameParam)?.navigation.prev,
+	},
+	nextUrl: {
+		text: `Next Books →`,
+		url: allBooks.find(b => b.olid === nameParam)?.navigation.next,
+	},
 };
 ---
 
@@ -60,7 +49,7 @@ const paginationProps = {
 	<h1 class='title'>Books</h1>
 	<div>
 		<section class='relative mb-10 w-full' aria-label='Bookshelf'>
-			<Bookshelf books={Array(4).fill(allBooks).flat()} />
+			<Bookshelf books={allBooks} />
 		</section>
 	</div>
 	<div class='grid max-w-full gap-y-2 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
@@ -71,14 +60,13 @@ const paginationProps = {
 						<li
 							class='book-item hidden flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full'
 							data-olid={p.olid}
+							data-prev-url={p.navigation.prev}
+							data-next-url={p.navigation.next}
 						>
 							<BookPreview as='h1' post={p} withDesc />
 						</li>
 					))
 				}
-				<!-- {
-					JSON.stringify(verboseDescriptionFetch(page.data[0]!.olid))
-				} -->
 				<li
 					id='book-not-found'
 					class='hidden flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full'
@@ -97,6 +85,8 @@ const paginationProps = {
 		let nameParam = url.searchParams.get("name");
 		const items = document.querySelectorAll(".book-item");
 		const notFound = document.getElementById("book-not-found");
+		const prevNav = document.getElementById("prev-nav") as HTMLAnchorElement;
+		const nextNav = document.getElementById("next-nav") as HTMLAnchorElement;
 
 		if (!items.length) return;
 
@@ -113,6 +103,15 @@ const paginationProps = {
 				item.classList.remove("hidden");
 				item.classList.add("flex");
 				found = true;
+
+				const prevUrl = item.getAttribute("data-prev-url");
+				const nextUrl = item.getAttribute("data-next-url");
+				prevNav.href = prevUrl || "#";
+				prevNav.classList.toggle("opacity-50", !prevUrl);
+				prevNav.classList.toggle("pointer-events-none", !prevUrl);
+				nextNav.href = nextUrl || "#";
+				nextNav.classList.toggle("opacity-50", !nextUrl);
+				nextNav.classList.toggle("pointer-events-none", !nextUrl);
 			} else {
 				item.classList.add("hidden");
 				item.classList.remove("flex");
@@ -128,11 +127,26 @@ const paginationProps = {
 				notFound.classList.remove("flex");
 			}
 		}
+
+		let shelfFound = false;
+		const books = Array.from(document.querySelectorAll(".book-btn")) as HTMLElement[];
+		books.forEach(btn => {
+			if (btn.dataset.olid === nameParam) {
+				if (shelfFound) return;
+				btn.classList.add("expanded");
+				shelfFound = true;
+			} else {
+				btn.classList.remove("expanded");
+			}
+		});
 	}
 
 	// Run on initial load
-	document.addEventListener("DOMContentLoaded", updateBooksDisplay);
+	document.addEventListener("DOMContentLoaded", () => updateBooksDisplay());
 	// Support for Astro view transitions if enabled
-	document.addEventListener("astro:page-load", updateBooksDisplay); // Support for book clicks
-	window.addEventListener("bookshelf-book-changed", updateBooksDisplay);
+	document.addEventListener("astro:page-load", () => updateBooksDisplay());
+	// Support for book clicks - ONLY update display, not shelf expansion
+	window.addEventListener("bookshelf-book-changed", () => updateBooksDisplay());
+	// Support for browser back/forward
+	window.addEventListener("popstate", () => updateBooksDisplay());
 </script>

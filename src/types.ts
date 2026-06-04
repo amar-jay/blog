@@ -16,7 +16,7 @@ export type SiteConfig = {
 };
 
 export type PaginationLink = {
-	url: string;
+	url: string | undefined;
 	text?: string;
 	srLabel?: string;
 };

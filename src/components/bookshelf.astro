@@ -46,7 +46,6 @@ const bookHeight = `${height}px`;
 					<button
 						class="book-btn flex shrink-0 flex-row items-center justify-start outline-none"
 						data-index={index}
-						data-slug={book.slug}
 						data-olid={book.olid}
 						style={`
             width: ${spineWidth};
@@ -225,6 +224,17 @@ const bookHeight = `${height}px`;
 			let viewportWidth = viewport ? viewport.getBoundingClientRect().width : 0;
 			let booksInViewport = viewportWidth / (width + 4);
 
+			// Initialize from URL
+			const url = new URL(window.location.href);
+			const nameParam = url.searchParams.get("name");
+			if (nameParam) {
+				const activeIndex = books.findIndex((b) => b.dataset.olid === nameParam);
+				if (activeIndex > -1) {
+					bookIndex = activeIndex;
+					books[bookIndex]!.classList.add("expanded");
+				}
+			}
+
 			const getBounds = () => {
 				let totalWidth = numBooks * (width + 4) - 4; // all books width + gaps
 				if (bookIndex > -1) {
@@ -253,6 +263,13 @@ const bookHeight = `${height}px`;
 				});
 				updateScrollVisibility();
 			};
+
+			// Calculate initial scroll
+			if (bookIndex > -1) {
+				const targetScroll = (bookIndex - (booksInViewport - 4.5) / 2) * (width + 4);
+				const { min, max } = getBounds();
+				scrollX = Math.max(min, Math.min(targetScroll, max));
+			}
 
 			const setScrollRight = () => {
 				isScrolling = true;

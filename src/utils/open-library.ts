@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { text } from "node:stream/consumers";
 
 export type OpenLibraryResult = {
 	title: string;
@@ -26,7 +27,7 @@ export async function openLibraryFetch(olid: string): Promise<OpenLibraryResult>
 
 	const cover = `https://covers.openlibrary.org/b/olid/${olid}-M.jpg`;
 	const res = await fetch(`https://openlibrary.org/books/${olid}.json`, {
-		signal: AbortSignal.timeout(15000),
+		signal: AbortSignal.timeout(20000),
 	});
 
 	if (!res.ok) throw new Error(`Failed to fetch book: ${olid}`);
@@ -80,46 +81,94 @@ export async function openLibraryFetch(olid: string): Promise<OpenLibraryResult>
 export function getBooks() {
 	return [
 		{
-			slug: "/books/dune",
-			olid: "OL26242482M",
-			spineColor: "#d97706",
+			olid: "OL49348290M",
+			spineColor: "#000000",
 			textColor: "#ffffff",
-			readDate: new Date("2023-08-15"),
+			readDate: new Date("2026-04-25"),
 		},
 		{
-			slug: "/books/the-martian",
-			olid: "OL32815550M",
-			spineColor: "#b91c1c",
-			textColor: "#ffffff",
-			readDate: new Date("2023-09-10"),
+			olid: "OL28302486M",
+			spineColor: "#ffffff",
+			textColor: "#000000",
+			readDate: new Date("2025-05-15"),
 		},
 		{
-			slug: "/books/neuromancer",
+			olid: "OL38058519M",
+			spineColor: "#ffffff",
+			textColor: "#4a3d12",
+			readDate: new Date("2024-01-20"),
+		},
+		{
 			olid: "OL27444262M",
 			spineColor: "#228B22",
 			textColor: "#ffffff",
 			readDate: new Date("2023-10-05"),
 		},
 		{
-			slug: "/books/foundation",
-			olid: "OL51566464M",
-			spineColor: "#C5A596",
+			olid: "OL32815550M",
+			spineColor: "#b91c1c",
 			textColor: "#ffffff",
-			readDate: new Date("2023-11-20"),
+			readDate: new Date("2023-09-10"),
 		},
 		{
-			slug: "/books/1984",
+			olid: "OL6594179M",
+			spineColor: "#a68842",
+			textColor: "#000000",
+			readDate: new Date("2023-07-01"),
+		},
+		{
+			olid: "OL31988297M",
+			spineColor: "#918f0c",
+			textColor: "#ffffff",
+			readDate: new Date("2023-06-05"),
+		},
+		// {
+		// 	olid: "OL12551182W",
+		// 	spineColor: "#2f4f4f",
+		// 	textColor: "#ffffff",
+		// 	readDate: new Date("2022-12-15"),
+		// },
+		{
+			olid: "OL28940575M",
+			spineColor: "#c4c36e",
+			textColor: "#000000",
+			readDate: new Date("2021-08-30"),
+		},
+		{
 			olid: "OL3174961M",
-			spineColor: "#0f172a",
+			spineColor: "#4a3d12",
 			textColor: "#ffffff",
 			readDate: new Date("2021-02-15"),
 		},
 		{
-			slug: "/books/rosie-project",
 			olid: "OL40231981M",
 			spineColor: "#1591EA",
 			textColor: "#ffffff",
 			readDate: new Date("2020-12-10"),
+		},
+		{
+			olid: "OL26234146M",
+			spineColor: "#ebd9a0",
+			textColor: "#000000",
+			readDate: new Date("2020-03-10"),
+		},
+		{
+			olid: "OL40274783M",
+			spineColor: "#cccc00",
+			textColor: "#000000",
+			readDate: new Date("2019-11-05"),
+		},
+		{
+			olid: "OL26242482M",
+			spineColor: "#d97706",
+			textColor: "#ffffff",
+			readDate: new Date("2019-08-15"),
+		},
+		{
+			olid: "OL51566464M",
+			spineColor: "#C5A596",
+			textColor: "#ffffff",
+			readDate: new Date("2018-11-20"),
 		},
 	] as const;
 }

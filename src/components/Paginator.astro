@@ -1,5 +1,6 @@
 ---
 import type { PaginationLink } from "@/types";
+import { cn } from "@/utils";
 
 interface Props {
 	nextUrl?: PaginationLink;
@@ -11,16 +12,26 @@ const { nextUrl, prevUrl } = Astro.props;
 
 {
 	(prevUrl || nextUrl) && (
-		<nav class="mt-8 flex items-center gap-x-4">
+		<nav class='mt-8 flex items-center gap-x-4'>
 			{prevUrl && (
-				<a class="sm:hover:text-accent me-auto py-2" data-astro-prefetch href={prevUrl.url}>
-					{prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}
+				<a
+					class={cn('sm:hover:text-accent me-auto py-2', !prevUrl.url && "pointer-events-none opacity-50")}
+					data-astro-prefetch
+					href={prevUrl.url}
+					id='prev-nav'
+				>
+					{prevUrl.srLabel && <span class='sr-only'>{prevUrl.srLabel}</span>}
 					{prevUrl.text ? prevUrl.text : "Previous"}
 				</a>
 			)}
 			{nextUrl && (
-				<a class="sm:hover:text-accent ms-auto py-2" data-astro-prefetch href={nextUrl.url}>
-					{nextUrl.srLabel && <span class="sr-only">{nextUrl.srLabel}</span>}
+				<a
+					class={cn('sm:hover:text-accent ms-auto py-2', !nextUrl.url && "pointer-events-none opacity-50")}
+					data-astro-prefetch
+					href={nextUrl.url}
+					id='next-nav'
+				>
+					{nextUrl.srLabel && <span class='sr-only'>{nextUrl.srLabel}</span>}
 					{nextUrl.text ? nextUrl.text : "Next"}
 				</a>
 			)}
