@@ -53,8 +53,8 @@ const paginationProps = {
 		</section>
 	</div>
 	<div class='grid max-w-full gap-y-2 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
-		<section aria-label='Blog post list'>
-			<ul class='space-y-8 text-start'>
+		<section aria-label='Blog post list' class='flex min-h-[30rem] flex-col sm:min-h-[22rem]'>
+			<ul class='flex-grow space-y-8 text-start'>
 				{
 					allBooks.map(p => (
 						<li
