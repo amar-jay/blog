@@ -1,21 +1,89 @@
 {
+	"id": "/",
 	"name": "amar jay",
 	"short_name": "amarjay",
-	"description": "Amar Jay's Personal Blog",
+	"description": "Amar Jay's personal blog — engineering, systems, silicon, and design.",
+	"lang": "en-GB",
+	"dir": "ltr",
+
+	"start_url": "/",
+	"scope": "/",
+
+	"display": "standalone",
+	"display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+	"orientation": "any",
+
+	"background_color": "#1f2124",
+	"theme_color": "#f97316",
+
+	"categories": ["blog", "education", "personal", "technology", "productivity"],
+
 	"icons": [
+		{ "src": "/48x48.png",   "sizes": "48x48",   "type": "image/png" },
+		{ "src": "/72x72.png",   "sizes": "72x72",   "type": "image/png" },
+		{ "src": "/96x96.png",   "sizes": "96x96",   "type": "image/png" },
+		{ "src": "/128x128.png", "sizes": "128x128", "type": "image/png" },
+		{ "src": "/144x144.png", "sizes": "144x144", "type": "image/png" },
+		{ "src": "/192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+		{ "src": "/256x256.png", "sizes": "256x256", "type": "image/png", "purpose": "any maskable" },
+		{ "src": "/384x384.png", "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
+		{ "src": "/512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+	],
+
+	"shortcuts": [
 		{
-			"src": "/192x192.png",
-			"sizes": "192x192",
-			"type": "image/png"
+			"name": "Blog",
+			"short_name": "Posts",
+			"description": "Latest writing and technical notes",
+			"url": "/posts/",
+			"icons": [{ "src": "/96x96.png", "sizes": "96x96", "type": "image/png" }]
 		},
 		{
-			"src": "/512x512.png",
-			"sizes": "512x512",
-			"type": "image/png"
+			"name": "Projects",
+			"description": "Things I've built and worked on",
+			"url": "/projects/",
+			"icons": [{ "src": "/96x96.png", "sizes": "96x96", "type": "image/png" }]
+		},
+		{
+			"name": "Books",
+			"description": "Reading list and notes",
+			"url": "/books/",
+			"icons": [{ "src": "/96x96.png", "sizes": "96x96", "type": "image/png" }]
+		},
+		{
+			"name": "About",
+			"description": "Who I am and what I'm focused on",
+			"url": "/about/",
+			"icons": [{ "src": "/96x96.png", "sizes": "96x96", "type": "image/png" }]
+		},
+		{
+			"name": "Home",
+			"description": "Start here",
+			"url": "/",
+			"icons": [{ "src": "/96x96.png", "sizes": "96x96", "type": "image/png" }]
 		}
 	],
-	"start_url": "/",
-	"background_color": "#f97316",
-	"theme_color": "#f97316",
-	"display": "standalone"
+
+	"screenshots": [
+		{
+			"src": "/screenshots/narrow.png",
+			"sizes": "1080x1920",
+			"type": "image/png",
+			"form_factor": "narrow",
+			"label": "amar jay on mobile — clean reading experience"
+		},
+		{
+			"src": "/screenshots/wide.png",
+			"sizes": "1920x1080",
+			"type": "image/png",
+			"form_factor": "wide",
+			"label": "amar jay — technical blog on desktop"
+		}
+	],
+
+	"launch_handler": {
+		"client_mode": "navigate-existing"
+	},
+
+	"handle_links": "preferred"
 }
