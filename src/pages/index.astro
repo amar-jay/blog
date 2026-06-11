@@ -1,9 +1,9 @@
 ---
+import { Icon } from "astro-icon/components";
 import SocialList from "@/components/SocialList.astro";
 import Title from "@/components/Title.astro";
 import BaseLayout from "@/components/layout/Base.astro";
 //import { getAllPosts, sortMDByDate } from "@/utils";
-import { Image } from "astro:assets";
 import { fade } from "astro:transitions";
 //const MAX_POSTS = 5;
 //const allPosts = await getAllPosts();
@@ -46,7 +46,7 @@ const work: { desc: string; href?: string; title: string }[] = [
 	<section>
 		<div class='mb-6 inline-flex items-end gap-x-2'>
 			<div class='mb-auto'>
-				<Image
+				<img
 					alt='profile'
 					class='rounded-full'
 					height={100}
@@ -62,86 +62,46 @@ const work: { desc: string; href?: string; title: string }[] = [
 			</div>
 		</div>
 	</section>
-	<section class='mt-3'>
-		<dl class='space-y-4'>
-			<p>
-				Hey there, I'm <b>Abdel Manan (you can call me Manan or amar jay)</b>.
-			</p>
-
-			<p>
-				I’m an engineer, an independent researcher, and a perennial student of engineering. I’m
-				incredibly curious and happiest when I'm tinkering under the hood—whether that's training
-				alternative ML architectures, breaking down computer vision pipelines, or replicating
-				research papers just to find out the authors left out half the hyperparameters. My
-				background covers everything from real-time communication pipelines to autonomous
-				robotics, flight stacks, and navigation. Just don't ask me to use ROS; we have a complicated
-				history.
-			</p>
-
-			<p>
-				Right now, my absolute focus is embedded systems. I’m deeply immersed in the Zephyr Project,
-				spending my days on hands-on development and bringing my RTOS proficiency to its peak.
-			</p>
-
-			<p>
-				When I’m not at a desk debugging firmware, I’m usually reading up on technology history. I’m
-				fascinated by the rise and fall of industrial giants, market-shaping decisions, and the
-				sheer complexity of global supply chains and assembly line strategies. Keeping tabs on the
-				markets keeps me grounded—and helps me figure out where to point my engineering efforts
-				next.
-			</p>
-
-			<!-- <dl class="space-y-4">
-			{
-				interests.map((props) => (
-					<div class="flex flex-col gap-2 md:flex-row">
-						<dt>
-							<span class="flex font-bold">{props.title}</span>
-						</dt>
-						<dd>({props?.desc})</dd>
-					</div>
-				))
-			}
-			  <p>
-		</dl> -->
-			<!-- <p>
-    I'm deeply fascinated by the <strong>architecture and design of intelligent systems</strong> — from the
-    <strong>microarchitectural details of SoCs</strong> and custom silicon to the <strong>algorithms that breathe life into perception and learning</strong>.
-    My curiosity spans <strong>low-level hardware design</strong> (with a focus on <em>RISC-V</em> and open-source toolchains),
-    <strong>embedded systems</strong>, and how these foundational layers interact with <strong>neural computation</strong> and <strong>adaptive systems</strong>.
-  </p>
-
-  <p>
-    I explore the <strong>intersections of hardware and cognition</strong>, building systems that not only <em>sense</em> the world but <em>adapt</em> to it.
-    While I regularly participate in <strong>drone competitions</strong> — which are especially prevalent in Turkey —
-    it's the engineering and systems integration behind them that excites me, not the drones themselves.
-  </p>
-
-  <p>
-    I’m constantly drawn to cutting-edge ML research, reading papers on <strong>language models</strong>,
-    <strong>diffusion models</strong>, and novel techniques like <strong>Gaussian Splatting</strong> and <strong>NeRF</strong> —
-    not always with the resources or full grasp to implement them, but always with genuine curiosity.
-    Occasionally, that interest turns into tangible side projects: every few months, I build and release something —
-    web, mobile, CLI, or desktop — as a way to apply what I've been exploring.
-  </p>
-
-  <!-- <p>
-    Beyond engineering, I care deeply about <strong>systems thinking</strong>, <strong>decision-making under uncertainty</strong>,
-    and building tools or environments that make people <strong>smarter, faster, and freer</strong>.
-    I'm less interested in academic formalism for its own sake — more in how ideas manifest into working systems,
-    how abstractions touch the real world, and how theory becomes structure.
-  </p> -->
-
-			<!-- <br> -->
-
-			<!-- <p>
-    At heart, I’m drawn to systems — how things work, how they break, and how they can be made to learn.
-    Whether it’s designing processors, building tools, or exploring the inner mechanics of intelligence,
-    I care about the <em>principles</em> that unify hardware, algorithms, and real-world behavior.
-    I'm especially interested in ideas that lie at the edge of disciplines — where engineering meets cognition,
-    where code becomes structure, and where abstraction gives rise to emergence.
-  </p> -->
-		</dl>
+	<section>
+		<p class='space-y-1'>
+			<b>I'm Abdel Manan — most people call me Manan, or amar-jay online.</b>
+			<br />
+			recent EEE graduate, independent researcher, and a perennial student of engineering.
+			<br />
+			tinker with software, be it platform (web/mobile/desktop) or hardware (firmware/embedded/PCB design).
+			<br />
+			keeping up with the latest research primarily in monocular neural rendering, world models and CSI
+			data inference.
+			<br />
+			like to learn about the formative years of industry, electronics and computers as a hobby.
+			<br />
+			trying my best to overcome my anxiety (my biggest obstacle) and to be a better communicator and
+			team player.
+			<br />
+			just graduated, AI seems to be taking over everything, so trying to set my compass in this world.
+			<br />
+			I am open to any advice, mentorship or just a friendly chat. Please don't hesitate to reach out!
+		</p>
+		<div class='mt-2 flex flex-wrap gap-3'>
+			<a class='inline-flex' download='TR-Resume-4.pdf' href='/TR%20Resume-4.pdf'>
+				<span class='blog-link inline-flex font-bold'> Resume </span>
+				<Icon
+					aria-hidden='true'
+					class='h-3 w-3 font-normal'
+					focusable='false'
+					name='mdi:arrow-top-right'
+				/>
+			</a>
+			<a class='inline-flex' download='TR-CV-3.pdf' href='/TR%20CV-3.pdf'>
+				<span class='blog-link inline-flex font-bold'> CV </span>
+				<Icon
+					aria-hidden='true'
+					class='h-3 w-3 font-normal'
+					focusable='false'
+					name='mdi:arrow-top-right'
+				/>
+			</a>
+		</div>
 	</section>
 
 	<section class='mt-8'>
